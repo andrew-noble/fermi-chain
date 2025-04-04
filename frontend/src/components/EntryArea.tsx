@@ -1,5 +1,6 @@
-import { EntryItem, ValidationState } from "../types";
+import { EntryItem } from "../types";
 import { Button } from "./ui/button";
+import { GripVertical } from "lucide-react";
 
 // this file is sorta scary.
 // But all the obtuse logic is *just* for implementing drag reordering!
@@ -25,17 +26,12 @@ import { CSS } from "@dnd-kit/utilities";
 type SortableTokenProps = {
   item: EntryItem;
   handleRemoveItem: (item: EntryItem) => void;
-  index: number;
 };
 
 // SortableToken adds drag behavior to the calculation tokens
-const SortableToken = ({
-  item,
-  handleRemoveItem,
-  index,
-}: SortableTokenProps) => {
+const SortableToken = ({ item, handleRemoveItem }: SortableTokenProps) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: `${item.type}-${item.data.label}-${index}` }); // use unique ID for drag tracking
+    useSortable({ id: item.id }); // use unique ID for drag tracking
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -43,15 +39,16 @@ const SortableToken = ({
   };
 
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-      className="flex items-center gap-2 p-2"
-    >
+    <div ref={setNodeRef} style={style} className="flex items-center gap-2 p-2">
+      <div {...attributes} {...listeners} className="cursor-grab">
+        <GripVertical size={20} />
+      </div>
       <p>{item.data.label}</p>
-      <Button variant="outline" onClick={() => handleRemoveItem(item)}>
+      <Button
+        variant="outline"
+        onClick={() => handleRemoveItem(item)}
+        className="ml-auto"
+      >
         -
       </Button>
     </div>
@@ -72,20 +69,14 @@ const EntryArea = ({
   const sensors = useSensors(useSensor(PointerSensor));
 
   // this is the logic for drag reordering
-  // this is the logic for drag reordering
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
     // rejection logic: if the item is not over a valid target, or the item is over itself, return
     if (!over || active.id === over.id) return;
 
-    // find the old and new indices of the item
-    const oldIndex = userInput.findIndex(
-      (item, index) => `${item.type}-${item.data.label}-${index}` === active.id
-    );
-    const newIndex = userInput.findIndex(
-      (item, index) => `${item.type}-${item.data.label}-${index}` === over.id
-    );
+    const oldIndex = userInput.findIndex((item) => item.id === active.id);
+    const newIndex = userInput.findIndex((item) => item.id === over.id);
 
     // move the item to the new index
     const reordered = arrayMove(userInput, oldIndex, newIndex);
@@ -101,18 +92,15 @@ const EntryArea = ({
         onDragEnd={handleDragEnd}
       >
         <SortableContext
-          items={userInput.map(
-            (item, index) => `${item.type}-${item.data.label}-${index}`
-          )}
+          items={userInput.map((item) => item.id)}
           strategy={rectSortingStrategy}
         >
           <div className="flex flex-col gap-2">
-            {userInput.map((item, index) => (
+            {userInput.map((item) => (
               <SortableToken
-                key={`${item.type}-${item.data.label}-${index}`}
+                key={item.id}
                 item={item}
                 handleRemoveItem={handleRemoveItem}
-                index={index}
               />
             ))}
           </div>

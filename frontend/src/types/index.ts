@@ -19,6 +19,7 @@ export interface Operation {
 }
 
 export type EntryItem = {
+  id: string; //for uuid
   type: "factor" | "operation";
   data: Factor | Operation;
 };

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 import {
   Question,
   EntryItem,
@@ -51,27 +52,39 @@ function App() {
   };
 
   const handleAddFactor = (factor: Factor) => {
-    // as const ensures type is the literal "operation" rather than just string
-    const newInput = [...userInput, { type: "factor" as const, data: factor }];
-    validateInput(newInput);
-    setUserInput(newInput);
+    const newItem: EntryItem = {
+      id: uuidv4(),
+      type: "factor",
+      data: factor,
+    };
+    setUserInput((prevInput) => {
+      const newInput = [...prevInput, newItem];
+      validateInput(newInput);
+      return newInput;
+    });
   };
 
   const handleAddOperation = (operation: Operation) => {
-    const newInput = [
-      ...userInput,
-      // as const ensures type is the literal "operation" rather than just string
-      { type: "operation" as const, data: operation },
-    ];
-    validateInput(newInput);
-    setUserInput(newInput);
+    const newItem: EntryItem = {
+      id: uuidv4(),
+      type: "operation",
+      data: operation,
+    };
+    setUserInput((prevInput) => {
+      const newInput = [...prevInput, newItem];
+      validateInput(newInput);
+      return newInput;
+    });
   };
 
   const handleRemoveItem = (item: EntryItem) => {
-    console.log("removing item", item);
-    const newInput = userInput.filter((i) => i !== item);
-    validateInput(newInput);
-    setUserInput(newInput);
+    console.log("REMOVE called with id:", item.id);
+
+    setUserInput((prevInput) => {
+      const newInput = prevInput.filter((i) => i.id !== item.id);
+      validateInput(newInput);
+      return newInput;
+    });
   };
 
   const handleSubmit = () => {};
