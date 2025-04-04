@@ -1,4 +1,4 @@
-import { EntryItem } from "../types";
+import { EntryItem, ValidationState } from "../types";
 import { Button } from "./ui/button";
 
 // this file is sorta scary.
@@ -25,12 +25,17 @@ import { CSS } from "@dnd-kit/utilities";
 type SortableTokenProps = {
   item: EntryItem;
   handleRemoveItem: (item: EntryItem) => void;
+  index: number;
 };
 
 // SortableToken adds drag behavior to the calculation tokens
-const SortableToken = ({ item, handleRemoveItem }: SortableTokenProps) => {
+const SortableToken = ({
+  item,
+  handleRemoveItem,
+  index,
+}: SortableTokenProps) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: item.data.label }); // use unique ID for drag tracking
+    useSortable({ id: `${item.type}-${item.data.label}-${index}` }); // use unique ID for drag tracking
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -76,9 +81,11 @@ const EntryArea = ({
 
     // find the old and new indices of the item
     const oldIndex = userInput.findIndex(
-      (item) => item.data.label === active.id
+      (item, index) => `${item.type}-${item.data.label}-${index}` === active.id
     );
-    const newIndex = userInput.findIndex((item) => item.data.label === over.id);
+    const newIndex = userInput.findIndex(
+      (item, index) => `${item.type}-${item.data.label}-${index}` === over.id
+    );
 
     // move the item to the new index
     const reordered = arrayMove(userInput, oldIndex, newIndex);
@@ -94,15 +101,18 @@ const EntryArea = ({
         onDragEnd={handleDragEnd}
       >
         <SortableContext
-          items={userInput.map((item) => item.data.label)}
+          items={userInput.map(
+            (item, index) => `${item.type}-${item.data.label}-${index}`
+          )}
           strategy={rectSortingStrategy}
         >
           <div className="flex flex-col gap-2">
-            {userInput.map((item) => (
+            {userInput.map((item, index) => (
               <SortableToken
-                key={item.data.label}
+                key={`${item.type}-${item.data.label}-${index}`}
                 item={item}
                 handleRemoveItem={handleRemoveItem}
+                index={index}
               />
             ))}
           </div>

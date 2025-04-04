@@ -18,6 +18,9 @@ export interface Operation {
   symbol: string;
 }
 
-export type EntryItem =
-  | { type: "factor"; data: Factor }
-  | { type: "operation"; data: Operation };
+export type EntryItem = {
+  type: "factor" | "operation";
+  data: Factor | Operation;
+};
+
+export type ValidationState = "init" | "valid" | "invalid";

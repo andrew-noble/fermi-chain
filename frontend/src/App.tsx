@@ -1,25 +1,80 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { Question, EntryItem, Factor, Operation } from "./types";
+import {
+  Question,
+  EntryItem,
+  Factor,
+  Operation,
+  ValidationState,
+} from "./types";
 import FactorBank from "./components/FactorBank";
 import OperationBank from "./components/OperationBank";
 import EntryArea from "./components/EntryArea";
+import { Button } from "./components/ui/button";
 
 function App() {
   const [question, setQuestion] = useState<Question | null>(null);
   const [userInput, setUserInput] = useState<EntryItem[]>([]);
+  const [validationState, setValidationState] =
+    useState<ValidationState>("init");
+
+  const validateInput = (userInput: EntryItem[]) => {
+    if (userInput.length === 0) {
+      setValidationState("init");
+      return;
+    }
+
+    const startsOrEndsWithOp =
+      userInput[0].type === "operation" ||
+      userInput[userInput.length - 1].type === "operation";
+
+    if (startsOrEndsWithOp) {
+      setValidationState("invalid");
+      return;
+    }
+
+    //must have ops in odd positions (1,3,5) and factors in even positions
+    for (let i = 0; i < userInput.length; i++) {
+      const isEven = i % 2 === 0;
+      const item = userInput[i];
+
+      if (
+        (isEven && item.type !== "factor") ||
+        (!isEven && item.type !== "operation")
+      ) {
+        setValidationState("invalid");
+        return;
+      }
+    }
+
+    setValidationState("valid");
+  };
 
   const handleAddFactor = (factor: Factor) => {
-    setUserInput([...userInput, { type: "factor", data: factor }]);
+    // as const ensures type is the literal "operation" rather than just string
+    const newInput = [...userInput, { type: "factor" as const, data: factor }];
+    validateInput(newInput);
+    setUserInput(newInput);
   };
 
   const handleAddOperation = (operation: Operation) => {
-    setUserInput([...userInput, { type: "operation", data: operation }]);
+    const newInput = [
+      ...userInput,
+      // as const ensures type is the literal "operation" rather than just string
+      { type: "operation" as const, data: operation },
+    ];
+    validateInput(newInput);
+    setUserInput(newInput);
   };
 
   const handleRemoveItem = (item: EntryItem) => {
-    setUserInput(userInput.filter((i) => i !== item));
+    console.log("removing item", item);
+    const newInput = userInput.filter((i) => i !== item);
+    validateInput(newInput);
+    setUserInput(newInput);
   };
+
+  const handleSubmit = () => {};
 
   useEffect(() => {
     const fetchQuestion = async () => {
@@ -47,12 +102,19 @@ function App() {
               onAdd={handleAddFactor}
             />
           </div>
-          <EntryArea
-            userInput={userInput}
-            handleRemoveItem={handleRemoveItem}
-            setUserInput={setUserInput}
-          />
+          <div
+            className={validationState === "invalid" ? "border-red-500" : ""}
+          >
+            <EntryArea
+              userInput={userInput}
+              handleRemoveItem={handleRemoveItem}
+              setUserInput={setUserInput}
+            />
+          </div>
         </div>
+        <Button disabled={validationState !== "valid"} onClick={handleSubmit}>
+          Submit
+        </Button>
       </div>
     </div>
   );
