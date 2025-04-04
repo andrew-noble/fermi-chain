@@ -12,7 +12,7 @@
     {
       "label": "Slices per person per week",
       "value": 1.5,
-      "unit": "slices/week"
+      "unit": "slices/person/week"
     },
     {
       "label": "Weeks per year",
