@@ -18,8 +18,8 @@ export interface Operation {
   symbol: string;
 }
 
-export type EntryItem = {
-  id: string; //for uuid
+export type InputItem = {
+  id: string;
   type: "factor" | "operation";
   data: Factor | Operation;
 };

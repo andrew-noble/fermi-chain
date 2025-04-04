@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
   Question,
-  EntryItem,
+  InputItem,
   Factor,
   Operation,
   ValidationState,
@@ -15,11 +15,11 @@ import { Button } from "./components/ui/button";
 
 function App() {
   const [question, setQuestion] = useState<Question | null>(null);
-  const [userInput, setUserInput] = useState<EntryItem[]>([]);
+  const [userInput, setUserInput] = useState<InputItem[]>([]);
   const [validationState, setValidationState] =
     useState<ValidationState>("init");
 
-  const validateInput = (userInput: EntryItem[]) => {
+  const validateInput = (userInput: InputItem[]) => {
     if (userInput.length === 0) {
       setValidationState("init");
       return;
@@ -48,11 +48,12 @@ function App() {
       }
     }
 
+    console.log("valid input");
     setValidationState("valid");
   };
 
   const handleAddFactor = (factor: Factor) => {
-    const newItem: EntryItem = {
+    const newItem: InputItem = {
       id: uuidv4(),
       type: "factor",
       data: factor,
@@ -65,7 +66,7 @@ function App() {
   };
 
   const handleAddOperation = (operation: Operation) => {
-    const newItem: EntryItem = {
+    const newItem: InputItem = {
       id: uuidv4(),
       type: "operation",
       data: operation,
@@ -77,13 +78,20 @@ function App() {
     });
   };
 
-  const handleRemoveItem = (item: EntryItem) => {
+  const handleRemoveItem = (item: InputItem) => {
     console.log("REMOVE called with id:", item.id);
 
     setUserInput((prevInput) => {
       const newInput = prevInput.filter((i) => i.id !== item.id);
       validateInput(newInput);
       return newInput;
+    });
+  };
+
+  const handleReorder = (items: InputItem[]) => {
+    setUserInput(() => {
+      validateInput(items);
+      return items;
     });
   };
 
@@ -116,18 +124,32 @@ function App() {
             />
           </div>
           <div
-            className={validationState === "invalid" ? "border-red-500" : ""}
+            className={`border-2 rounded-md p-4 ${
+              validationState === "invalid"
+                ? "border-red-300 bg-red-50"
+                : "border-transparent"
+            }`}
           >
             <EntryArea
               userInput={userInput}
               handleRemoveItem={handleRemoveItem}
-              setUserInput={setUserInput}
+              handleReorder={handleReorder}
             />
+            {validationState === "invalid" && (
+              <p className="text-red-500 text-sm mt-2">
+                Not a valid expression
+              </p>
+            )}
           </div>
+          {validationState !== "init" && (
+            <Button
+              onClick={handleSubmit}
+              disabled={validationState === "invalid"}
+            >
+              Submit
+            </Button>
+          )}
         </div>
-        <Button disabled={validationState !== "valid"} onClick={handleSubmit}>
-          Submit
-        </Button>
       </div>
     </div>
   );

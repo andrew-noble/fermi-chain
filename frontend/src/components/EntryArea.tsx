@@ -1,6 +1,5 @@
-import { EntryItem } from "../types";
-import { Button } from "./ui/button";
-import { GripVertical } from "lucide-react";
+import { InputItem } from "../types";
+import { InputItem as InputItemComponent } from "./input-items";
 
 // this file is sorta scary.
 // But all the obtuse logic is *just* for implementing drag reordering!
@@ -16,55 +15,20 @@ import {
 
 import {
   SortableContext,
-  useSortable,
   rectSortingStrategy,
   arrayMove,
 } from "@dnd-kit/sortable";
 
-import { CSS } from "@dnd-kit/utilities";
-
-type SortableTokenProps = {
-  item: EntryItem;
-  handleRemoveItem: (item: EntryItem) => void;
-};
-
-// SortableToken adds drag behavior to the calculation tokens
-const SortableToken = ({ item, handleRemoveItem }: SortableTokenProps) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: item.id }); // use unique ID for drag tracking
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
-
-  return (
-    <div ref={setNodeRef} style={style} className="flex items-center gap-2 p-2">
-      <div {...attributes} {...listeners} className="cursor-grab">
-        <GripVertical size={20} />
-      </div>
-      <p>{item.data.label}</p>
-      <Button
-        variant="outline"
-        onClick={() => handleRemoveItem(item)}
-        className="ml-auto"
-      >
-        -
-      </Button>
-    </div>
-  );
-};
-
 type EntryAreaProps = {
-  userInput: EntryItem[];
-  handleRemoveItem: (item: EntryItem) => void;
-  setUserInput: (items: EntryItem[]) => void; // you now control reordering from parent
+  userInput: InputItem[];
+  handleRemoveItem: (item: InputItem) => void;
+  handleReorder: (items: InputItem[]) => void;
 };
 
 const EntryArea = ({
   userInput,
   handleRemoveItem,
-  setUserInput,
+  handleReorder,
 }: EntryAreaProps) => {
   const sensors = useSensors(useSensor(PointerSensor));
 
@@ -81,7 +45,7 @@ const EntryArea = ({
     // move the item to the new index
     const reordered = arrayMove(userInput, oldIndex, newIndex);
 
-    setUserInput(reordered);
+    handleReorder(reordered);
   };
 
   return (
@@ -95,9 +59,9 @@ const EntryArea = ({
           items={userInput.map((item) => item.id)}
           strategy={rectSortingStrategy}
         >
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-wrap gap-2 [&>*]:transform-gpu">
             {userInput.map((item) => (
-              <SortableToken
+              <InputItemComponent
                 key={item.id}
                 item={item}
                 handleRemoveItem={handleRemoveItem}
