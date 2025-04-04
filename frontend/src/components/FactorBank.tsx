@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Factor } from "../types";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"; //for conditional className resolution
 
 const formatNumber = (num: number) => {
   return num.toLocaleString();
@@ -9,23 +9,16 @@ const formatNumber = (num: number) => {
 interface FactorBankProps {
   factors: Factor[];
   onAdd: (factor: Factor) => void;
-  disabled?: boolean;
 }
 
-const FactorBank = ({ factors, onAdd, disabled = false }: FactorBankProps) => (
-  <div
-    className={cn(
-      "flex flex-col gap-2",
-      disabled && "opacity-50 pointer-events-none"
-    )}
-  >
+const FactorBank = ({ factors, onAdd }: FactorBankProps) => (
+  <div className={cn("flex flex-col gap-2")}>
     {factors.map((factor: Factor) => (
       <Button
         key={factor.label}
         variant="outline"
         className="w-full px-6 py-8 flex justify-between items-center hover:bg-green-100/50"
         onClick={() => onAdd(factor)}
-        disabled={disabled}
       >
         <div className="text-left">
           <p className="font-medium">{factor.label}</p>

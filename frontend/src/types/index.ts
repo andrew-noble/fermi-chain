@@ -19,5 +19,5 @@ export interface Operation {
 }
 
 export type EntryItem =
-  | { type: "factor"; item: Factor }
-  | { type: "operation"; item: Operation };
+  | { type: "factor"; data: Factor }
+  | { type: "operation"; data: Operation };
