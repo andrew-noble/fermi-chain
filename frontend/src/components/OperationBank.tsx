@@ -8,8 +8,8 @@ interface OperationBankProps {
 
 const operations: Operation[] = [
   { label: "Add", symbol: "+" },
-  { label: "Subtract", symbol: "-" },
-  { label: "Multiply", symbol: "x" },
+  { label: "Subtract", symbol: "−" },
+  { label: "Multiply", symbol: "×" },
   { label: "Divide", symbol: "÷" },
 ];
 

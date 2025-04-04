@@ -1,5 +1,5 @@
 import { InputItem } from "../types";
-import InputItemComponent from "./InputItem";
+import { InputItem as InputItemComponent } from "./input-items";
 
 // this file is sorta scary.
 // But all the obtuse logic is *just* for implementing drag reordering!
@@ -59,7 +59,7 @@ const EntryArea = ({
           items={userInput.map((item) => item.id)}
           strategy={rectSortingStrategy}
         >
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 [&>*]:transform-gpu">
             {userInput.map((item) => (
               <InputItemComponent
                 key={item.id}

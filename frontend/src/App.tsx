@@ -135,10 +135,20 @@ function App() {
               handleRemoveItem={handleRemoveItem}
               handleReorder={handleReorder}
             />
+            {validationState === "invalid" && (
+              <p className="text-red-500 text-sm mt-2">
+                Not a valid expression
+              </p>
+            )}
           </div>
-          <Button disabled={validationState !== "valid"} onClick={handleSubmit}>
-            Submit
-          </Button>
+          {validationState !== "init" && (
+            <Button
+              onClick={handleSubmit}
+              disabled={validationState === "invalid"}
+            >
+              Submit
+            </Button>
+          )}
         </div>
       </div>
     </div>
