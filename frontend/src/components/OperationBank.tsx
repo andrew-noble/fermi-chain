@@ -19,7 +19,7 @@ const OperationBank = ({ onAdd }: OperationBankProps) => (
       <Button
         key={op.label}
         variant="outline"
-        className="w-full px-6 py-8 flex justify-between items-center hover:bg-green-100/50"
+        className="w-full px-6 py-8 justify-between items-center hover:bg-green-100/50"
         onClick={() => onAdd(op)}
       >
         <div className="text-left">

@@ -8,31 +8,29 @@
       "label": "US population",
       "value": 330000000,
       "unit": "people",
-      "ranged": true,
-      "range_pct": 0.1,
-      "roundingStep": 10000000
+      "isRanged": true,
+      "rangePct": 0.1,
+      "rangeStep": 10000000
     },
     {
       "label": "Slices per person per week",
       "value": 3,
       "unit": "slices/person/week",
-      "ranged": true,
-      "range_pct": 0.2,
-      "roundingStep": 1
+      "isRanged": true,
+      "rangePct": 0.2,
+      "rangeStep": 1
     },
     {
       "label": "Weeks per year",
       "value": 52,
       "unit": "weeks/year",
-      "ranged": false,
-      "roundingStep": 1
+      "isRanged": false
     },
     {
       "label": "Slices per pizza",
       "value": 8,
       "unit": "slices/pizza",
-      "ranged": false,
-      "roundingStep": 1
+      "isRanged": false
     }
   ],
   "notes": "Answer is estimated by multiplying population by slices/person/week multiplied by weeks/year and divided by slices per pizza"

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
   InputItem,
-  UnpreparedFactor,
   Operation,
   ValidationState,
   Question,
@@ -75,6 +74,24 @@ function App() {
     });
   };
 
+  const handleFactorValueChange = (itemId: string, newValue: number) => {
+    setUserInput((prevInput) => {
+      const newInput = prevInput.map((item) => {
+        if (item.id === itemId && item.type === "factor") {
+          return {
+            ...item,
+            data: {
+              ...item.data,
+              value: newValue,
+            },
+          };
+        }
+        return item;
+      });
+      return newInput;
+    });
+  };
+
   const handleAddOperation = (operation: Operation) => {
     const newItem: InputItem = {
       id: uuidv4(),
@@ -111,7 +128,7 @@ function App() {
       const item = userInput[i];
 
       if (item.type === "factor") {
-        const factor = item.data as UnpreparedFactor;
+        const factor = item.data as Factor;
         switch (curOp) {
           case "multiply":
             result *= factor.value;
@@ -162,11 +179,17 @@ function App() {
 
             <div className="flex-1 flex flex-col justify-start">
               <div className="grid grid-cols-2 gap-4 mb-8">
-                <OperationBank onAdd={handleAddOperation} />
-                <FactorBank
-                  factors={question?.factors || []}
-                  onAdd={handleAddFactor}
-                />
+                <div className="flex flex-col">
+                  <h2 className="text-lg font-semibold mb-2">Operations</h2>
+                  <OperationBank onAdd={handleAddOperation} />
+                </div>
+                <div className="flex flex-col">
+                  <h2 className="text-lg font-semibold mb-2">Factors</h2>
+                  <FactorBank
+                    factors={question?.factors || []}
+                    onAdd={handleAddFactor}
+                  />
+                </div>
               </div>
             </div>
 
@@ -179,9 +202,10 @@ function App() {
                 }`}
               >
                 <EntryArea
-                  userInput={userInput}
-                  handleRemoveItem={handleRemoveItem}
-                  handleReorder={handleReorder}
+                  items={userInput}
+                  onRemoveItem={handleRemoveItem}
+                  onReorder={handleReorder}
+                  onFactorValueChange={handleFactorValueChange}
                 />
                 {validationState === "invalid" && (
                   <p className="text-red-500 text-sm mt-2">

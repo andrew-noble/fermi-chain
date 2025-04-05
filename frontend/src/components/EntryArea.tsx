@@ -1,34 +1,32 @@
-import { InputItem } from "../types";
-import { InputItem as InputItemComponent } from "./input-items";
+import { InputItem as InputItemType } from "../types";
+import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import { SortableContext, arrayMove } from "@dnd-kit/sortable";
+import InputItem from "./input-items/InputItem";
 
 // this file is sorta scary.
 // But all the obtuse logic is *just* for implementing drag reordering!
 
 import {
-  DndContext,
   closestCenter,
   PointerSensor,
   useSensor,
   useSensors,
-  DragEndEvent,
 } from "@dnd-kit/core";
 
-import {
-  SortableContext,
-  rectSortingStrategy,
-  arrayMove,
-} from "@dnd-kit/sortable";
+import { rectSortingStrategy } from "@dnd-kit/sortable";
 
-type EntryAreaProps = {
-  userInput: InputItem[];
-  handleRemoveItem: (item: InputItem) => void;
-  handleReorder: (items: InputItem[]) => void;
-};
+interface EntryAreaProps {
+  items: InputItemType[];
+  onReorder: (items: InputItemType[]) => void;
+  onRemoveItem: (item: InputItemType) => void;
+  onFactorValueChange?: (itemId: string, newValue: number) => void;
+}
 
 const EntryArea = ({
-  userInput,
-  handleRemoveItem,
-  handleReorder,
+  items,
+  onReorder,
+  onRemoveItem,
+  onFactorValueChange,
 }: EntryAreaProps) => {
   const sensors = useSensors(useSensor(PointerSensor));
 
@@ -39,13 +37,13 @@ const EntryArea = ({
     // rejection logic: if the item is not over a valid target, or the item is over itself, return
     if (!over || active.id === over.id) return;
 
-    const oldIndex = userInput.findIndex((item) => item.id === active.id);
-    const newIndex = userInput.findIndex((item) => item.id === over.id);
+    const oldIndex = items.findIndex((item) => item.id === active.id);
+    const newIndex = items.findIndex((item) => item.id === over.id);
 
     // move the item to the new index
-    const reordered = arrayMove(userInput, oldIndex, newIndex);
+    const reordered = arrayMove(items, oldIndex, newIndex);
 
-    handleReorder(reordered);
+    onReorder(reordered);
   };
 
   return (
@@ -56,15 +54,16 @@ const EntryArea = ({
         onDragEnd={handleDragEnd}
       >
         <SortableContext
-          items={userInput.map((item) => item.id)}
+          items={items.map((item) => item.id)}
           strategy={rectSortingStrategy}
         >
           <div className="flex flex-wrap gap-2 [&>*]:transform-gpu">
-            {userInput.map((item) => (
-              <InputItemComponent
+            {items.map((item) => (
+              <InputItem
                 key={item.id}
                 item={item}
-                handleRemoveItem={handleRemoveItem}
+                handleRemoveItem={onRemoveItem}
+                onFactorValueChange={onFactorValueChange}
               />
             ))}
           </div>

@@ -11,9 +11,9 @@ export interface UnpreparedFactor {
   label: string;
   value: number;
   unit: string;
-  ranged: boolean; //not all factors are fun with a guess range. weeks/year for ex
-  range_pct?: number; //if ranged, this is the percentage of the range to use
-  roundingStep?: number; //required for ranged factors, specifies how to round the range boundaries
+  isRanged: boolean; //not all factors are fun with a guess range. weeks/year for ex
+  rangePct?: number; //if ranged, this is the percentage of the range to use
+  rangeStep?: number; //required for ranged factors, specifies how to round the range boundaries, and slider step
 }
 
 export interface Operation {

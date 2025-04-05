@@ -56,15 +56,20 @@ export const formatNumber = (num: number): string => {
   } else if (magnitude === 0) {
     // For numbers between 1 and 10
     if (absNum <= 5) {
-      // For numbers between 1 and 5, show half steps
-      return num.toLocaleString(undefined, {
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 1,
-      });
-    } else {
-      // For numbers between 5 and 10, show whole numbers
-      return num.toLocaleString(undefined, { maximumFractionDigits: 0 });
+      // Check if the number is an integer
+      if (Number.isInteger(num)) {
+        // For integers between 1 and 5, show no decimal places
+        return num.toLocaleString(undefined, { maximumFractionDigits: 0 });
+      } else {
+        // For non-integers between 1 and 5, show one decimal place
+        return num.toLocaleString(undefined, {
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 1,
+        });
+      }
     }
+    // For numbers between 5 and 10, show whole numbers
+    return num.toLocaleString(undefined, { maximumFractionDigits: 0 });
   } else {
     // For numbers between 10 and 1000, show no decimal places
     return num.toLocaleString(undefined, { maximumFractionDigits: 0 });

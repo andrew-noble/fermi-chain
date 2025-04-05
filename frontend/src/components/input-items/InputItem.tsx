@@ -8,9 +8,14 @@ import OperationItem from "./OperationItem";
 type InputItemProps = {
   item: InputItemType;
   handleRemoveItem: (item: InputItemType) => void;
+  onFactorValueChange?: (itemId: string, newValue: number) => void;
 };
 
-const InputItem = ({ item, handleRemoveItem }: InputItemProps) => {
+const InputItem = ({
+  item,
+  handleRemoveItem,
+  onFactorValueChange,
+}: InputItemProps) => {
   const {
     attributes,
     listeners,
@@ -44,6 +49,7 @@ const InputItem = ({ item, handleRemoveItem }: InputItemProps) => {
           <FactorItem
             factor={item.data as Factor}
             handleRemoveItem={() => handleRemoveItem(item)}
+            onValueChange={(value) => onFactorValueChange?.(item.id, value)}
           />
         </div>
       ) : (

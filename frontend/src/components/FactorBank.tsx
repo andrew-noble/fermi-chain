@@ -22,7 +22,7 @@ const FactorBank = ({ factors, onAdd }: FactorBankProps) => (
           <p className="text-sm text-muted-foreground">{factor.unit}</p>
         </div>
 
-        {factor.ranged ? (
+        {factor.isRanged ? (
           <span className="text-xl font-bold text-amber-400 animate-pulse">
             {formatNumber(factor.randomizedRange?.[0] ?? factor.value)} -{" "}
             {formatNumber(factor.randomizedRange?.[1] ?? factor.value)}
