@@ -11,13 +11,18 @@ import {
 import FactorBank from "./components/FactorBank";
 import OperationBank from "./components/OperationBank";
 import EntryArea from "./components/EntryArea";
+import TutorialDialog from "./components/dialogs/TutorialDialog";
+import AboutDialog from "./components/dialogs/AboutDialog";
 import { Button } from "./components/ui/button";
+import { HelpCircle, Info } from "lucide-react";
 
 function App() {
   const [question, setQuestion] = useState<Question | null>(null);
   const [userInput, setUserInput] = useState<InputItem[]>([]);
   const [validationState, setValidationState] =
     useState<ValidationState>("init");
+  const [tutorialOpen, setTutorialOpen] = useState(true);
+  const [aboutOpen, setAboutOpen] = useState(false);
 
   const validateInput = (userInput: InputItem[]) => {
     if (userInput.length === 0) {
@@ -112,46 +117,74 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="flex flex-col gap-4">
-          <h1 className="text-2xl font-bold text-center">{question?.prompt}</h1>
-          <div className="grid grid-cols-2 gap-4">
-            <OperationBank onAdd={handleAddOperation} />
-            <FactorBank
-              factors={question?.factors || []}
-              onAdd={handleAddFactor}
-            />
-          </div>
-          <div
-            className={`border-2 rounded-md p-4 ${
-              validationState === "invalid"
-                ? "border-red-300 bg-red-50"
-                : "border-transparent"
-            }`}
-          >
-            <EntryArea
-              userInput={userInput}
-              handleRemoveItem={handleRemoveItem}
-              handleReorder={handleReorder}
-            />
-            {validationState === "invalid" && (
-              <p className="text-red-500 text-sm mt-2">
-                Not a valid expression
-              </p>
-            )}
-          </div>
-          {validationState !== "init" && (
+    <>
+      <TutorialDialog open={tutorialOpen} onOpenChange={setTutorialOpen} />
+      <AboutDialog open={aboutOpen} onOpenChange={setAboutOpen} />
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="max-w-4xl w-full mx-auto px-4 py-8 relative min-h-screen flex flex-col">
+          <div className="absolute top-0 right-0 flex gap-2">
             <Button
-              onClick={handleSubmit}
-              disabled={validationState === "invalid"}
+              variant="ghost"
+              size="icon"
+              onClick={() => setTutorialOpen(true)}
             >
-              Submit
+              <HelpCircle className="h-8 w-8" />
             </Button>
-          )}
+            <Button variant="ghost" onClick={() => setAboutOpen(true)}>
+              About
+            </Button>
+          </div>
+
+          <div className="flex-1 flex flex-col">
+            <div className="h-1/3 flex items-end justify-center pb-8">
+              <h1 className="text-4xl font-bold text-center">
+                {question?.prompt}
+              </h1>
+            </div>
+
+            <div className="flex-1 flex flex-col justify-start">
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                <OperationBank onAdd={handleAddOperation} />
+                <FactorBank
+                  factors={question?.factors || []}
+                  onAdd={handleAddFactor}
+                />
+              </div>
+            </div>
+
+            <div className="h-1/3 flex flex-col justify-end">
+              <div
+                className={`border-2 rounded-md p-4 ${
+                  validationState === "invalid"
+                    ? "border-red-300 bg-red-50"
+                    : "border-transparent"
+                }`}
+              >
+                <EntryArea
+                  userInput={userInput}
+                  handleRemoveItem={handleRemoveItem}
+                  handleReorder={handleReorder}
+                />
+                {validationState === "invalid" && (
+                  <p className="text-red-500 text-sm mt-2">
+                    Not a valid expression
+                  </p>
+                )}
+              </div>
+              {validationState !== "init" && (
+                <Button
+                  onClick={handleSubmit}
+                  disabled={validationState === "invalid"}
+                  className="mt-4"
+                >
+                  Submit
+                </Button>
+              )}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
