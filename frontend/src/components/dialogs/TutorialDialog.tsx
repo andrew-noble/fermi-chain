@@ -3,6 +3,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
@@ -20,6 +21,9 @@ export default function TutorialDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Welcome!</DialogTitle>
+          <DialogDescription>
+            Learn how to play the Fermi Game
+          </DialogDescription>
         </DialogHeader>
         <p>This is how you play the game...</p>
         <Button onClick={() => onOpenChange(false)}>Got it</Button>

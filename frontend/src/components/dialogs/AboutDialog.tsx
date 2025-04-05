@@ -3,6 +3,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
@@ -17,6 +18,9 @@ export default function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>About Fermi Game</DialogTitle>
+          <DialogDescription>
+            Learn about the game and its origins
+          </DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
           <p>

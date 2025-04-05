@@ -16,6 +16,7 @@ export interface Question {
 export interface Operation {
   label: string;
   symbol: string;
+  operation: string;
 }
 
 export type InputItem = {

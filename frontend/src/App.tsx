@@ -53,7 +53,6 @@ function App() {
       }
     }
 
-    console.log("valid input");
     setValidationState("valid");
   };
 
@@ -100,7 +99,37 @@ function App() {
     });
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    console.log("submit called");
+    let result = 1;
+    let curOp = "multiply"; //always starts with a single factor
+
+    for (let i = 0; i < userInput.length; i++) {
+      const item = userInput[i];
+
+      if (item.type === "factor") {
+        const factor = item.data as Factor;
+        switch (curOp) {
+          case "multiply":
+            result *= factor.value;
+            break;
+          case "divide":
+            result /= factor.value;
+            break;
+          case "add":
+            result += factor.value;
+            break;
+          case "subtract":
+            result -= factor.value;
+            break;
+        }
+      } else if (item.type === "operation") {
+        const operation = item.data as Operation;
+        curOp = operation.operation;
+      }
+    }
+    console.log("result:", result);
+  };
 
   useEffect(() => {
     const fetchQuestion = async () => {
