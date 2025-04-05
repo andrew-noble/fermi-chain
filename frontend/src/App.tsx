@@ -2,10 +2,11 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
   InputItem,
-  Factor,
+  UnpreparedFactor,
   Operation,
   ValidationState,
-  PreparedQuestion,
+  Question,
+  Factor,
 } from "./types";
 import FactorBank from "./components/FactorBank";
 import OperationBank from "./components/OperationBank";
@@ -18,9 +19,7 @@ import rawQuestion from "./data/question.json";
 import prepareQuestion from "./helpers/prepareQuestion";
 
 function App() {
-  const [question, _] = useState<PreparedQuestion | null>(
-    prepareQuestion(rawQuestion)
-  );
+  const [question, _] = useState<Question | null>(prepareQuestion(rawQuestion));
 
   const [userInput, setUserInput] = useState<InputItem[]>([]);
 
@@ -112,7 +111,7 @@ function App() {
       const item = userInput[i];
 
       if (item.type === "factor") {
-        const factor = item.data as Factor;
+        const factor = item.data as UnpreparedFactor;
         switch (curOp) {
           case "multiply":
             result *= factor.value;

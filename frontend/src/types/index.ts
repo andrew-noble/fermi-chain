@@ -1,13 +1,13 @@
-export interface Question {
+export interface UnpreparedQuestion {
   id: string;
   prompt: string;
   target_answer: number;
   unit: string;
-  factors: Factor[];
+  factors: UnpreparedFactor[];
   notes: string;
 }
 
-export interface Factor {
+export interface UnpreparedFactor {
   label: string;
   value: number;
   unit: string;
@@ -22,12 +22,12 @@ export interface Operation {
   operation: string;
 }
 
-export interface PreparedFactor extends Factor {
+export interface Factor extends UnpreparedFactor {
   randomizedRange: [number, number] | null;
 }
 
-export interface PreparedQuestion extends Question {
-  factors: PreparedFactor[];
+export interface Question extends UnpreparedQuestion {
+  factors: Factor[];
 }
 
 export type InputItem = {

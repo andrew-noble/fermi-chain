@@ -1,4 +1,4 @@
-import { Question, PreparedQuestion, PreparedFactor } from "@/types";
+import { UnpreparedQuestion, Question, Factor } from "@/types";
 
 // Helper function to round numbers based on the factor's roundingStep
 function roundNicely(num: number, roundingStep: number): number {
@@ -7,9 +7,9 @@ function roundNicely(num: number, roundingStep: number): number {
   return Math.round(num / roundingStep) * roundingStep;
 }
 
-function prepareQuestion(rawQuestion: Question): PreparedQuestion {
+function prepareQuestion(rawQuestion: UnpreparedQuestion): Question {
   // first pull out non-ranged factors and put them in result
-  const preppedFactors: PreparedFactor[] = rawQuestion.factors
+  const preppedFactors: Factor[] = rawQuestion.factors
     .filter((f) => !f.ranged)
     .map((f) => ({
       ...f,
@@ -37,7 +37,7 @@ function prepareQuestion(rawQuestion: Question): PreparedQuestion {
       factor.roundingStep
     );
 
-    const preppedFactor: PreparedFactor = {
+    const preppedFactor: Factor = {
       ...factor,
       randomizedRange: [min, max],
     };

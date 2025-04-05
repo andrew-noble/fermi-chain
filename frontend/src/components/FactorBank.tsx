@@ -1,16 +1,16 @@
 import { Button } from "@/components/ui/button";
-import { PreparedFactor } from "../types";
+import { Factor } from "../types";
 import { cn } from "@/lib/utils"; //for conditional className resolution
 import { formatNumber } from "@/helpers/formatNumber";
 
 interface FactorBankProps {
-  factors: PreparedFactor[];
-  onAdd: (factor: PreparedFactor) => void;
+  factors: Factor[];
+  onAdd: (factor: Factor) => void;
 }
 
 const FactorBank = ({ factors, onAdd }: FactorBankProps) => (
   <div className={cn("flex flex-col gap-2")}>
-    {factors.map((factor: PreparedFactor) => (
+    {factors.map((factor: Factor) => (
       <Button
         key={factor.label}
         variant="outline"
