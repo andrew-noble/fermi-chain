@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
-  Question,
   InputItem,
   Factor,
   Operation,
   ValidationState,
+  PreparedQuestion,
 } from "./types";
 import FactorBank from "./components/FactorBank";
 import OperationBank from "./components/OperationBank";
@@ -15,13 +14,21 @@ import TutorialDialog from "./components/dialogs/TutorialDialog";
 import AboutDialog from "./components/dialogs/AboutDialog";
 import { Button } from "./components/ui/button";
 import { HelpCircle } from "lucide-react";
+import rawQuestion from "./data/question.json";
+import prepareQuestion from "./helpers/prepareQuestion";
 
 function App() {
-  const [question, setQuestion] = useState<Question | null>(null);
+  const [question, _] = useState<PreparedQuestion | null>(
+    prepareQuestion(rawQuestion)
+  );
+
   const [userInput, setUserInput] = useState<InputItem[]>([]);
+
   const [validationState, setValidationState] =
     useState<ValidationState>("init");
+
   const [tutorialOpen, setTutorialOpen] = useState(true);
+
   const [aboutOpen, setAboutOpen] = useState(false);
 
   const validateInput = (userInput: InputItem[]) => {
@@ -83,8 +90,6 @@ function App() {
   };
 
   const handleRemoveItem = (item: InputItem) => {
-    console.log("REMOVE called with id:", item.id);
-
     setUserInput((prevInput) => {
       const newInput = prevInput.filter((i) => i.id !== item.id);
       validateInput(newInput);
@@ -100,7 +105,6 @@ function App() {
   };
 
   const handleSubmit = () => {
-    console.log("submit called");
     let result = 1;
     let curOp = "multiply"; //always starts with a single factor
 
@@ -130,20 +134,6 @@ function App() {
     }
     console.log("result:", result);
   };
-
-  useEffect(() => {
-    const fetchQuestion = async () => {
-      try {
-        const response = await fetch("./question.json");
-        const data = await response.json();
-        setQuestion(data);
-      } catch (error) {
-        console.error("Error loading question:", error);
-      }
-    };
-
-    fetchQuestion();
-  }, []);
 
   return (
     <>

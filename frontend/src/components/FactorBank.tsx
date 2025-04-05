@@ -1,19 +1,16 @@
 import { Button } from "@/components/ui/button";
-import { Factor } from "../types";
+import { PreparedFactor } from "../types";
 import { cn } from "@/lib/utils"; //for conditional className resolution
-
-const formatNumber = (num: number) => {
-  return num.toLocaleString();
-};
+import { formatNumber } from "@/helpers/formatNumber";
 
 interface FactorBankProps {
-  factors: Factor[];
-  onAdd: (factor: Factor) => void;
+  factors: PreparedFactor[];
+  onAdd: (factor: PreparedFactor) => void;
 }
 
 const FactorBank = ({ factors, onAdd }: FactorBankProps) => (
   <div className={cn("flex flex-col gap-2")}>
-    {factors.map((factor: Factor) => (
+    {factors.map((factor: PreparedFactor) => (
       <Button
         key={factor.label}
         variant="outline"
@@ -24,7 +21,17 @@ const FactorBank = ({ factors, onAdd }: FactorBankProps) => (
           <p className="font-medium">{factor.label}</p>
           <p className="text-sm text-muted-foreground">{factor.unit}</p>
         </div>
-        <span className="text-xl font-bold">{formatNumber(factor.value)}</span>
+
+        {factor.ranged ? (
+          <span className="text-xl font-bold text-amber-400 animate-pulse">
+            {formatNumber(factor.randomizedRange?.[0] ?? factor.value)} -{" "}
+            {formatNumber(factor.randomizedRange?.[1] ?? factor.value)}
+          </span>
+        ) : (
+          <span className="text-xl font-bold">
+            {formatNumber(factor.value)}
+          </span>
+        )}
       </Button>
     ))}
   </div>
