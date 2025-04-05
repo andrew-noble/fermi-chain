@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
-  Question,
   InputItem,
-  Factor,
   Operation,
   ValidationState,
+  Question,
+  Factor,
 } from "./types";
 import FactorBank from "./components/FactorBank";
 import OperationBank from "./components/OperationBank";
@@ -15,13 +14,19 @@ import TutorialDialog from "./components/dialogs/TutorialDialog";
 import AboutDialog from "./components/dialogs/AboutDialog";
 import { Button } from "./components/ui/button";
 import { HelpCircle } from "lucide-react";
+import rawQuestion from "./data/question.json";
+import prepareQuestion from "./helpers/prepareQuestion";
 
 function App() {
-  const [question, setQuestion] = useState<Question | null>(null);
+  const [question, _] = useState<Question | null>(prepareQuestion(rawQuestion));
+
   const [userInput, setUserInput] = useState<InputItem[]>([]);
+
   const [validationState, setValidationState] =
     useState<ValidationState>("init");
+
   const [tutorialOpen, setTutorialOpen] = useState(true);
+
   const [aboutOpen, setAboutOpen] = useState(false);
 
   const validateInput = (userInput: InputItem[]) => {
@@ -69,6 +74,24 @@ function App() {
     });
   };
 
+  const handleFactorValueChange = (itemId: string, newValue: number) => {
+    setUserInput((prevInput) => {
+      const newInput = prevInput.map((item) => {
+        if (item.id === itemId && item.type === "factor") {
+          return {
+            ...item,
+            data: {
+              ...item.data,
+              value: newValue,
+            },
+          };
+        }
+        return item;
+      });
+      return newInput;
+    });
+  };
+
   const handleAddOperation = (operation: Operation) => {
     const newItem: InputItem = {
       id: uuidv4(),
@@ -83,8 +106,6 @@ function App() {
   };
 
   const handleRemoveItem = (item: InputItem) => {
-    console.log("REMOVE called with id:", item.id);
-
     setUserInput((prevInput) => {
       const newInput = prevInput.filter((i) => i.id !== item.id);
       validateInput(newInput);
@@ -100,7 +121,6 @@ function App() {
   };
 
   const handleSubmit = () => {
-    console.log("submit called");
     let result = 1;
     let curOp = "multiply"; //always starts with a single factor
 
@@ -131,20 +151,6 @@ function App() {
     console.log("result:", result);
   };
 
-  useEffect(() => {
-    const fetchQuestion = async () => {
-      try {
-        const response = await fetch("./question.json");
-        const data = await response.json();
-        setQuestion(data);
-      } catch (error) {
-        console.error("Error loading question:", error);
-      }
-    };
-
-    fetchQuestion();
-  }, []);
-
   return (
     <>
       <TutorialDialog open={tutorialOpen} onOpenChange={setTutorialOpen} />
@@ -173,11 +179,17 @@ function App() {
 
             <div className="flex-1 flex flex-col justify-start">
               <div className="grid grid-cols-2 gap-4 mb-8">
-                <OperationBank onAdd={handleAddOperation} />
-                <FactorBank
-                  factors={question?.factors || []}
-                  onAdd={handleAddFactor}
-                />
+                <div className="flex flex-col">
+                  <h2 className="text-lg font-semibold mb-2">Operations</h2>
+                  <OperationBank onAdd={handleAddOperation} />
+                </div>
+                <div className="flex flex-col">
+                  <h2 className="text-lg font-semibold mb-2">Factors</h2>
+                  <FactorBank
+                    factors={question?.factors || []}
+                    onAdd={handleAddFactor}
+                  />
+                </div>
               </div>
             </div>
 
@@ -190,9 +202,10 @@ function App() {
                 }`}
               >
                 <EntryArea
-                  userInput={userInput}
-                  handleRemoveItem={handleRemoveItem}
-                  handleReorder={handleReorder}
+                  items={userInput}
+                  onRemoveItem={handleRemoveItem}
+                  onReorder={handleReorder}
+                  onFactorValueChange={handleFactorValueChange}
                 />
                 {validationState === "invalid" && (
                   <p className="text-red-500 text-sm mt-2">

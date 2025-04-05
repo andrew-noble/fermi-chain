@@ -1,0 +1,37 @@
+{
+  "id": "unique-question-id",
+  "prompt": "How many pizzas are eaten in the U.S. each year?",
+  "target_answer": 3000000000,
+  "unit": "pizzas per year",
+  "factors": [
+    {
+      "label": "US population",
+      "value": 330000000,
+      "unit": "people",
+      "isRanged": true,
+      "rangePct": 0.1,
+      "rangeStep": 10000000
+    },
+    {
+      "label": "Slices per person per week",
+      "value": 3,
+      "unit": "slices/person/week",
+      "isRanged": true,
+      "rangePct": 0.2,
+      "rangeStep": 1
+    },
+    {
+      "label": "Weeks per year",
+      "value": 52,
+      "unit": "weeks/year",
+      "isRanged": false
+    },
+    {
+      "label": "Slices per pizza",
+      "value": 8,
+      "unit": "slices/pizza",
+      "isRanged": false
+    }
+  ],
+  "notes": "Answer is estimated by multiplying population by slices/person/week multiplied by weeks/year and divided by slices per pizza"
+}
