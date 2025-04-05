@@ -1,6 +1,6 @@
 {
   "id": "unique-question-id",
-  "prompt": "How many pizzas are eaten per year in the US?",
+  "prompt": "How many pizzas are eaten in the U.S. each year?",
   "target_answer": 3000000000,
   "unit": "pizzas per year",
   "factors": [
