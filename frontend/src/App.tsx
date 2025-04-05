@@ -14,7 +14,7 @@ import EntryArea from "./components/EntryArea";
 import TutorialDialog from "./components/dialogs/TutorialDialog";
 import AboutDialog from "./components/dialogs/AboutDialog";
 import { Button } from "./components/ui/button";
-import { HelpCircle, Info } from "lucide-react";
+import { HelpCircle } from "lucide-react";
 
 function App() {
   const [question, setQuestion] = useState<Question | null>(null);
