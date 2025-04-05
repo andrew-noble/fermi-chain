@@ -7,10 +7,10 @@ interface OperationBankProps {
 }
 
 const operations: Operation[] = [
-  { label: "Add", symbol: "+" },
-  { label: "Subtract", symbol: "−" },
-  { label: "Multiply", symbol: "×" },
-  { label: "Divide", symbol: "÷" },
+  { label: "Add", symbol: "+", operation: "add" },
+  { label: "Subtract", symbol: "−", operation: "subtract" },
+  { label: "Multiply", symbol: "×", operation: "multiply" },
+  { label: "Divide", symbol: "÷", operation: "divide" },
 ];
 
 const OperationBank = ({ onAdd }: OperationBankProps) => (
