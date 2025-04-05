@@ -177,7 +177,7 @@ function App() {
               </h1>
             </div>
 
-            <div className="flex-1 flex flex-col justify-start">
+            <div className="flex-1 items-stretch flex flex-col justify-start">
               <div className="grid grid-cols-2 gap-4 mb-8">
                 <div className="flex flex-col">
                   <h2 className="text-lg font-semibold mb-2">Operations</h2>

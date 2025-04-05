@@ -6,18 +6,18 @@
   "factors": [
     {
       "label": "US population",
-      "value": 330000000,
+      "value": 340000000,
       "unit": "people",
       "isRanged": true,
       "rangePct": 0.1,
       "rangeStep": 10000000
     },
     {
-      "label": "Slices per person per week",
+      "label": "Slices eaten per person per week",
       "value": 3,
       "unit": "slices/person/week",
       "isRanged": true,
-      "rangePct": 0.2,
+      "rangePct": 0.3,
       "rangeStep": 1
     },
     {
