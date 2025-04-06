@@ -177,18 +177,18 @@ function App() {
               </h1>
             </div>
 
-            <div className="flex-1 flex flex-col justify-start">
+            <div className="flex flex-col justify-start">
               <div className="grid grid-cols-2 gap-4 mb-8">
-                <div className="flex flex-col">
-                  <h2 className="text-lg font-semibold mb-2">Operations</h2>
-                  <OperationBank onAdd={handleAddOperation} />
-                </div>
                 <div className="flex flex-col">
                   <h2 className="text-lg font-semibold mb-2">Factors</h2>
                   <FactorBank
                     factors={question?.factors || []}
                     onAdd={handleAddFactor}
                   />
+                </div>
+                <div className="flex flex-col">
+                  <h2 className="text-lg font-semibold mb-2">Operations</h2>
+                  <OperationBank onAdd={handleAddOperation} />
                 </div>
               </div>
             </div>
@@ -197,7 +197,7 @@ function App() {
               <div
                 className={`border-2 rounded-md p-4 ${
                   validationState === "invalid"
-                    ? "border-red-300 bg-red-50"
+                    ? "border-amber-200 bg-amber-50"
                     : "border-transparent"
                 }`}
               >
@@ -208,8 +208,8 @@ function App() {
                   onFactorValueChange={handleFactorValueChange}
                 />
                 {validationState === "invalid" && (
-                  <p className="text-red-500 text-sm mt-2">
-                    Not a valid expression
+                  <p className="text-amber-600 text-sm mt-2 italic">
+                    Make sure your answer is a valid expression
                   </p>
                 )}
               </div>

@@ -10,7 +10,7 @@ type OperationItemProps = {
 const OperationItem = ({ operation, handleRemoveItem }: OperationItemProps) => {
   return (
     <div className="flex flex-col items-center gap-2 p-2 bg-blue-100 rounded-md w-24 h-24">
-      <p className="text-center text-xl font-bold">{operation.symbol}</p>
+      <p className="text-center text-4xl font-bold">{operation.symbol}</p>
       <Button
         variant="outline"
         onClick={handleRemoveItem}
