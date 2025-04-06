@@ -25,7 +25,7 @@ const OperationBank = ({ onAdd }: OperationBankProps) => (
         <div className="text-left">
           <p className="font-medium text-blue-700">{op.label}</p>
         </div>
-        <span className="text-xl font-bold text-blue-600">{op.symbol}</span>
+        <span className="text-4xl font-bold text-blue-600">{op.symbol}</span>
       </Button>
     ))}
   </div>

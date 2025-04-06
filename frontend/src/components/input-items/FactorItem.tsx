@@ -16,7 +16,16 @@ const FactorItem = ({
   handleRemoveItem,
   onValueChange,
 }: FactorItemProps) => {
-  const [value, setValue] = useState(factor.value);
+  //starts ranged values at a random number so as not to give a hint
+  const [value, setValue] = useState(() => {
+    if (factor.isRanged && factor.randomizedRange) {
+      const [min = 0, max = 100] = factor.randomizedRange;
+      const step = factor.rangeStep || 1;
+      const steps = Math.floor((max - min) / step);
+      return min + Math.floor(Math.random() * steps) * step;
+    }
+    return factor.value;
+  });
 
   const handleSliderChange = (newValue: number[]) => {
     setValue(newValue[0]);
@@ -25,20 +34,23 @@ const FactorItem = ({
 
   return (
     <div className="flex flex-col items-center gap-2 p-2 bg-blue-100 rounded-md min-w-[6rem] min-h-[6rem] relative">
-      <p className="text-center break-words">{factor.label}</p>
-
-      {factor.isRanged && factor.randomizedRange && (
+      {factor.isRanged ? (
         <div className="w-full px-2">
+          <p className="text-xl text-center mb-3">{formatNumber(value)}</p>
+          <p className="text-center break-words mb-3">{factor.label}</p>
+
           <Slider
-            min={factor.randomizedRange[0]}
-            max={factor.randomizedRange[1]}
+            min={factor.randomizedRange?.[0] || 0}
+            max={factor.randomizedRange?.[1] || 100}
             step={factor.rangeStep || 1}
             value={[value]}
             onValueChange={handleSliderChange}
-            className="w-full"
+            orientation="vertical"
+            className="h-24"
           />
-          <p className="text-sm text-center mt-1">{formatNumber(value)}</p>
         </div>
+      ) : (
+        <p className="text-sm text-center mt-1">{formatNumber(value)}</p>
       )}
 
       <Button

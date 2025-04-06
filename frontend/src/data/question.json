@@ -5,7 +5,7 @@
   "unit": "pizzas per year",
   "factors": [
     {
-      "label": "US population",
+      "label": "U.S. population",
       "value": 340000000,
       "unit": "people",
       "isRanged": true,

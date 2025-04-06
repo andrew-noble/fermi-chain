@@ -18,8 +18,8 @@ const FactorBank = ({ factors, onAdd }: FactorBankProps) => (
         onClick={() => onAdd(factor)}
       >
         <div className="text-left">
-          <p className="font-medium">{factor.label}</p>
-          <p className="text-sm text-muted-foreground">{factor.unit}</p>
+          <p className="font-medium text-lg">{factor.label}</p>
+          {/* <p className="text-sm text-muted-foreground">{factor.unit}</p> */}
         </div>
 
         {factor.isRanged ? (
