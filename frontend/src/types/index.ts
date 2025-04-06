@@ -16,12 +16,6 @@ export interface UnpreparedFactor {
   rangeStep?: number; //required for ranged factors, specifies how to round the range boundaries, and slider step
 }
 
-// export interface Operation {
-//   label: string;
-//   symbol: string;
-//   operation: string;
-// }
-
 export interface Factor extends UnpreparedFactor {
   randomizedRange: [number, number] | null;
 }
@@ -34,11 +28,3 @@ export interface InputtedFactor extends Factor {
   id: string;
   userSelectedValue: number;
 }
-
-// export type InputItem = {
-//   id: string;
-//   type: "factor" | "operation";
-//   data: Factor | Operation;
-// };
-
-// export type ValidationState = "init" | "valid" | "invalid";
