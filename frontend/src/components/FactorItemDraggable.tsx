@@ -14,14 +14,12 @@ import { CSS } from "@dnd-kit/utilities";
 
 type FactorItemDraggableProps = {
   factor: InputtedFactor;
-  isFirst: boolean;
   onRemoveItem: () => void;
   onFactorValueChange: (value: number) => void;
 };
 
 const FactorItemDraggable = ({
   factor,
-  isFirst,
   onRemoveItem,
   onFactorValueChange,
 }: FactorItemDraggableProps) => {
@@ -36,14 +34,7 @@ const FactorItemDraggable = ({
     isOver,
   } = useSortable({ id: factor.id });
 
-  //styling for draggability/ordering
-  const dragStyle = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
-
-  //starts ranged values at a random number so as not to give a hint
-  const [userSelectedValue, setUserSelectedValue] = useState(() => {
+  const randomizeStartingValue = () => {
     if (factor.isRanged && factor.randomizedRange) {
       const [min = 0, max = 100] = factor.randomizedRange;
       const step = factor.rangeStep || 1;
@@ -51,7 +42,18 @@ const FactorItemDraggable = ({
       return min + Math.floor(Math.random() * steps) * step;
     }
     return factor.value;
-  });
+  };
+
+  //state for value. starts ranged values at a random number so as not to give a hint
+  const [userSelectedValue, setUserSelectedValue] = useState(() =>
+    randomizeStartingValue()
+  );
+
+  //styling for draggability/ordering
+  const dragStyle = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
 
   const handleSliderChange = (newValue: number[]) => {
     setUserSelectedValue(newValue[0]);
@@ -76,7 +78,6 @@ const FactorItemDraggable = ({
 
         {/* this is the factor input item */}
         <div className="flex flex-col items-center gap-2 p-2 bg-blue-100 rounded-md min-w-[6rem] min-h-[6rem] relative">
-          {isFirst ? "" : <p className="text-sm text-center mt-1">×</p>}
           {factor.isRanged ? (
             <div className="w-full px-2">
               <p className="text-xl text-center mb-3">

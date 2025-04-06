@@ -56,17 +56,20 @@ const EntryArea = ({
           items={factors.map((factor) => factor.id)}
           strategy={rectSortingStrategy}
         >
-          <div className="flex flex-wrap gap-2 [&>*]:transform-gpu">
+          <div className="flex flex-wrap gap-2 items-center [&>*]:transform-gpu">
             {factors.map((factor, index) => (
-              <FactorItemDraggable
-                key={factor.id}
-                factor={factor}
-                isFirst={index === 0} //to avoid rendering a multiply on first factor
-                onRemoveItem={() => onRemoveItem(factor)}
-                onFactorValueChange={(newValue) =>
-                  onFactorValueChange?.(factor.id, newValue)
-                }
-              />
+              <>
+                {/* this is the multiply sign, only goes on non-first factors */}
+                {index !== 0 && <p className="text-4xl text-center mt-1">×</p>}
+                <FactorItemDraggable
+                  key={factor.id}
+                  factor={factor}
+                  onRemoveItem={() => onRemoveItem(factor)}
+                  onFactorValueChange={(newValue) =>
+                    onFactorValueChange?.(factor.id, newValue)
+                  }
+                />
+              </>
             ))}
           </div>
         </SortableContext>
