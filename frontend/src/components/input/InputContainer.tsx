@@ -39,26 +39,27 @@ const InputContainer = ({
   };
 
   const renderFactor = () => {
-    if (factor.isRanged) {
-      return (
-        <>
-          <FactorInfoWithLayout factor={factor} />
+    return (
+      <div className="flex flex-col gap-4">
+        <FactorInfoWithLayout factor={factor} />
+        {factor.isRanged && (
           <SliderWithLayout
             factor={factor}
             onSliderChange={onFactorValueChange}
           />
-        </>
-      );
-    } else {
-      return <FactorInfoWithLayout factor={factor} />;
-    }
+        )}
+      </div>
+    );
   };
 
   return (
     <>
+      {/* kinda janky city implementing this multiply sign by matching margins, sizes etc with the rendered factor, but its okay for now */}
       {!isFirst && (
-        <div className="flex items-center justify-center mx-4 py-4">
-          <span className="text-2xl">×</span>
+        <div className="flex justify-center">
+          <div className="flex items-center justify-center m-4 h-20">
+            <span className="text-2xl">×</span>
+          </div>
         </div>
       )}
       <div

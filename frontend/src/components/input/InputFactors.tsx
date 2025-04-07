@@ -1,49 +1,33 @@
-import { formatNumber, getFraction } from "@/helpers/formatNumber";
+import { formatNumber } from "@/helpers/formatNumber";
+import FractionDisplay from "@/components/display/FractionDisplay";
 import { InputtedFactor } from "@/types";
 import { Slider } from "@/components/ui/slider";
 
+// TODO: Consider moving to theme configuration
 const textSize = "text-2xl";
 
-// Internal-use fraction layout
-const FractionDisplay = ({
-  numerator,
-  denominator,
-}: {
-  numerator: number;
-  denominator: number;
-}) => (
-  <div className="inline-flex flex-col items-center mr-2">
-    <div className={`${textSize} font-bold text-primary text-center`}>
-      {numerator}
-    </div>
-    {/* division line */}
-    <div className="w-full border-2 border-t border-primary"></div>
-    <div className={`${textSize} font-bold text-primary text-center`}>
-      {denominator}
-    </div>
-  </div>
-);
+interface FactorInfoWithLayoutProps {
+  factor: InputtedFactor;
+}
 
-const FactorInfoWithLayout = ({ factor }: { factor: InputtedFactor }) => {
-  let numerator = 1;
-  let denominator = 1;
-
-  if (factor.isFraction) {
-    [numerator, denominator] = getFraction(factor.userSelectedValue);
-  }
-
+/**
+ * Displays factor information with a consistent layout
+ * @param props.factor - The factor to display
+ * @returns A component showing either a fraction or numeric value with units
+ */
+const FactorInfoWithLayout = ({ factor }: FactorInfoWithLayoutProps) => {
   return (
-    <div className="col-span-2 mb-4">
+    <div className="col-span-2 flex items-center justify-center h-20 mb-4">
       <div className="flex items-center justify-center">
         {factor.isFraction ? (
-          <FractionDisplay numerator={numerator} denominator={denominator} />
+          <FractionDisplay factor={factor} textSize={textSize} />
         ) : (
-          <p className={`${textSize} font-bold text-center mx-1 text-primary`}>
+          <p className={`${textSize} font-bold text-center text-primary`}>
             {formatNumber(factor.userSelectedValue)}
           </p>
         )}
         <p
-          className={`${textSize} text-center break-words text-foreground mx-1`}
+          className={`${textSize} text-center break-words text-foreground ml-2`}
         >
           {factor.unit}
         </p>
@@ -52,27 +36,41 @@ const FactorInfoWithLayout = ({ factor }: { factor: InputtedFactor }) => {
   );
 };
 
+interface SliderWithLayoutProps {
+  factor: InputtedFactor;
+  onSliderChange: (value: number) => void;
+}
+
+/**
+ * Displays a slider control with consistent layout
+ * @param props.factor - The factor to control
+ * @param props.onSliderChange - Callback when slider value changes
+ * @returns A slider component with proper layout and constraints
+ */
 const SliderWithLayout = ({
   factor,
   onSliderChange,
-}: {
-  factor: InputtedFactor;
-  onSliderChange: (value: number) => void;
-}) => {
+}: SliderWithLayoutProps) => {
   const handleSliderChange = (value: number[]) => {
     onSliderChange(value[0]);
   };
 
+  const min = factor.randomizedRange?.[0] ?? 0;
+  const max = factor.randomizedRange?.[1] ?? 100;
+  const step = factor.rangeStep ?? 1;
+
   return (
-    <div className="w-48">
-      <Slider
-        min={factor.randomizedRange?.[0] || 0}
-        max={factor.randomizedRange?.[1] || 100}
-        step={factor.rangeStep || 1}
-        value={[factor.userSelectedValue]}
-        onValueChange={handleSliderChange}
-        orientation="horizontal"
-      />
+    <div className="flex justify-center items-center w-full">
+      <div className="w-[240px]">
+        <Slider
+          min={min}
+          max={max}
+          step={step}
+          value={[factor.userSelectedValue]}
+          onValueChange={handleSliderChange}
+          orientation="horizontal"
+        />
+      </div>
     </div>
   );
 };
