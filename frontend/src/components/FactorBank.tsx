@@ -17,20 +17,27 @@ const FactorBank = ({ factors, onAdd }: FactorBankProps) => (
         className="w-full px-6 py-8 flex justify-between items-center hover:bg-green-100/50"
         onClick={() => onAdd(factor)}
       >
-        <div className="text-left">
-          <p className="font-medium text-lg">{factor.label}</p>
-          {/* <p className="text-sm text-muted-foreground">{factor.unit}</p> */}
-        </div>
-
         {factor.isRanged ? (
-          <span className="text-xl font-bold text-amber-400 animate-pulse">
-            {formatNumber(factor.randomizedRange?.[0] ?? factor.value)} -{" "}
-            {formatNumber(factor.randomizedRange?.[1] ?? factor.value)}
-          </span>
+          <>
+            <div className="text-left">
+              <p className="font-medium text-lg">{factor.label}?</p>
+              {/* <p className="text-sm text-muted-foreground">{factor.unit}</p> */}
+            </div>
+            <span className="text-xl font-bold text-amber-400">
+              {formatNumber(factor.randomizedRange?.[0] ?? factor.value)} -{" "}
+              {formatNumber(factor.randomizedRange?.[1] ?? factor.value)}
+            </span>
+          </>
         ) : (
-          <span className="text-xl font-bold">
-            {formatNumber(factor.value)}
-          </span>
+          <>
+            <div className="text-left">
+              <p className="font-medium text-lg">{factor.label}</p>
+              {/* <p className="text-sm text-muted-foreground">{factor.unit}</p> */}
+            </div>
+            <span className="text-xl font-bold">
+              {formatNumber(factor.value)}
+            </span>
+          </>
         )}
       </Button>
     ))}

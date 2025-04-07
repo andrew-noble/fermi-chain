@@ -12,19 +12,19 @@ import {
 } from "@dnd-kit/core";
 import { rectSortingStrategy } from "@dnd-kit/sortable";
 
-interface EntryAreaProps {
+interface InputAreaProps {
   factors: InputtedFactor[];
   onReorder: (items: InputtedFactor[]) => void;
   onRemoveItem: (item: InputtedFactor) => void;
   onFactorValueChange?: (itemId: string, newValue: number) => void;
 }
 
-const EntryArea = ({
+const InputArea = ({
   factors,
   onReorder,
   onRemoveItem,
   onFactorValueChange,
-}: EntryAreaProps) => {
+}: InputAreaProps) => {
   //dnd sensors -- it sets up event listeners
   const sensors = useSensors(useSensor(PointerSensor));
 
@@ -46,7 +46,7 @@ const EntryArea = ({
   };
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -56,20 +56,17 @@ const EntryArea = ({
           items={factors.map((factor) => factor.id)}
           strategy={rectSortingStrategy}
         >
-          <div className="flex flex-wrap gap-2 items-center [&>*]:transform-gpu">
+          <div className="flex flex-wrap gap-y-4">
             {factors.map((factor, index) => (
-              <>
-                {/* this is the multiply sign, only goes on non-first factors */}
-                {index !== 0 && <p className="text-4xl text-center mt-1">×</p>}
-                <FactorItemDraggable
-                  key={factor.id}
-                  factor={factor}
-                  onRemoveItem={() => onRemoveItem(factor)}
-                  onFactorValueChange={(newValue) =>
-                    onFactorValueChange?.(factor.id, newValue)
-                  }
-                />
-              </>
+              <FactorItemDraggable
+                key={factor.id}
+                factor={factor}
+                isFirst={index === 0}
+                onRemoveItem={() => onRemoveItem(factor)}
+                onFactorValueChange={(newValue) =>
+                  onFactorValueChange?.(factor.id, newValue)
+                }
+              />
             ))}
           </div>
         </SortableContext>
@@ -78,4 +75,4 @@ const EntryArea = ({
   );
 };
 
-export default EntryArea;
+export default InputArea;
