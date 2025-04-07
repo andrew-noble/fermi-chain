@@ -70,20 +70,20 @@ const FactorItemDraggable = ({
           <span className={textSize}>×</span>
         </div>
       )}
-     <div
+      <div
         ref={setNodeRef}
         style={dragStyle}
         className={`${
           isOver && !isDragging ? "opacity-50" : ""
-        } flex flex-col items-center bg-gray-200 p-4 rounded-lg relative`}
+        } flex flex-col items-center bg-card text-card-foreground p-4 rounded-lg`}
       >
-       {/* value and units with parentheses*/}
+        {/* value and units */}
         <div
-          className={`flex flex-row relative ${
-            factor.isRanged ? "mb-2" : "mb-0"
+          className={`flex flex-row justify-center ${
+            factor.isRanged ? "mb-4" : "mb-0"
           }`}
         >
-         <p
+          <p
             className={`${textSize} font-bold text-center mx-1 ${
               factor.isRanged ? "text-primary" : "text-foreground"
             }`}
@@ -99,35 +99,33 @@ const FactorItemDraggable = ({
 
         {/* slider (if ranged) */}
         {factor.isRanged && (
-          <div className="mb-8 w-30">
-            <Slider
-              min={factor.randomizedRange?.[0] || 0}
-              max={factor.randomizedRange?.[1] || 100}
-              step={factor.rangeStep || 1}
-              value={[userSelectedValue]}
-              onValueChange={handleSliderChange}
-              orientation="horizontal"
-            />
+          <div className="w-full flex justify-center mb-4">
+            <div className="w-48">
+              <Slider
+                min={factor.randomizedRange?.[0] || 0}
+                max={factor.randomizedRange?.[1] || 100}
+                step={factor.rangeStep || 1}
+                value={[userSelectedValue]}
+                onValueChange={handleSliderChange}
+                orientation="horizontal"
+              />
+            </div>
           </div>
         )}
 
-        {/* this is the mouse target for dragging */}
-        <div
-          {...attributes}
-          {...listeners}
-          className="cursor-grab z-10 h-9 w-9 m-2 absolute bottom-0 left-0 flex items-center justify-center"
-        >
-          <GripHorizontal size={36} />
+        {/* Controls at bottom */}
+        <div className="flex justify-between w-full mt-auto pt-2">
+          <div
+            {...attributes}
+            {...listeners}
+            className="cursor-grab z-10 h-9 w-9 flex items-center justify-center"
+          >
+            <GripHorizontal size={36} />
+          </div>
+          <Button variant="ghost" onClick={onRemoveItem} className="h-9 w-9">
+            <Trash2 size={48} className="size-6" />
+          </Button>
         </div>
-
-        {/* this is the remove button */}
-        <Button
-          variant="ghost"
-          onClick={onRemoveItem}
-          className="h-9 w-9 m-2 absolute bottom-0 right-0"
-        >
-          <Trash2 size={48} className="size-6" />
-        </Button>
       </div>
     </>
   );
