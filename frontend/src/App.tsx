@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { Question, Factor, InputtedFactor } from "./types";
+import { Question, Factor, InputtedFactor, UnpreparedQuestion } from "./types";
 import FactorBank from "./components/FactorBank";
 import InputArea from "./components/InputArea";
 import TutorialDialog from "./components/dialogs/TutorialDialog";
@@ -8,16 +7,18 @@ import AboutDialog from "./components/dialogs/AboutDialog";
 import { Button } from "./components/ui/button";
 import { HelpCircle } from "lucide-react";
 import rawQuestion from "./data/question.json";
-import prepareQuestion from "./helpers/prepareQuestion";
+import {
+  augmentQuestionWithFactorRanges,
+  generateInputFactor,
+} from "./helpers/questionTransforms";
 import { ThemeToggle } from "./components/ThemeToggle";
 
 function App() {
-  const [question, _] = useState<Question | null>(prepareQuestion(rawQuestion));
-
+  const [question, _] = useState<Question | null>(
+    augmentQuestionWithFactorRanges(rawQuestion as UnpreparedQuestion)
+  );
   const [userInput, setUserInput] = useState<InputtedFactor[]>([]);
-
   const [tutorialOpen, setTutorialOpen] = useState(true);
-
   const [aboutOpen, setAboutOpen] = useState(false);
 
   // Initialize theme from localStorage
@@ -27,11 +28,7 @@ function App() {
   }, []);
 
   const handleAddFactor = (factor: Factor) => {
-    const newItem: InputtedFactor = {
-      ...factor,
-      id: uuidv4(),
-      userSelectedValue: factor.value,
-    };
+    const newItem: InputtedFactor = generateInputFactor(factor);
     setUserInput((prevInput) => {
       const newInput = [...prevInput, newItem];
       return newInput;

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { InputtedFactor } from "../types";
 import { formatNumber } from "@/helpers/formatNumber";
 
@@ -35,21 +34,6 @@ const FactorItemDraggable = ({
     isOver,
   } = useSortable({ id: factor.id });
 
-  const randomizeStartingValue = () => {
-    if (factor.isRanged && factor.randomizedRange) {
-      const [min = 0, max = 100] = factor.randomizedRange;
-      const step = factor.rangeStep || 1;
-      const steps = Math.floor((max - min) / step);
-      return min + Math.floor(Math.random() * steps) * step;
-    }
-    return factor.value;
-  };
-
-  //state for value. starts ranged values at a random number so as not to give a hint
-  const [userSelectedValue, setUserSelectedValue] = useState(() =>
-    randomizeStartingValue()
-  );
-
   //styling for draggability/ordering
   const dragStyle = {
     transform: CSS.Transform.toString(transform),
@@ -57,7 +41,6 @@ const FactorItemDraggable = ({
   };
 
   const handleSliderChange = (newValue: number[]) => {
-    setUserSelectedValue(newValue[0]);
     onFactorValueChange(newValue[0]);
   };
 
@@ -84,7 +67,7 @@ const FactorItemDraggable = ({
           }`}
         >
           <p className={`${textSize} font-bold text-center mx-1 text-primary`}>
-            {formatNumber(userSelectedValue)}
+            {formatNumber(factor.userSelectedValue)}
           </p>
           <p
             className={`${textSize} text-center break-words text-foreground mx-1`}
@@ -101,7 +84,7 @@ const FactorItemDraggable = ({
                 min={factor.randomizedRange?.[0] || 0}
                 max={factor.randomizedRange?.[1] || 100}
                 step={factor.rangeStep || 1}
-                value={[userSelectedValue]}
+                value={[factor.userSelectedValue]}
                 onValueChange={handleSliderChange}
                 orientation="horizontal"
               />

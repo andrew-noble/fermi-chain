@@ -1,7 +1,7 @@
 export interface UnpreparedQuestion {
   id: string;
   prompt: string;
-  target_answer: number;
+  targetAnswer: number;
   unit: string;
   factors: UnpreparedFactor[];
   notes: string;
@@ -9,7 +9,7 @@ export interface UnpreparedQuestion {
 
 export interface UnpreparedFactor {
   label: string;
-  value: number;
+  targetValue: number;
   unit: string;
   isRanged: boolean; //not all factors are fun with a guess range. weeks/year for ex
   rangePct?: number; //if ranged, this is the percentage of the range to use

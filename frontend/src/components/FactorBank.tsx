@@ -24,8 +24,9 @@ const FactorBank = ({ factors, onAdd }: FactorBankProps) => (
               {/* <p className="text-sm text-muted-foreground">{factor.unit}</p> */}
             </div>
             <span className="text-xl font-bold text-primary">
-              {formatNumber(factor.randomizedRange?.[0] ?? factor.value)} -{" "}
-              {formatNumber(factor.randomizedRange?.[1] ?? factor.value)}
+              {formatNumber(factor.randomizedRange?.[0] ?? factor.targetValue)}{" "}
+              -{" "}
+              {formatNumber(factor.randomizedRange?.[1] ?? factor.targetValue)}
             </span>
           </>
         ) : (
@@ -35,7 +36,7 @@ const FactorBank = ({ factors, onAdd }: FactorBankProps) => (
               {/* <p className="text-sm text-muted-foreground">{factor.unit}</p> */}
             </div>
             <span className="text-xl font-bold text-primary">
-              {formatNumber(factor.value)}
+              {formatNumber(factor.targetValue)}
             </span>
           </>
         )}
