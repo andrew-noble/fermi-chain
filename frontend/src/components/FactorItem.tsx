@@ -53,7 +53,6 @@ const FactorItemDraggable = ({
             factor.isRanged ? "mb-2" : "mb-0"
           }`}
         >
-          <span className={`${textSize} mr-1`}>(</span>
           <p
             className={`${textSize} font-bold text-center mx-1 ${
               factor.isRanged ? "text-amber-400" : "text-black"
@@ -64,7 +63,6 @@ const FactorItemDraggable = ({
           <p className={`${textSize} text-center break-words text-black mx-1`}>
             {factor.unit}
           </p>
-          <span className={`${textSize} ml-1`}>)</span>
         </div>
 
         {/* slider (if ranged) */}
