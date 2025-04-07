@@ -3,7 +3,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
@@ -18,9 +17,6 @@ export default function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>About Fermi Game</DialogTitle>
-          <DialogDescription>
-            Learn about the game and its origins
-          </DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
           <p>
@@ -35,7 +31,7 @@ export default function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
               href="https://en.wikipedia.org/wiki/Fermi_estimation"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
+              className="text-primary hover:text-primary/80 hover:underline font-medium"
             >
               back-of-the-envelope calculations
             </a>
@@ -49,7 +45,7 @@ export default function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
               href="https://www.andrewnoble.me"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
+              className="text-primary hover:text-primary/80 hover:underline font-medium"
             >
               website
             </a>

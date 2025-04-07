@@ -70,14 +70,14 @@ const FactorItemDraggable = ({
           <span className={textSize}>×</span>
         </div>
       )}
-      <div
+     <div
         ref={setNodeRef}
         style={dragStyle}
         className={`${
           isOver && !isDragging ? "opacity-50" : ""
         } flex flex-col items-center bg-gray-200 p-4 rounded-lg relative`}
       >
-        {/* value and units with parentheses*/}
+       {/* value and units with parentheses*/}
         <div
           className={`flex flex-row relative ${
             factor.isRanged ? "mb-2" : "mb-0"
@@ -85,12 +85,14 @@ const FactorItemDraggable = ({
         >
          <p
             className={`${textSize} font-bold text-center mx-1 ${
-              factor.isRanged ? "text-amber-400" : "text-black"
+              factor.isRanged ? "text-primary" : "text-foreground"
             }`}
           >
             {formatNumber(userSelectedValue)}
           </p>
-          <p className={`${textSize} text-center break-words text-black mx-1`}>
+          <p
+            className={`${textSize} text-center break-words text-foreground mx-1`}
+          >
             {factor.unit}
           </p>
         </div>

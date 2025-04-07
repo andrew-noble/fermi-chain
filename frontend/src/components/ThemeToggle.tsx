@@ -1,5 +1,6 @@
 import { Moon, Sun } from "lucide-react";
 import { Button } from "./ui/button";
+import { useEffect } from "react";
 
 export function ThemeToggle() {
   const toggleTheme = () => {
@@ -8,6 +9,15 @@ export function ThemeToggle() {
     root.classList.toggle("dark");
     localStorage.setItem("theme", isDark ? "light" : "dark");
   };
+
+  // Set dark mode as default if no theme is stored
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    if (!storedTheme) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    }
+  }, []);
 
   return (
     <Button variant="ghost" size="icon" onClick={toggleTheme}>

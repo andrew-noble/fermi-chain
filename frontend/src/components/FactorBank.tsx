@@ -14,7 +14,7 @@ const FactorBank = ({ factors, onAdd }: FactorBankProps) => (
       <Button
         key={factor.label}
         variant="outline"
-        className="w-full px-6 py-8 flex justify-between items-center hover:bg-green-100/50"
+        className="w-full px-6 py-8 flex justify-between items-center hover:bg-accent/50"
         onClick={() => onAdd(factor)}
       >
         {factor.isRanged ? (
@@ -23,7 +23,7 @@ const FactorBank = ({ factors, onAdd }: FactorBankProps) => (
               <p className="font-medium text-lg">{factor.label}?</p>
               {/* <p className="text-sm text-muted-foreground">{factor.unit}</p> */}
             </div>
-            <span className="text-xl font-bold text-amber-400">
+            <span className="text-xl font-bold text-primary">
               {formatNumber(factor.randomizedRange?.[0] ?? factor.value)} -{" "}
               {formatNumber(factor.randomizedRange?.[1] ?? factor.value)}
             </span>
@@ -34,7 +34,7 @@ const FactorBank = ({ factors, onAdd }: FactorBankProps) => (
               <p className="font-medium text-lg">{factor.label}</p>
               {/* <p className="text-sm text-muted-foreground">{factor.unit}</p> */}
             </div>
-            <span className="text-xl font-bold">
+            <span className="text-xl font-bold text-foreground">
               {formatNumber(factor.value)}
             </span>
           </>
