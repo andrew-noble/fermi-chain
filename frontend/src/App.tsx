@@ -12,11 +12,8 @@ import prepareQuestion from "./helpers/prepareQuestion";
 
 function App() {
   const [question, _] = useState<Question | null>(prepareQuestion(rawQuestion));
-
   const [userInput, setUserInput] = useState<InputtedFactor[]>([]);
-
   const [tutorialOpen, setTutorialOpen] = useState(true);
-
   const [aboutOpen, setAboutOpen] = useState(false);
 
   const handleAddFactor = (factor: Factor) => {
@@ -44,17 +41,6 @@ function App() {
       });
       return newInput;
     });
-  };
-
-  const handleRemoveItem = (item: InputtedFactor) => {
-    setUserInput((prevInput) => {
-      const newInput = prevInput.filter((i) => i.id !== item.id);
-      return newInput;
-    });
-  };
-
-  const handleReorder = (items: InputtedFactor[]) => {
-    setUserInput(items);
   };
 
   const handleSubmit = () => {
@@ -104,8 +90,6 @@ function App() {
           <div className="mb-12">
             <InputArea
               factors={userInput}
-              onRemoveItem={handleRemoveItem}
-              onReorder={handleReorder}
               onFactorValueChange={handleFactorValueChange}
             />
           </div>
