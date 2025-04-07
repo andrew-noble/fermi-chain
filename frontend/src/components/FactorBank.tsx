@@ -20,7 +20,7 @@ const FactorBank = ({ factors, onAdd }: FactorBankProps) => (
         {factor.isRanged ? (
           <>
             <div className="text-left">
-              <p className="font-medium text-lg">{factor.label}?</p>
+              <p className="font-light text-lg">{factor.label}?</p>
               {/* <p className="text-sm text-muted-foreground">{factor.unit}</p> */}
             </div>
             <span className="text-xl font-bold text-primary">
@@ -31,10 +31,10 @@ const FactorBank = ({ factors, onAdd }: FactorBankProps) => (
         ) : (
           <>
             <div className="text-left">
-              <p className="font-medium text-lg">{factor.label}</p>
+              <p className="font-light text-lg">{factor.label}</p>
               {/* <p className="text-sm text-muted-foreground">{factor.unit}</p> */}
             </div>
-            <span className="text-xl font-bold text-foreground">
+            <span className="text-xl font-bold text-primary">
               {formatNumber(factor.value)}
             </span>
           </>

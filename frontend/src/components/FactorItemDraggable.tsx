@@ -83,11 +83,7 @@ const FactorItemDraggable = ({
             factor.isRanged ? "mb-4" : "mb-0"
           }`}
         >
-          <p
-            className={`${textSize} font-bold text-center mx-1 ${
-              factor.isRanged ? "text-primary" : "text-foreground"
-            }`}
-          >
+          <p className={`${textSize} font-bold text-center mx-1 text-primary`}>
             {formatNumber(userSelectedValue)}
           </p>
           <p

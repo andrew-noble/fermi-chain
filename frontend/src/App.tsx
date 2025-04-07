@@ -96,7 +96,7 @@ function App() {
         </div>
 
         <div className="flex flex-col items-center">
-          <h1 className="text-4xl font-bold text-center my-12">
+          <h1 className="text-4xl font-bold text-primary text-center my-12">
             {question?.prompt}
           </h1>
 
