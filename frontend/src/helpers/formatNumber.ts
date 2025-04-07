@@ -78,8 +78,10 @@ export const formatNumber = (num: number): string => {
 
 //this is used for rendering fractions. Given a decimal, return numerator
 //and denominator as a tuple
-//hard-coded to 1/denom, for now
 export const getFraction = (num: number): [number, number] => {
-  const denominator = 1 / num;
-  return [1, denominator];
+  // For 1/8 (0.125), we want to return [1, 8]
+  // For common fractions like 1/2, 1/3, 1/4, 1/8, etc.
+  const denominator = Math.round(1 / num);
+  const numerator = 1;
+  return [numerator, denominator];
 };

@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Factor } from "@/types";
-import { cn } from "@/lib/utils"; //for conditional className resolution
 import { formatNumber, getFraction } from "@/helpers/formatNumber";
 
 interface FactorBankProps {
@@ -100,20 +99,24 @@ const RangedFractionFactor = ({ factor }: { factor: Factor }) => {
 
 const FactorBank = ({ factors, onAdd }: FactorBankProps) => {
   const renderFactor = (factor: Factor) => {
-    switch (factor.type) {
+    const type = `${factor.isRanged ? "ranged" : "static"}${
+      factor.isFraction ? "Fraction" : ""
+    }`;
+
+    switch (type) {
       case "static":
         return <StaticFactor factor={factor} />;
-      case "ranged":
-        return <RangedFactor factor={factor} />;
       case "staticFraction":
         return <StaticFractionFactor factor={factor} />;
+      case "ranged":
+        return <RangedFactor factor={factor} />;
       case "rangedFraction":
         return <RangedFractionFactor factor={factor} />;
     }
   };
 
   return (
-    <div className={cn("flex flex-col gap-2")}>
+    <div className="flex flex-col gap-2">
       {factors.map((factor: Factor) => (
         <Button
           key={factor.label}

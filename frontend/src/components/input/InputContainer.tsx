@@ -5,15 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Trash2, GripHorizontal } from "lucide-react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import {
-  RegularFactor,
-  RangedFactor,
-  FractionFactor,
-  RangedFractionFactor,
-} from "./InputFactors";
+import { FactorInfoWithLayout, SliderWithLayout } from "./InputFactors";
 
 //this file is mostly just a draggability shell over the input factors
-
 type InputContainerProps = {
   factor: InputtedFactor;
   isFirst: boolean;
@@ -45,31 +39,25 @@ const InputContainer = ({
   };
 
   const renderFactor = () => {
-    switch (factor.type) {
-      case "static":
-        return <RegularFactor factor={factor} />;
-      case "ranged":
-        return (
-          <RangedFactor factor={factor} onSliderChange={onFactorValueChange} />
-        );
-      case "staticFraction":
-        return <FractionFactor factor={factor} />;
-      case "rangedFraction":
-        return (
-          <RangedFractionFactor
+    if (factor.isRanged) {
+      return (
+        <>
+          <FactorInfoWithLayout factor={factor} />
+          <SliderWithLayout
             factor={factor}
             onSliderChange={onFactorValueChange}
           />
-        );
-      default:
-        return null;
+        </>
+      );
+    } else {
+      return <FactorInfoWithLayout factor={factor} />;
     }
   };
 
   return (
     <>
       {!isFirst && (
-        <div className="flex items-start justify-center mx-4 pt-4">
+        <div className="flex items-center justify-center mx-4 py-4">
           <span className="text-2xl">×</span>
         </div>
       )}
@@ -78,17 +66,14 @@ const InputContainer = ({
         style={dragStyle}
         className={`${
           isOver && !isDragging ? "opacity-50" : ""
-        } flex flex-col items-center bg-card text-card-foreground p-4 rounded-lg`}
+        } grid grid-rows-[1fr_auto] bg-card text-card-foreground p-4 rounded-lg gap-4`}
       >
-        {renderFactor()}
+        {/* Main content area - factor display and slider */}
+        <div className="w-full">{renderFactor()}</div>
 
-        {/* Controls at bottom */}
-        <div className="flex justify-between w-full mt-auto pt-2">
-          <div
-            {...attributes}
-            {...listeners}
-            className="cursor-grab z-10 h-9 w-9 flex items-center justify-center"
-          >
+        {/* Controls row - using flex to put grip on left, trash on right */}
+        <div className="flex justify-between items-center">
+          <div {...attributes} {...listeners} className="cursor-grab">
             <GripHorizontal size={36} />
           </div>
           <Button variant="ghost" onClick={onRemoveFactor} className="h-9 w-9">
