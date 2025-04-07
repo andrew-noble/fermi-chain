@@ -2,7 +2,7 @@ import { Moon, Sun } from "lucide-react";
 import { Button } from "./ui/button";
 import { useEffect } from "react";
 
-export function ThemeToggle() {
+const ThemeToggle = () => {
   const toggleTheme = () => {
     const root = document.documentElement;
     const isDark = root.classList.contains("dark");
@@ -26,4 +26,6 @@ export function ThemeToggle() {
       <span className="sr-only">Toggle theme</span>
     </Button>
   );
-}
+};
+
+export default ThemeToggle;

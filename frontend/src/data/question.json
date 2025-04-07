@@ -8,7 +8,7 @@
       "label": "U.S. population",
       "targetValue": 340000000,
       "unit": "people",
-      "isRanged": true,
+      "type": "ranged",
       "rangePct": 0.1,
       "rangeStep": 10000000
     },
@@ -16,7 +16,7 @@
       "label": "Slices eaten per person per week",
       "targetValue": 3,
       "unit": "slices/person/week",
-      "isRanged": true,
+      "type": "ranged",
       "rangePct": 0.3,
       "rangeStep": 1
     },
@@ -24,7 +24,21 @@
       "label": "Weeks per year",
       "targetValue": 52,
       "unit": "weeks/year",
-      "isRanged": false
+      "type": "static"
+    },
+    {
+      "label": "fraction of a pizza a slice is",
+      "targetValue": 0.125,
+      "unit": "pizzas/slice",
+      "type": "staticFraction"
+    },
+    {
+      "label": "test ranged fraction",
+      "targetValue": 0.05,
+      "unit": "pizzas/slice",
+      "type": "rangedFraction",
+      "rangedPct": 0.4,
+      "rangeStep": 0.05
     }
   ],
   "notes": "Answer is estimated by multiplying population by slices/person/week multiplied by weeks/year and divided by slices per pizza"

@@ -13,7 +13,7 @@ function augmentQuestionWithFactorRanges(
 ): Question {
   // first prep non-ranged factors and put them in prepped array
   const preppedFactors: Factor[] = rawQuestion.factors
-    .filter((f) => !f.isRanged)
+    .filter((f) => f.type !== "ranged" && f.type !== "rangedFraction")
     .map((f) => ({
       ...f,
       randomizedRange: null,
@@ -21,7 +21,7 @@ function augmentQuestionWithFactorRanges(
 
   // now prep ranged factors
   for (const factor of rawQuestion.factors) {
-    if (!factor.isRanged) continue;
+    if (factor.type !== "ranged" && factor.type !== "rangedFraction") continue;
 
     if (factor.rangeStep === undefined) {
       throw new Error(
@@ -65,7 +65,7 @@ function generateInputFactor(factor: Factor): InputtedFactor {
   let displayValue: number;
 
   //if the factor is ranged, generate a random displayValue within the range
-  if (factor.isRanged && factor.randomizedRange) {
+  if (factor.type === "ranged" && factor.randomizedRange) {
     const [min = 0, max = 100] = factor.randomizedRange;
     const step = factor.rangeStep || 1;
     const steps = Math.floor((max - min) / step);

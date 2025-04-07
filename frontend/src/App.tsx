@@ -1,17 +1,22 @@
 import { useState, useEffect } from "react";
-import { Question, Factor, InputtedFactor, UnpreparedQuestion } from "./types";
-import FactorBank from "./components/FactorBank";
-import InputArea from "./components/InputArea";
-import TutorialDialog from "./components/dialogs/TutorialDialog";
-import AboutDialog from "./components/dialogs/AboutDialog";
-import { Button } from "./components/ui/button";
+
+import { Question, Factor, InputtedFactor, UnpreparedQuestion } from "@/types";
+
+import FactorBank from "@/components/FactorBank";
+import InputArea from "@/components/input/InputArea";
+import TutorialDialog from "@/components/dialogs/TutorialDialog";
+import AboutDialog from "@/components/dialogs/AboutDialog";
+import ThemeToggle from "@/components/ThemeToggle";
+
+import { Button } from "@/components/ui/button";
 import { HelpCircle } from "lucide-react";
-import rawQuestion from "./data/question.json";
+
+import rawQuestion from "@/data/question.json";
+
 import {
   augmentQuestionWithFactorRanges,
   generateInputFactor,
-} from "./helpers/questionTransforms";
-import { ThemeToggle } from "./components/ThemeToggle";
+} from "@/helpers/questionTransforms";
 
 function App() {
   const [question, _] = useState<Question | null>(
@@ -41,7 +46,7 @@ function App() {
         if (item.id === itemId) {
           return {
             ...item,
-            value: newValue,
+            userSelectedValue: newValue,
           };
         }
         return item;
@@ -50,14 +55,14 @@ function App() {
     });
   };
 
-  const handleRemoveItem = (item: InputtedFactor) => {
+  const handleRemoveFactor = (item: InputtedFactor) => {
     setUserInput((prevInput) => {
       const newInput = prevInput.filter((i) => i.id !== item.id);
       return newInput;
     });
   };
 
-  const handleReorder = (items: InputtedFactor[]) => {
+  const handleReorderFactors = (items: InputtedFactor[]) => {
     setUserInput(items);
   };
 
@@ -109,8 +114,8 @@ function App() {
           <div className="mb-12">
             <InputArea
               factors={userInput}
-              onRemoveItem={handleRemoveItem}
-              onReorder={handleReorder}
+              onRemoveFactor={handleRemoveFactor}
+              onReorderFactors={handleReorderFactors}
               onFactorValueChange={handleFactorValueChange}
             />
           </div>

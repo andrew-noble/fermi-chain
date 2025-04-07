@@ -1,5 +1,5 @@
-import { InputtedFactor } from "../types";
-import FactorItemDraggable from "./FactorItemDraggable";
+import { InputtedFactor } from "@/types";
+import InputContainer from "@/components/input/InputContainer";
 
 //dnd imports
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
@@ -14,15 +14,15 @@ import { rectSortingStrategy } from "@dnd-kit/sortable";
 
 interface InputAreaProps {
   factors: InputtedFactor[];
-  onReorder: (items: InputtedFactor[]) => void;
-  onRemoveItem: (item: InputtedFactor) => void;
+  onReorderFactors: (items: InputtedFactor[]) => void;
+  onRemoveFactor: (item: InputtedFactor) => void;
   onFactorValueChange?: (itemId: string, newValue: number) => void;
 }
 
 const InputArea = ({
   factors,
-  onReorder,
-  onRemoveItem,
+  onReorderFactors,
+  onRemoveFactor,
   onFactorValueChange,
 }: InputAreaProps) => {
   //dnd sensors -- it sets up event listeners
@@ -42,7 +42,7 @@ const InputArea = ({
     const reordered = arrayMove(factors, oldIndex, newIndex);
 
     //report reorder to parent
-    onReorder(reordered);
+    onReorderFactors(reordered);
   };
 
   return (
@@ -58,11 +58,11 @@ const InputArea = ({
         >
           <div className="flex flex-wrap gap-y-4">
             {factors.map((factor, index) => (
-              <FactorItemDraggable
+              <InputContainer
                 key={factor.id}
                 factor={factor}
                 isFirst={index === 0}
-                onRemoveItem={() => onRemoveItem(factor)}
+                onRemoveFactor={() => onRemoveFactor(factor)}
                 onFactorValueChange={(newValue) =>
                   onFactorValueChange?.(factor.id, newValue)
                 }

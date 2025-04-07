@@ -75,3 +75,11 @@ export const formatNumber = (num: number): string => {
     return num.toLocaleString(undefined, { maximumFractionDigits: 0 });
   }
 };
+
+//this is used for rendering fractions. Given a decimal, return numerator
+//and denominator as a tuple
+//hard-coded to 1/denom, for now
+export const getFraction = (num: number): [number, number] => {
+  const denominator = 1 / num;
+  return [1, denominator];
+};
