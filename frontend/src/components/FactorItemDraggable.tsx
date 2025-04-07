@@ -78,9 +78,12 @@ const FactorItemDraggable = ({
         } flex flex-col items-center bg-gray-200 p-4 rounded-lg relative`}
       >
         {/* value and units with parentheses*/}
-        <div className="flex flex-row relative mb-8">
-          <span className={`${textSize} mr-1`}>(</span>
-          <p
+        <div
+          className={`flex flex-row relative ${
+            factor.isRanged ? "mb-2" : "mb-0"
+          }`}
+        >
+         <p
             className={`${textSize} font-bold text-center mx-1 ${
               factor.isRanged ? "text-amber-400" : "text-black"
             }`}
@@ -90,7 +93,6 @@ const FactorItemDraggable = ({
           <p className={`${textSize} text-center break-words text-black mx-1`}>
             {factor.unit}
           </p>
-          <span className={`${textSize} ml-1`}>)</span>
         </div>
 
         {/* slider (if ranged) */}
