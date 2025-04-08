@@ -1,17 +1,18 @@
 import { Button } from "@/components/ui/button";
-import { Factor } from "@/types";
+import { Factor, InputtedFactor } from "@/types";
 import { formatNumber } from "@/helpers/formatNumber";
 import FractionDisplay from "@/components/display/FractionDisplay";
 import RangeDisplay from "@/components/display/RangeDisplay";
 
 interface FactorBankProps {
   factors: Factor[];
+  pickedFactors: InputtedFactor[];
   onAdd: (factor: Factor) => void;
 }
 
 const textSize = "text-lg";
 
-const FactorBank = ({ factors, onAdd }: FactorBankProps) => {
+const FactorBank = ({ factors, pickedFactors, onAdd }: FactorBankProps) => {
   const renderOperator = (factor: Factor) => {
     if (factor.isReciprocal) {
       return <p className="text-xl">÷</p>;
@@ -73,6 +74,10 @@ const FactorBank = ({ factors, onAdd }: FactorBankProps) => {
           variant="outline"
           className="w-full md:w-[calc(50%-0.25rem)] px-4 py-8 flex justify-between items-center hover:bg-accent/50 whitespace-normal break-words"
           onClick={() => onAdd(factor)}
+          disabled={pickedFactors.some(
+            //grey out factors of buttons already picked
+            (pickedFactor) => pickedFactor.label === factor.label
+          )}
         >
           {renderFactor(factor)}
         </Button>

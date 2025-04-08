@@ -23,8 +23,8 @@ function App() {
     augmentQuestionWithFactorRanges(rawQuestion as UnpreparedQuestion)
   );
   const [userInput, setUserInput] = useState<InputtedFactor[]>([]);
-  const [tutorialOpen, setTutorialOpen] = useState(true);
-  const [aboutOpen, setAboutOpen] = useState(false);
+  const [tutorialDialogOpen, setTutorialDialogOpen] = useState(true);
+  const [aboutDialogOpen, setAboutDialogOpen] = useState(false);
 
   // Initialize theme from localStorage
   useEffect(() => {
@@ -80,8 +80,11 @@ function App() {
 
   return (
     <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
-      <TutorialDialog open={tutorialOpen} onOpenChange={setTutorialOpen} />
-      <AboutDialog open={aboutOpen} onOpenChange={setAboutOpen} />
+      <TutorialDialog
+        open={tutorialDialogOpen}
+        onOpenChange={setTutorialDialogOpen}
+      />
+      <AboutDialog open={aboutDialogOpen} onOpenChange={setAboutDialogOpen} />
 
       <div className="max-w-4xl w-full mx-auto px-4 py-6 relative min-h-screen flex flex-col">
         <div className="absolute top-0 right-0 flex gap-2">
@@ -89,11 +92,11 @@ function App() {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => setTutorialOpen(true)}
+            onClick={() => setTutorialDialogOpen(true)}
           >
             <HelpCircle className="h-8 w-8" />
           </Button>
-          <Button variant="ghost" onClick={() => setAboutOpen(true)}>
+          <Button variant="ghost" onClick={() => setAboutDialogOpen(true)}>
             About
           </Button>
         </div>
@@ -108,6 +111,7 @@ function App() {
           <div className="mb-6">
             <FactorBank
               factors={question?.factors || []}
+              pickedFactors={userInput}
               onAdd={handleAddFactor}
             />
           </div>
