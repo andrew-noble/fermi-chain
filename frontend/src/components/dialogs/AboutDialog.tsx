@@ -22,7 +22,7 @@ export default function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
           <p>
             Fermi Game is a brain teaser that challenges your ability to make
             real-world (if outlandish) estimates using reasonable assumptions
-            and basic mathematical reasoning.
+            and mathematical reasoning.
           </p>
           <p>
             It's named after the physicist Enrico Fermi, who was known for his
@@ -35,7 +35,17 @@ export default function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
             >
               back-of-the-envelope calculations
             </a>
-            .
+            . A version of this reasoning technique is the origin of the famous{" "}
+            <a
+              href="https://en.wikipedia.org/wiki/Fermi_paradox"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:text-primary/80 hover:underline font-medium"
+            >
+              Fermi Paradox
+            </a>
+            , which predicts that we should have received alien signals by now
+            👽.
           </p>
           <hr />
           <p>

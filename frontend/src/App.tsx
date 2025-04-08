@@ -105,7 +105,7 @@ function App() {
 
           <h2 className="text-xl font-semibold mb-2">Factors</h2>
 
-          <div className="w-108 mb-12">
+          <div className="mb-12">
             <FactorBank
               factors={question?.factors || []}
               onAdd={handleAddFactor}
