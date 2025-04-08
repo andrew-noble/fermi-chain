@@ -2,7 +2,7 @@ export interface UnpreparedQuestion {
   id: string;
   prompt: string;
   targetAnswer: number;
-  unit: string;
+  targetUnit: string;
   factors: UnpreparedFactor[];
   notes: string;
 }

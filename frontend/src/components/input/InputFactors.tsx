@@ -17,7 +17,7 @@ interface FactorInfoWithLayoutProps {
  */
 const FactorInfoWithLayout = ({ factor }: FactorInfoWithLayoutProps) => {
   return (
-    <div className="col-span-2 flex items-center justify-center h-20">
+    <div className="col-span-2 flex items-center justify-center h-16">
       <div className="flex items-center justify-center">
         {factor.isFraction ? (
           <FractionDisplay factor={factor} textSize={textSize} />

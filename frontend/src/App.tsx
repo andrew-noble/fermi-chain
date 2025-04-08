@@ -18,6 +18,8 @@ import {
   generateInputFactor,
 } from "@/helpers/questionTransforms";
 
+import { formatNumber } from "@/helpers/formatNumber";
+
 function App() {
   const [question, _] = useState<Question | null>(
     augmentQuestionWithFactorRanges(rawQuestion as UnpreparedQuestion)
@@ -66,7 +68,11 @@ function App() {
     setUserInput(items);
   };
 
-  const handleSubmit = () => {
+  const handleClear = () => {
+    setUserInput([]);
+  };
+
+  const calculateResult = () => {
     //dynamically adjusts to division/multiplication
     const result = userInput.reduce((acc, factor) => {
       if (factor.isReciprocal) {
@@ -74,6 +80,12 @@ function App() {
       }
       return acc * factor.userSelectedValue;
     }, 1);
+
+    return result;
+  };
+
+  const handleSubmit = () => {
+    const result = calculateResult();
 
     console.log("result:", result);
   };
@@ -86,7 +98,7 @@ function App() {
       />
       <AboutDialog open={aboutDialogOpen} onOpenChange={setAboutDialogOpen} />
 
-      <div className="max-w-4xl w-full mx-auto px-4 py-6 relative min-h-screen flex flex-col">
+      <div className="max-w-5xl w-full mx-auto px-4 py-6 relative min-h-screen flex flex-col">
         <div className="absolute top-0 right-0 flex gap-2">
           <ThemeToggle />
           <Button
@@ -125,16 +137,36 @@ function App() {
             />
           </div>
 
-          {userInput.length > 0 && (
+          <div className="flex flex-col gap-6 items-center">
+            {userInput.length === question?.factors.length && (
+              <div className="flex items-center gap-2">
+                <span className="text-muted-foreground">There are </span>
+                <span className="text-primary font-bold">
+                  {formatNumber(calculateResult())}
+                </span>{" "}
+                <span className="text-muted-foreground">
+                  {question?.targetUnit}
+                </span>
+              </div>
+            )}
+
+            {/* conditional buttons */}
             <div className="flex gap-6">
-              <Button onClick={handleSubmit} disabled={userInput.length === 0}>
-                Submit
-              </Button>
-              <Button variant="outline" onClick={() => setUserInput([])}>
-                Clear
-              </Button>
+              {userInput.length === question?.factors.length && (
+                <Button
+                  onClick={handleSubmit}
+                  disabled={userInput.length === 0}
+                >
+                  Submit
+                </Button>
+              )}
+              {userInput.length > 0 && (
+                <Button variant="outline" onClick={handleClear}>
+                  Clear
+                </Button>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>

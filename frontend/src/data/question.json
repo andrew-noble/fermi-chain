@@ -2,7 +2,7 @@
   "id": "fermi-0",
   "prompt": "How many piano tuners are there in New York City?",
   "targetAnswer": 1000,
-  "unit": "piano tuners",
+  "targetUnit": "piano tuners in NYC",
   "factors": [
     {
       "label": "NYC population",
@@ -43,10 +43,10 @@
       "rangeStep": 0.5
     },
     {
-      "label": "Hours worked per week per piano tuner",
+      "label": "Working hours per week per piano tuner",
       "targetValue": 40,
-      "unit": "hours",
-      "isReciprocal": false,
+      "unit": "hours/week/tuner",
+      "isReciprocal": true,
       "isRanged": false,
       "isFraction": false
     },
@@ -54,14 +54,14 @@
       "label": "Weeks per year",
       "targetValue": 52,
       "unit": "weeks/year",
-      "isReciprocal": false,
+      "isReciprocal": true,
       "isRanged": false,
       "isFraction": false
     },
     {
       "label": "Tunings per year per piano",
       "targetValue": 1,
-      "unit": "tunings/piano/year",
+      "unit": "tuning/piano/year",
       "isReciprocal": false,
       "isRanged": false,
       "isFraction": false
