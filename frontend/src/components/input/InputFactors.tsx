@@ -4,7 +4,7 @@ import { InputtedFactor } from "@/types";
 import { Slider } from "@/components/ui/slider";
 
 // TODO: Consider moving to theme configuration
-const textSize = "text-2xl";
+const textSize = "text-xl";
 
 interface FactorInfoWithLayoutProps {
   factor: InputtedFactor;
