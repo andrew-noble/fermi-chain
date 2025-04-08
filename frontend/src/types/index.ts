@@ -11,6 +11,7 @@ export interface UnpreparedFactor {
   label: string;
   targetValue: number;
   unit: string;
+  isReciprocal: boolean; //this means a division. Hack way now-- will improve later
   isFraction: boolean;
   isRanged: boolean;
   rangePct?: number; //if ranged, this is the percentage of the range to use

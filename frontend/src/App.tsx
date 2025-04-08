@@ -67,13 +67,14 @@ function App() {
   };
 
   const handleSubmit = () => {
-    let result = 1;
+    //dynamically adjusts to division/multiplication
+    const result = userInput.reduce((acc, factor) => {
+      if (factor.isReciprocal) {
+        return acc / factor.userSelectedValue;
+      }
+      return acc * factor.userSelectedValue;
+    }, 1);
 
-    for (let i = 0; i < userInput.length; i++) {
-      const item = userInput[i];
-
-      result *= item.userSelectedValue;
-    }
     console.log("result:", result);
   };
 

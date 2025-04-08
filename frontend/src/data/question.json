@@ -8,6 +8,7 @@
       "label": "U.S. population",
       "targetValue": 340000000,
       "unit": "people",
+      "isReciprocal": false,
       "isRanged": true,
       "isFraction": false,
       "rangePct": 0.1,
@@ -17,6 +18,7 @@
       "label": "Slices eaten per person per week",
       "targetValue": 3,
       "unit": "slices/person/week",
+      "isReciprocal": false,
       "isRanged": true,
       "isFraction": false,
       "rangePct": 0.3,
@@ -26,20 +28,23 @@
       "label": "Weeks per year",
       "targetValue": 52,
       "unit": "weeks/year",
+      "isReciprocal": false,
       "isRanged": false,
       "isFraction": false
     },
     {
-      "label": "fraction of a pizza a slice is",
-      "targetValue": 0.125,
-      "unit": "pizzas/slice",
+      "label": "number of slices per pizza",
+      "targetValue": 8,
+      "unit": "slices/pizza",
+      "isReciprocal": true,
       "isRanged": false,
-      "isFraction": true
+      "isFraction": false
     },
     {
       "label": "test ranged fraction",
       "targetValue": 0.05,
       "unit": "pizzas/slice",
+      "isReciprocal": false,
       "isRanged": true,
       "isFraction": true,
       "rangedPct": 0.4,

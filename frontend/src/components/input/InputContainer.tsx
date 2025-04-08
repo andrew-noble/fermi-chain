@@ -58,7 +58,11 @@ const InputContainer = ({
       {!isFirst && (
         <div className="flex justify-center">
           <div className="flex items-center justify-center m-4 h-20">
-            <span className="text-2xl">×</span>
+            {factor.isReciprocal ? (
+              <span className="text-3xl">÷</span>
+            ) : (
+              <span className="text-3xl">×</span>
+            )}
           </div>
         </div>
       )}
