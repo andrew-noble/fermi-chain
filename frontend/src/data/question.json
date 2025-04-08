@@ -1,71 +1,45 @@
 {
   "id": "fermi-0",
-  "prompt": "How many piano tuners are there in New York City?",
-  "targetAnswer": 1000,
-  "targetUnit": "piano tuners in NYC",
+  "prompt": "How many people are flying in airplanes right now?",
+  "targetAnswer": 833333,
+  "targetUnit": "people in the air",
+
   "factors": [
     {
-      "label": "NYC population",
-      "targetValue": 8800000,
-      "unit": "people",
-      "isReciprocal": false,
-      "isRanged": true,
+      "label": "Commercial flights per day (globally)",
+      "targetValue": 100000,
+      "unit": "flights/day",
       "isFraction": false,
-      "rangePct": 0.2,
-      "rangeStep": 100000
-    },
-    {
-      "label": "People per household",
-      "targetValue": 2.5,
-      "unit": "people/household",
-      "isReciprocal": true,
       "isRanged": true,
-      "isFraction": false,
       "rangePct": 0.2,
-      "rangeStep": 0.5
+      "rangeStep": 1000
     },
     {
-      "label": "Share of households with a piano",
-      "targetValue": 0.05,
-      "unit": "piano/households",
-      "isReciprocal": false,
-      "isRanged": false,
-      "isFraction": true
+      "label": "Average passengers per flight",
+      "targetValue": 100,
+      "unit": "passengers/flight",
+      "isFraction": false,
+      "isRanged": true,
+      "rangePct": 0.2,
+      "rangeStep": 5
     },
     {
-      "label": "Hours per piano tuning",
+      "label": "Average flight duration",
       "targetValue": 2,
-      "unit": "hours/tuning",
-      "isReciprocal": true,
-      "isRanged": true,
+      "unit": "hours",
       "isFraction": false,
+      "isRanged": true,
       "rangePct": 0.5,
-      "rangeStep": 0.5
+      "rangeStep": 0.25
     },
     {
-      "label": "Working hours per week per piano tuner",
-      "targetValue": 40,
-      "unit": "hours/week/tuner",
-      "isReciprocal": true,
-      "isRanged": false,
-      "isFraction": false
-    },
-    {
-      "label": "Weeks per year",
-      "targetValue": 52,
-      "unit": "weeks/year",
-      "isReciprocal": true,
-      "isRanged": false,
-      "isFraction": false
-    },
-    {
-      "label": "Tunings per year per piano",
-      "targetValue": 1,
-      "unit": "tuning/piano/year",
-      "isReciprocal": false,
-      "isRanged": false,
-      "isFraction": false
+      "label": "Day per hour",
+      "targetValue": 0.041666666666666664,
+      "unit": "day/hour",
+      "isFraction": true,
+      "isRanged": false
     }
   ],
-  "notes": "Answer is estimated by multiplying population by slices/person/week multiplied by weeks/year and divided by slices per pizza"
+
+  "notes": "Estimates how many people are currently in the air worldwide. The answer is surprisingly intuitive and leads to a great visual postscript: 'Enough to fill 8 football stadiums, all flying midair.'"
 }

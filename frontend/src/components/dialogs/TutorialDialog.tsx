@@ -70,7 +70,7 @@ export default function TutorialDialog({
     label: "Average pizzas per month",
     unit: "pizzas",
     userSelectedValue: exampleValue1,
-    range: [0, 20] as [number, number],
+    randomizedRange: [0, 20] as [number, number],
     rangeStep: 1,
     isFraction: false,
     targetValue: 10,
@@ -83,7 +83,7 @@ export default function TutorialDialog({
     label: "Cost per pizza",
     unit: "dollars",
     userSelectedValue: exampleValue2,
-    range: [5, 30] as [number, number],
+    randomizedRange: [5, 30] as [number, number],
     rangeStep: 1,
     isFraction: false,
     targetValue: 15,
@@ -97,7 +97,7 @@ export default function TutorialDialog({
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">How To Play</DialogTitle>
           <DialogDescription>
-            String together factors to make an estimate
+            String together factors to reach the shown estimate
           </DialogDescription>
         </DialogHeader>
         <p className="font-semibold">Example</p>
@@ -113,16 +113,15 @@ export default function TutorialDialog({
             onValueChange={setExampleValue2}
           />
         </div>
-        <div className="mt-4 p-4 bg-card text-card-foreground rounded-lg">
+        <div className="p-2 text-card-foreground rounded-lg">
           <p className="text-sm">
             Monthly pizza spending:{" "}
-            <span className="font-bold">${exampleValue1 * exampleValue2}</span>
+            <span className="font-bold text-primary">
+              ${exampleValue1 * exampleValue2}
+            </span>
           </p>
         </div>
-        <hr className="border-gray-200 dark:border-gray-700" />
-        <p>
-          After you finish the daily question, you can revisit old questions
-        </p>
+
         <Button onClick={() => onOpenChange(false)}>Got it</Button>
       </DialogContent>
     </Dialog>

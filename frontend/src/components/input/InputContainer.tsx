@@ -59,14 +59,8 @@ const InputContainer = ({
     <>
       {/* kinda janky city implementing this multiply sign by matching margins, sizes etc with the rendered factor, but its okay for now */}
       {!isFirst && (
-        <div className="flex justify-center">
-          <div className="flex items-center justify-center m-4 h-16">
-            {factor.isReciprocal ? (
-              <span className="text-3xl">÷</span>
-            ) : (
-              <span className="text-3xl">×</span>
-            )}
-          </div>
+        <div className="flex items-center justify-center m-4 h-16">
+          <span className="text-3xl">×</span>
         </div>
       )}
       <div

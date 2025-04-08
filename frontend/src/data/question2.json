@@ -1,0 +1,62 @@
+{
+  "id": "fermi-2",
+  "prompt": "How many piano tuners are there in New York City?",
+  "targetAnswer": 1000,
+  "targetUnit": "piano tuners in NYC",
+  "factors": [
+    {
+      "label": "NYC population",
+      "targetValue": 8800000,
+      "unit": "people",
+      "isRanged": true,
+      "isFraction": false,
+      "rangePct": 0.2,
+      "rangeStep": 1000000
+    },
+    {
+      "label": "Size of household",
+      "targetValue": 0.4,
+      "unit": "household/person",
+      "isRanged": true,
+      "isFraction": true,
+      "rangePct": 0.2,
+      "rangeStep": 0.5
+    },
+    {
+      "label": "Share of households with a piano",
+      "targetValue": 0.05,
+      "unit": "piano/households",
+      "isRanged": false,
+      "isFraction": true
+    },
+    {
+      "label": "Piano tunings per hours of labor",
+      "targetValue": 0.5,
+      "unit": "tunings/hours",
+      "isRanged": false,
+      "isFraction": true
+    },
+    {
+      "label": "Piano tuner per hours of labor",
+      "targetValue": 0.05,
+      "unit": "tuner/hours",
+      "isRanged": false,
+      "isFraction": true
+    },
+    {
+      "label": "Year per weeks",
+      "targetValue": 52,
+      "unit": "year/weeks",
+      "isRanged": false,
+      "isFraction": false
+    },
+    {
+      "label": "Tunings per year per piano",
+      "targetValue": 1,
+      "unit": "tuning/piano/year",
+      "isRanged": false,
+      "isFraction": false
+    }
+  ],
+  "notes": "Answer is estimated by multiplying population by slices/person/week multiplied by weeks/year and divided by slices per pizza"
+}

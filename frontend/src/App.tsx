@@ -73,11 +73,7 @@ function App() {
   };
 
   const calculateResult = () => {
-    //dynamically adjusts to division/multiplication
     const result = userInput.reduce((acc, factor) => {
-      if (factor.isReciprocal) {
-        return acc / factor.userSelectedValue;
-      }
       return acc * factor.userSelectedValue;
     }, 1);
 
@@ -140,7 +136,7 @@ function App() {
           <div className="flex flex-col gap-6 items-center">
             {userInput.length === question?.factors.length && (
               <div className="flex items-center gap-2">
-                <span className="text-muted-foreground">There are </span>
+                <span className="text-muted-foreground">Your estimate: </span>
                 <span className="text-primary font-bold">
                   {formatNumber(calculateResult())}
                 </span>{" "}
