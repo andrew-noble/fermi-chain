@@ -1,0 +1,55 @@
+{
+  "id": "fermi-1",
+  "prompt": "How many pizzas are eaten in the U.S. each year?",
+  "targetAnswer": 3000000000,
+  "unit": "pizzas per year",
+  "factors": [
+    {
+      "label": "U.S. population",
+      "targetValue": 340000000,
+      "unit": "people",
+      "isReciprocal": false,
+      "isRanged": true,
+      "isFraction": false,
+      "rangePct": 0.1,
+      "rangeStep": 10000000
+    },
+    {
+      "label": "Slices eaten per person per week",
+      "targetValue": 3,
+      "unit": "slices/person/week",
+      "isReciprocal": false,
+      "isRanged": true,
+      "isFraction": false,
+      "rangePct": 0.5,
+      "rangeStep": 0.5
+    },
+    {
+      "label": "Weeks per year",
+      "targetValue": 52,
+      "unit": "weeks/year",
+      "isReciprocal": false,
+      "isRanged": false,
+      "isFraction": false
+    },
+    {
+      "label": "number of slices per pizza",
+      "targetValue": 8,
+      "unit": "slices/pizza",
+      "isReciprocal": true,
+      "isRanged": false,
+      "isFraction": false
+    },
+    {
+      "label": "test ranged fraction",
+      "targetValue": 0.05,
+      "unit": "pizzas/slice",
+      "isReciprocal": false,
+      "isRanged": true,
+      "isFraction": true,
+      "rangedPct": 0.4,
+      "rangeStep": 0.05
+    }
+  ],
+  "notes": "Answer is estimated by multiplying population by slices/person/week multiplied by weeks/year and divided by slices per pizza"
+}

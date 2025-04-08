@@ -1,54 +1,70 @@
 {
-  "id": "unique-question-id",
-  "prompt": "How many pizzas are eaten in the U.S. each year?",
-  "targetAnswer": 3000000000,
-  "unit": "pizzas per year",
+  "id": "fermi-0",
+  "prompt": "How many piano tuners are there in New York City?",
+  "targetAnswer": 1000,
+  "unit": "piano tuners",
   "factors": [
     {
-      "label": "U.S. population",
-      "targetValue": 340000000,
+      "label": "NYC population",
+      "targetValue": 8800000,
       "unit": "people",
       "isReciprocal": false,
       "isRanged": true,
       "isFraction": false,
-      "rangePct": 0.1,
-      "rangeStep": 10000000
+      "rangePct": 0.2,
+      "rangeStep": 100000
     },
     {
-      "label": "Slices eaten per person per week",
-      "targetValue": 3,
-      "unit": "slices/person/week",
+      "label": "People per household",
+      "targetValue": 2.5,
+      "unit": "people/household",
+      "isReciprocal": true,
+      "isRanged": true,
+      "isFraction": false,
+      "rangePct": 0.2,
+      "rangeStep": 0.5
+    },
+    {
+      "label": "Share of households with a piano",
+      "targetValue": 0.015,
+      "unit": "households/piano",
       "isReciprocal": false,
+      "isRanged": false,
+      "isFraction": true
+    },
+    {
+      "label": "hours per piano tuning",
+      "targetValue": 2,
+      "unit": "hours/piano",
+      "isReciprocal": true,
       "isRanged": true,
       "isFraction": false,
       "rangePct": 0.5,
       "rangeStep": 0.5
     },
     {
+      "label": "Hours worked per week per piano tuner",
+      "targetValue": 40,
+      "unit": "hours",
+      "isReciprocal": false,
+      "isRanged": false,
+      "isFraction": false
+    },
+    {
       "label": "Weeks per year",
       "targetValue": 52,
-      "unit": "weeks/year",
+      "unit": "hours",
       "isReciprocal": false,
       "isRanged": false,
       "isFraction": false
     },
     {
-      "label": "number of slices per pizza",
-      "targetValue": 8,
-      "unit": "slices/pizza",
-      "isReciprocal": true,
+      "label": "Tunings per year per piano",
+      "targetValue": 1,
+      "unit": "tunings",
+      "isReciprocal": false,
       "isRanged": false,
       "isFraction": false
-    },
-    {
-      "label": "test ranged fraction",
-      "targetValue": 0.05,
-      "unit": "pizzas/slice",
-      "isReciprocal": false,
-      "isRanged": true,
-      "isFraction": true,
-      "rangedPct": 0.4,
-      "rangeStep": 0.05
     }
   ],
   "notes": "Answer is estimated by multiplying population by slices/person/week multiplied by weeks/year and divided by slices per pizza"
