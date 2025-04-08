@@ -16,43 +16,47 @@ const FactorBank = ({ factors, onAdd }: FactorBankProps) => {
     if (factor.isRanged) {
       return (
         <>
-          <p className={`font-light ${textSize}`}>{factor.label}</p>
           {/* <p className="text-sm text-muted-foreground">{factor.unit}</p> */}
           <div className="flex items-center justify-center gap-2">
             {factor.isReciprocal ? (
-              <p className="text-xl text-muted-foreground">÷</p>
+              <p className="text-xl text-primary">÷</p>
             ) : (
-              <p className="text-xl text-muted-foreground">×</p>
+              <p className="text-xl text-primary">×</p>
             )}
-            <RangeDisplay factor={factor} textSize={textSize} />
+            <p className={`font-light ${textSize}`}>{factor.label}</p>
           </div>
+          <RangeDisplay factor={factor} textSize={textSize} />
         </>
       );
     } else {
       return (
         <>
-          <p className={`font-light ${textSize}`}>{factor.label}</p>
-          {/* <p className="text-sm text-muted-foreground">{factor.unit}</p> */}
           {factor.isFraction ? (
-            <div className="flex items-center justify-center gap-2">
-              {factor.isReciprocal ? (
-                <p className="text-xl text-muted-foreground">÷</p>
-              ) : (
-                <p className="text-xl text-muted-foreground">×</p>
-              )}
-              <FractionDisplay factor={factor} textSize={textSize} />
-            </div>
-          ) : (
-            <div className={`${textSize} font-bold text-primary`}>
+            <>
+              {/* <p className="text-sm text-muted-foreground">{factor.unit}</p> */}
               <div className="flex items-center justify-center gap-2">
                 {factor.isReciprocal ? (
-                  <p className="text-xl text-muted-foreground">÷</p>
+                  <p className="text-xl text-primary">÷</p>
                 ) : (
-                  <p className="text-xl text-muted-foreground">×</p>
+                  <p className="text-xl text-primary">×</p>
                 )}
-                {formatNumber(factor.targetValue)}
               </div>
-            </div>
+              <FractionDisplay factor={factor} textSize={textSize} />
+            </>
+          ) : (
+            <>
+              <div className="flex items-center justify-center gap-2">
+                {factor.isReciprocal ? (
+                  <p className="text-xl text-primary">÷</p>
+                ) : (
+                  <p className="text-xl text-primary">×</p>
+                )}
+                <p className={`font-light ${textSize}`}>{factor.label}</p>
+              </div>
+              <p className={`font-bold text-primary ${textSize}`}>
+                {formatNumber(factor.targetValue)}
+              </p>
+            </>
           )}
         </>
       );

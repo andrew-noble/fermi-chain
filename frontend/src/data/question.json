@@ -21,8 +21,8 @@
       "isReciprocal": false,
       "isRanged": true,
       "isFraction": false,
-      "rangePct": 0.3,
-      "rangeStep": 1
+      "rangePct": 0.5,
+      "rangeStep": 0.5
     },
     {
       "label": "Weeks per year",
