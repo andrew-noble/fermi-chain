@@ -1,8 +1,10 @@
 {
   "id": "fermi-0",
+  "idNum": 0,
   "prompt": "How many people are flying in airplanes right now?",
   "targetAnswer": 833333,
   "targetUnit": "people in the air",
+  "postscript": "Enough to fill 8 football stadiums, midair!",
 
   "factors": [
     {
@@ -40,6 +42,5 @@
       "isRanged": false
     }
   ],
-
   "notes": "Estimates how many people are currently in the air worldwide. The answer is surprisingly intuitive and leads to a great visual postscript: 'Enough to fill 8 football stadiums, all flying midair.'"
 }

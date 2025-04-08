@@ -19,14 +19,16 @@ import {
 } from "@/helpers/questionTransforms";
 
 import { formatNumber } from "@/helpers/formatNumber";
+import ResultDialog from "./components/dialogs/ResultDialog";
 
 function App() {
-  const [question, _] = useState<Question | null>(
+  const [question, _] = useState<Question>(
     augmentQuestionWithFactorRanges(rawQuestion as UnpreparedQuestion)
   );
   const [userInput, setUserInput] = useState<InputtedFactor[]>([]);
   const [tutorialDialogOpen, setTutorialDialogOpen] = useState(true);
   const [aboutDialogOpen, setAboutDialogOpen] = useState(false);
+  const [resultDialogOpen, setResultDialogOpen] = useState(false);
 
   // Initialize theme from localStorage
   useEffect(() => {
@@ -81,9 +83,7 @@ function App() {
   };
 
   const handleSubmit = () => {
-    const result = calculateResult();
-
-    console.log("result:", result);
+    setResultDialogOpen(true);
   };
 
   return (
@@ -93,6 +93,13 @@ function App() {
         onOpenChange={setTutorialDialogOpen}
       />
       <AboutDialog open={aboutDialogOpen} onOpenChange={setAboutDialogOpen} />
+      <ResultDialog
+        open={resultDialogOpen}
+        onOpenChange={setResultDialogOpen}
+        question={question}
+        userInput={userInput}
+        userEstimate={calculateResult()}
+      />
 
       <div className="max-w-5xl w-full mx-auto px-4 py-6 relative min-h-screen flex flex-col">
         <div className="absolute top-0 right-0 flex gap-2">

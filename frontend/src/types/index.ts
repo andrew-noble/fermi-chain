@@ -1,8 +1,10 @@
 export interface UnpreparedQuestion {
   id: string;
+  idNum: number;
   prompt: string;
   targetAnswer: number;
   targetUnit: string;
+  postscript: string;
   factors: UnpreparedFactor[];
   notes: string;
 }

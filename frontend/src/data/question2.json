@@ -1,5 +1,6 @@
 {
   "id": "fermi-2",
+  "idNum": 2,
   "prompt": "How many piano tuners are there in New York City?",
   "targetAnswer": 1000,
   "targetUnit": "piano tuners in NYC",

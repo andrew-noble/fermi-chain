@@ -1,5 +1,6 @@
 {
   "id": "fermi-1",
+  "idNum": 1,
   "prompt": "How many pizzas are eaten in the U.S. each year?",
   "targetAnswer": 3000000000,
   "unit": "pizzas per year",
