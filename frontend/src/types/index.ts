@@ -18,6 +18,8 @@ export interface UnpreparedFactor {
   rangeStep?: number; //required for ranged factors, specifies how to round the range boundaries, and slider step
 }
 
+//note: don't fuck with ranged fractions for now-- the stepping logic does not work!
+
 export interface Factor extends UnpreparedFactor {
   randomizedRange: [number, number] | null;
 }
