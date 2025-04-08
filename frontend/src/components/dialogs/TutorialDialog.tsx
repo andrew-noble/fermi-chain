@@ -6,26 +6,123 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import {
+  FactorInfoWithLayout,
+  SliderWithLayout,
+} from "@/components/input/InputFactors";
+import { InputtedFactor } from "@/types";
+import { useState } from "react";
 
 interface TutorialDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
+const ExampleFactor = ({
+  factor,
+  isFirst,
+  onValueChange,
+}: {
+  factor: InputtedFactor;
+  isFirst: boolean;
+  onValueChange: (value: number) => void;
+}) => {
+  return (
+    <>
+      {!isFirst && (
+        <div className="flex justify-center items-center h-full">
+          <div className="flex items-center justify-center m-2">
+            <span className="text-2xl">×</span>
+          </div>
+        </div>
+      )}
+      <div className="grid grid-rows-[1fr_auto] bg-card text-card-foreground p-3 rounded-lg gap-2 w-[240px]">
+        <div className="w-full">
+          <div className="flex flex-col gap-2">
+            <p className="text-sm font-medium">{factor.label}</p>
+            <FactorInfoWithLayout factor={factor} />
+            {factor.isRanged && (
+              <div className="w-full">
+                <div className="w-[200px] mx-auto">
+                  <SliderWithLayout
+                    factor={factor}
+                    onSliderChange={onValueChange}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
 export default function TutorialDialog({
   open,
   onOpenChange,
 }: TutorialDialogProps) {
+  const [exampleValue1, setExampleValue1] = useState(5);
+  const [exampleValue2, setExampleValue2] = useState(10);
+
+  const exampleFactor1 = {
+    id: "example1",
+    label: "Average pizzas per month",
+    unit: "pizzas",
+    userSelectedValue: exampleValue1,
+    range: [0, 20] as [number, number],
+    rangeStep: 1,
+    isFraction: false,
+    targetValue: 10,
+    isReciprocal: false,
+    isRanged: true,
+  };
+
+  const exampleFactor2 = {
+    id: "example2",
+    label: "Cost per pizza",
+    unit: "dollars",
+    userSelectedValue: exampleValue2,
+    range: [5, 30] as [number, number],
+    rangeStep: 1,
+    isFraction: false,
+    targetValue: 15,
+    isReciprocal: false,
+    isRanged: true,
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Welcome!</DialogTitle>
+          <DialogTitle className="text-2xl font-bold">How To Play</DialogTitle>
           <DialogDescription>
-            Learn how to play the Fermi Game
+            String together factors to make an estimate
           </DialogDescription>
         </DialogHeader>
-        <p>This is how you play the game...</p>
+        <p className="font-semibold">Example</p>
+        <div className="flex gap-2">
+          <ExampleFactor
+            factor={exampleFactor1}
+            isFirst={true}
+            onValueChange={setExampleValue1}
+          />
+          <ExampleFactor
+            factor={exampleFactor2}
+            isFirst={false}
+            onValueChange={setExampleValue2}
+          />
+        </div>
+        <div className="mt-4 p-4 bg-card text-card-foreground rounded-lg">
+          <p className="text-sm">
+            Monthly pizza spending:{" "}
+            <span className="font-bold">${exampleValue1 * exampleValue2}</span>
+          </p>
+        </div>
+        <hr className="border-gray-200 dark:border-gray-700" />
+        <p>
+          After you finish the daily question, you can revisit old questions
+        </p>
         <Button onClick={() => onOpenChange(false)}>Got it</Button>
       </DialogContent>
     </Dialog>

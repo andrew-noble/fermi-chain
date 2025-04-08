@@ -47,7 +47,7 @@ export default function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
             , which predicts that we should have received alien signals by now
             👽.
           </p>
-          <hr />
+          <hr className="border-gray-200 dark:border-gray-700" />
           <p>
             Built by Andrew Noble. I'd love it if you left feedback via the
             anonymous form on my{" "}
