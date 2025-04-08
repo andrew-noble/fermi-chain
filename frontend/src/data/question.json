@@ -26,16 +26,16 @@
     },
     {
       "label": "Share of households with a piano",
-      "targetValue": 0.015,
-      "unit": "households/piano",
+      "targetValue": 0.05,
+      "unit": "piano/households",
       "isReciprocal": false,
       "isRanged": false,
       "isFraction": true
     },
     {
-      "label": "hours per piano tuning",
+      "label": "Hours per piano tuning",
       "targetValue": 2,
-      "unit": "hours/piano",
+      "unit": "hours/tuning",
       "isReciprocal": true,
       "isRanged": true,
       "isFraction": false,
@@ -61,7 +61,7 @@
     {
       "label": "Tunings per year per piano",
       "targetValue": 1,
-      "unit": "tunings",
+      "unit": "tunings/piano/year",
       "isReciprocal": false,
       "isRanged": false,
       "isFraction": false
