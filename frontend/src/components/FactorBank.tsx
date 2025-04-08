@@ -18,7 +18,14 @@ const FactorBank = ({ factors, onAdd }: FactorBankProps) => {
         <>
           <p className={`font-light ${textSize}`}>{factor.label}</p>
           {/* <p className="text-sm text-muted-foreground">{factor.unit}</p> */}
-          <RangeDisplay factor={factor} textSize={textSize} />
+          <div className="flex items-center justify-center gap-2">
+            {factor.isReciprocal ? (
+              <p className="text-xl text-muted-foreground">÷</p>
+            ) : (
+              <p className="text-xl text-muted-foreground">×</p>
+            )}
+            <RangeDisplay factor={factor} textSize={textSize} />
+          </div>
         </>
       );
     } else {
@@ -27,10 +34,24 @@ const FactorBank = ({ factors, onAdd }: FactorBankProps) => {
           <p className={`font-light ${textSize}`}>{factor.label}</p>
           {/* <p className="text-sm text-muted-foreground">{factor.unit}</p> */}
           {factor.isFraction ? (
-            <FractionDisplay factor={factor} textSize={textSize} />
+            <div className="flex items-center justify-center gap-2">
+              {factor.isReciprocal ? (
+                <p className="text-xl text-muted-foreground">÷</p>
+              ) : (
+                <p className="text-xl text-muted-foreground">×</p>
+              )}
+              <FractionDisplay factor={factor} textSize={textSize} />
+            </div>
           ) : (
             <div className={`${textSize} font-bold text-primary`}>
-              {formatNumber(factor.targetValue)}
+              <div className="flex items-center justify-center gap-2">
+                {factor.isReciprocal ? (
+                  <p className="text-xl text-muted-foreground">÷</p>
+                ) : (
+                  <p className="text-xl text-muted-foreground">×</p>
+                )}
+                {formatNumber(factor.targetValue)}
+              </div>
             </div>
           )}
         </>
