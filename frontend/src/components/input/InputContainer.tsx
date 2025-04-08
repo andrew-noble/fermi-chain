@@ -41,6 +41,9 @@ const InputContainer = ({
   const renderFactor = () => {
     return (
       <div className="flex flex-col gap-2">
+        <p className="text-sm font-light text-muted-foreground">
+          {factor.label}
+        </p>
         <FactorInfoWithLayout factor={factor} />
         {factor.isRanged && (
           <SliderWithLayout

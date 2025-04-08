@@ -53,7 +53,7 @@
     {
       "label": "Weeks per year",
       "targetValue": 52,
-      "unit": "hours",
+      "unit": "weeks/year",
       "isReciprocal": false,
       "isRanged": false,
       "isFraction": false
