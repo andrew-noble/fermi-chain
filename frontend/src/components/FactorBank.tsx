@@ -66,12 +66,12 @@ const FactorBank = ({ factors, onAdd }: FactorBankProps) => {
   };
 
   return (
-    <div className="flex flex-col flex-wrap gap-2 h-[500px] w-[1000px]">
+    <div className="flex flex-row flex-wrap gap-2 w-full max-w-[1000px]">
       {factors.map((factor: Factor) => (
         <Button
           key={factor.label}
           variant="outline"
-          className="w-[calc(50%-0.25rem)] px-4 py-8 flex justify-between items-center hover:bg-accent/50 whitespace-normal break-words"
+          className="w-full md:w-[calc(50%-0.25rem)] px-4 py-8 flex justify-between items-center hover:bg-accent/50 whitespace-normal break-words"
           onClick={() => onAdd(factor)}
         >
           {renderFactor(factor)}

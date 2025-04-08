@@ -56,7 +56,7 @@ const InputArea = ({
           items={factors.map((factor) => factor.id)}
           strategy={rectSortingStrategy}
         >
-          <div className="flex flex-wrap gap-y-4">
+          <div className="flex flex-wrap gap-y-4 justify-center">
             {factors.map((factor, index) => (
               <InputContainer
                 key={factor.id}

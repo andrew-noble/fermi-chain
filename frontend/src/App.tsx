@@ -83,7 +83,7 @@ function App() {
       <TutorialDialog open={tutorialOpen} onOpenChange={setTutorialOpen} />
       <AboutDialog open={aboutOpen} onOpenChange={setAboutOpen} />
 
-      <div className="max-w-4xl w-full mx-auto px-4 py-8 relative min-h-screen flex flex-col">
+      <div className="max-w-4xl w-full mx-auto px-4 py-6 relative min-h-screen flex flex-col">
         <div className="absolute top-0 right-0 flex gap-2">
           <ThemeToggle />
           <Button
@@ -105,14 +105,14 @@ function App() {
 
           <h2 className="text-xl font-semibold mb-2">Factors</h2>
 
-          <div className="mb-12">
+          <div className="mb-6">
             <FactorBank
               factors={question?.factors || []}
               onAdd={handleAddFactor}
             />
           </div>
 
-          <div className="mb-12">
+          <div className="mb-6">
             <InputArea
               factors={userInput}
               onRemoveFactor={handleRemoveFactor}
