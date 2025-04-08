@@ -29,7 +29,7 @@ const FractionDisplay = ({
   }
 
   return (
-    <div className="inline-flex flex-col items-center">
+    <div className="inline-flex flex-col items-center justify-center">
       <div className={`${textSize} font-bold text-primary text-center`}>
         {numerator}
       </div>
