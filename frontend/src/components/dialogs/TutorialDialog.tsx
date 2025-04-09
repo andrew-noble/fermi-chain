@@ -36,7 +36,7 @@ const ExampleFactor = ({
           </div>
         </div>
       )}
-      <div className="grid grid-rows-[1fr_auto] bg-card text-card-foreground p-3 border rounded-lg gap-2 w-[240px]">
+      <div className="grid grid-rows-[1fr_auto] bg-card text-card-foreground p-3 border rounded-lg gap-2 w-full max-w-[240px]">
         <div className="w-full">
           <div className="flex flex-col gap-2">
             <p className="text-sm font-medium">{factor.label}</p>
@@ -93,7 +93,7 @@ export default function TutorialDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="max-w-[95vw] sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">How To Play</DialogTitle>
           <DialogDescription>
@@ -102,7 +102,7 @@ export default function TutorialDialog({
           </DialogDescription>
         </DialogHeader>
         <p className="font-semibold">Example</p>
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <ExampleFactor
             factor={exampleFactor1}
             isFirst={true}
