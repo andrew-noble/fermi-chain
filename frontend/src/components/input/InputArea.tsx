@@ -11,6 +11,8 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { rectSortingStrategy } from "@dnd-kit/sortable";
+import { useState } from "react";
+import { useEffect } from "react";
 
 interface InputAreaProps {
   factors: InputtedFactor[];
@@ -25,17 +27,19 @@ const InputArea = ({
   onRemoveFactor,
   onFactorValueChange,
 }: InputAreaProps) => {
-  //dnd sensors -- conditional to device type
   const isTouchDevice =
     typeof window !== "undefined" &&
     window.matchMedia("(pointer: coarse)").matches;
 
   const sensors = useSensors(
-    useSensor(isTouchDevice ? TouchSensor : PointerSensor, {
-      activationConstraint: isTouchDevice
-        ? { delay: 150, tolerance: 20 }
-        : undefined,
-    })
+    isTouchDevice
+      ? useSensor(TouchSensor, {
+          activationConstraint: {
+            delay: 150,
+            tolerance: 20,
+          },
+        })
+      : useSensor(PointerSensor)
   );
 
   // this is the logic for drag reordering
