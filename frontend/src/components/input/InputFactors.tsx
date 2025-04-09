@@ -22,7 +22,9 @@ const FactorInfoWithLayout = ({ factor }: FactorInfoWithLayoutProps) => {
         {factor.isFraction ? (
           <FractionDisplay factor={factor} textSize={textSize} />
         ) : (
-          <p className={`${textSize} font-bold text-center text-primary`}>
+          <p
+            className={`${textSize} font-bold text-center text-primary min-w-[35px]`}
+          >
             {formatNumber(factor.userSelectedValue)}
           </p>
         )}

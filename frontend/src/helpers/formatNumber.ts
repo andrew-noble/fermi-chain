@@ -30,14 +30,20 @@ export const formatNumber = (num: number): string => {
 
   // For billions (greater than 1 billion)
   if (magnitude >= 9) {
-    // Format as billions with B suffix, no decimals
-    return Math.round(num / 1e9) + "B";
+    // Format as billions with B suffix, show 1 decimal if not whole number
+    const billions = num / 1e9;
+    return (
+      (billions % 1 === 0 ? Math.round(billions) : billions.toFixed(1)) + "B"
+    );
   }
 
   // For millions (greater than 1 million)
   if (magnitude >= 6) {
-    // Format as millions with M suffix, no decimals
-    return Math.round(num / 1e6) + "M";
+    // Format as millions with M suffix, show 1 decimal if not whole number
+    const millions = num / 1e6;
+    return (
+      (millions % 1 === 0 ? Math.round(millions) : millions.toFixed(1)) + "M"
+    );
   }
 
   // For thousands (greater than 1000)

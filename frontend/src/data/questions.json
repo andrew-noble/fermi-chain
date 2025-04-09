@@ -4,8 +4,7 @@
     "prompt": "How many people are flying in airplanes right now?",
     "targetAnswer": 833333,
     "targetUnit": "people in the air",
-    "postscript": "Enough to fill 8 football stadiums, midair! 🏟️✈️",
-
+    "postscript": "~800k is enough to fill 8 football stadiums, midair! 🏟️✈️",
     "factors": [
       {
         "label": "Commercial flights per day (globally)",
@@ -46,9 +45,10 @@
   },
   {
     "id": "fermi-1",
-    "prompt": "How many pizzas are eaten in the U.S. each year?",
-    "targetAnswer": 3000000000,
-    "unit": "pizzas per year",
+    "prompt": "How much acreage of pizza is eaten in the U.S. each week?",
+    "targetAnswer": 1951,
+    "targetUnit": "acres of pizza per week",
+    "postscript": "Central Park, NYC is 850 acres! Yum 🍕",
     "factors": [
       {
         "label": "U.S. population",
@@ -61,7 +61,7 @@
       },
       {
         "label": "Slices eaten per person per week",
-        "targetValue": 3,
+        "targetValue": 2,
         "unit": "slices/person/week",
         "isRanged": true,
         "isFraction": false,
@@ -69,82 +69,80 @@
         "rangeStep": 0.5
       },
       {
-        "label": "Weeks per year",
-        "targetValue": 52,
-        "unit": "weeks/year",
-        "isRanged": false,
-        "isFraction": false
+        "label": "Average pizza area",
+        "targetValue": 1,
+        "unit": "square feet",
+        "isRanged": true,
+        "isFraction": false,
+        "rangePct": 0.33,
+        "rangeStep": 0.5
       },
       {
         "label": "Pizzas per slice",
-        "targetValue": 0.05,
+        "targetValue": 0.125,
         "unit": "pizzas/slice",
+        "isRanged": false,
+        "isFraction": true
+      },
+      {
+        "label": "Acre to square foot",
+        "targetValue": 0.000022957,
+        "unit": "square feet/acre",
         "isRanged": false,
         "isFraction": true
       }
     ],
-    "notes": "Answer is estimated by multiplying population by slices/person/week multiplied by weeks/year and divided by slices per pizza"
+    "notes": ""
   },
   {
     "id": "fermi-2",
-    "prompt": "How many piano tuners are there in New York City?",
-    "targetAnswer": 1000,
-    "targetUnit": "piano tuners in NYC",
+    "prompt": "What volume of air does humanity inhale each day?",
+    "targetAnswer": 110000000000,
+    "targetUnit": "cubic meters of air per day",
+    "postscript": "110B is enough to fill 44 million Olympic swimming pools. Deep breath, planet. 🌬️🌍",
     "factors": [
       {
-        "label": "NYC population",
-        "targetValue": 8800000,
+        "label": "Global population",
+        "targetValue": 8000000000,
         "unit": "people",
         "isRanged": true,
         "isFraction": false,
         "rangePct": 0.2,
-        "rangeStep": 1000000
+        "rangeStep": 500000000
       },
       {
-        "label": "Size of household",
-        "targetValue": 0.4,
-        "unit": "household/person",
+        "label": "Average breaths per minute",
+        "targetValue": 18,
+        "unit": "breaths/person/minute",
         "isRanged": true,
-        "isFraction": true,
-        "rangePct": 0.2,
-        "rangeStep": 0.5
+        "isFraction": false,
+        "rangePct": 0.333,
+        "rangeStep": 1
       },
       {
-        "label": "Share of households with a piano",
-        "targetValue": 0.05,
-        "unit": "piano/households",
-        "isRanged": false,
-        "isFraction": true
-      },
-      {
-        "label": "Piano tunings per hours of labor",
+        "label": "Liters per breath",
         "targetValue": 0.5,
-        "unit": "tunings/hours",
-        "isRanged": false,
-        "isFraction": true
+        "unit": "liters/breath",
+        "isRanged": true,
+        "isFraction": false,
+        "rangePct": 0.5,
+        "rangeStep": 0.25
       },
       {
-        "label": "Piano tuner per hours of labor",
-        "targetValue": 0.05,
-        "unit": "tuner/hours",
-        "isRanged": false,
-        "isFraction": true
-      },
-      {
-        "label": "Year per weeks",
-        "targetValue": 52,
-        "unit": "year/weeks",
+        "label": "Minutes per day",
+        "targetValue": 1440,
+        "unit": "minutes/day",
         "isRanged": false,
         "isFraction": false
       },
       {
-        "label": "Tunings per year per piano",
-        "targetValue": 1,
-        "unit": "tuning/piano/year",
+        "label": "Cubic meters per liter",
+        "targetValue": 0.001,
+        "unit": "cubic meters/liter",
         "isRanged": false,
-        "isFraction": false
+        "isFraction": true
       }
     ],
-    "notes": "Answer is estimated by multiplying population by slices/person/week multiplied by weeks/year and divided by slices per pizza"
+    "notes": ""
   }
 ]

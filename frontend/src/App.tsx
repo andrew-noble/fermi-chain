@@ -21,17 +21,19 @@ import {
 import { formatNumber } from "@/helpers/formatNumber";
 import ResultDialog from "./components/dialogs/ResultDialog";
 
-const getTodaysQuestion = () => {
+const getTodaysQuestion = (questions: UnpreparedQuestion[]) => {
   const start = new Date("2025-04-09");
   const today = new Date();
   const diffTime = Math.abs(today.getTime() - start.getTime());
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-  return rawQuestions[diffDays];
+  return questions[diffDays];
 };
 
 function App() {
   const [question, _] = useState<Question>(
-    augmentQuestionWithFactorRanges(rawQuestions[1] as UnpreparedQuestion) //type assertion necessary to tell ts that augmentQWFR is getting the right type
+    augmentQuestionWithFactorRanges(
+      getTodaysQuestion(rawQuestions) as UnpreparedQuestion
+    ) //type assertion necessary to tell ts that augmentQWFR is getting the right type
   );
   const [userInput, setUserInput] = useState<InputtedFactor[]>([]);
   const [tutorialDialogOpen, setTutorialDialogOpen] = useState(true);
