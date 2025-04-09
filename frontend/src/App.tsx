@@ -11,7 +11,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { HelpCircle } from "lucide-react";
 
-import rawQuestion from "@/data/question.json";
+import rawQuestions from "@/data/questions.json";
 
 import {
   augmentQuestionWithFactorRanges,
@@ -21,9 +21,17 @@ import {
 import { formatNumber } from "@/helpers/formatNumber";
 import ResultDialog from "./components/dialogs/ResultDialog";
 
+const getTodaysQuestion = () => {
+  const start = new Date("2025-04-09");
+  const today = new Date();
+  const diffTime = Math.abs(today.getTime() - start.getTime());
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  return rawQuestions[diffDays];
+};
+
 function App() {
   const [question, _] = useState<Question>(
-    augmentQuestionWithFactorRanges(rawQuestion as UnpreparedQuestion)
+    augmentQuestionWithFactorRanges(rawQuestions[1] as UnpreparedQuestion) //type assertion necessary to tell ts that augmentQWFR is getting the right type
   );
   const [userInput, setUserInput] = useState<InputtedFactor[]>([]);
   const [tutorialDialogOpen, setTutorialDialogOpen] = useState(true);

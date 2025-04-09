@@ -51,11 +51,11 @@ export default function ResultDialog({
           </pre>
 
           <p className="text-zinc-300">
-            📘 <strong>Reference estimate:</strong>{" "}
+            <strong>Reference estimate:</strong>{" "}
             {results.referenceEstimateFormatted} {results.targetUnit}
           </p>
 
-          <p className="text-lg text-zinc-100">{results.postscript} 🏟️</p>
+          <p className="text-lg text-zinc-100">{results.postscript}</p>
 
           <div className="flex justify-center pt-2">
             <Button
