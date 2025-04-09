@@ -26,8 +26,10 @@ export function formatResults(
     })
     .join(" × ");
 
+  const questionIdx = question.id.split("-")[1];
+
   return {
-    questionText: `🎯 Fermi Game #${question.idNum}: “${question.prompt}”`,
+    questionText: `🎯 Fermi Game #${questionIdx}: “${question.prompt}”`,
     reasoningChain,
     userEstimateFormatted: `~${formatNumber(userEstimate)} ${
       question.targetUnit

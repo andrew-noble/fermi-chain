@@ -1,6 +1,5 @@
 export interface UnpreparedQuestion {
   id: string;
-  idNum: number;
   prompt: string;
   targetAnswer: number;
   targetUnit: string;

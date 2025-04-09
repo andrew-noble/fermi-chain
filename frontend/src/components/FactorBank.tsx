@@ -39,7 +39,9 @@ const FactorBank = ({ factors, pickedFactors, onAdd }: FactorBankProps) => {
           ) : (
             <>
               {renderLabel(factor)}
-              {formatNumber(factor.targetValue)}
+              <div className={`${textSize} font-bold text-primary`}>
+                {formatNumber(factor.targetValue)}
+              </div>
             </>
           )}
         </>

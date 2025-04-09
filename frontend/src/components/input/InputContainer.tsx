@@ -68,7 +68,7 @@ const InputContainer = ({
         style={dragStyle}
         className={`${
           isOver && !isDragging ? "opacity-50" : ""
-        } grid grid-rows-[1fr_auto] bg-card text-card-foreground p-4 rounded-lg gap-4`}
+        } grid grid-rows-[1fr_auto] bg-card text-card-foreground border p-4 rounded-lg gap-4`}
       >
         {/* Main content area - factor display and slider */}
         <div className="w-full">{renderFactor()}</div>

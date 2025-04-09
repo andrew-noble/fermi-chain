@@ -36,7 +36,7 @@ const ExampleFactor = ({
           </div>
         </div>
       )}
-      <div className="grid grid-rows-[1fr_auto] bg-card text-card-foreground p-3 rounded-lg gap-2 w-[240px]">
+      <div className="grid grid-rows-[1fr_auto] bg-card text-card-foreground p-3 border rounded-lg gap-2 w-[240px]">
         <div className="w-full">
           <div className="flex flex-col gap-2">
             <p className="text-sm font-medium">{factor.label}</p>
@@ -97,7 +97,8 @@ export default function TutorialDialog({
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">How To Play</DialogTitle>
           <DialogDescription>
-            String together factors to reach the shown estimate
+            String together factors to answer the question. Some factors are
+            fixed, others have a slider to let you make an educated guess.
           </DialogDescription>
         </DialogHeader>
         <p className="font-semibold">Example</p>
