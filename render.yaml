@@ -8,7 +8,10 @@ services:
     routes:
       - type: rewrite
         source: /fermi-game/*
-        destination: /*
+        destination: /index.html
+      - type: rewrite
+        source: /fermi-game/assets/*
+        destination: /assets/:splat
     headers:
       - path: /*
         name: Cache-Control
