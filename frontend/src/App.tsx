@@ -112,18 +112,23 @@ function App() {
       />
 
       <div className="max-w-5xl w-full mx-auto px-4 py-6 relative min-h-screen flex flex-col">
-        <div className="absolute top-0 right-0 flex gap-2">
-          <ThemeToggle />
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setTutorialDialogOpen(true)}
-          >
-            <HelpCircle className="h-8 w-8" />
-          </Button>
-          <Button variant="ghost" onClick={() => setAboutDialogOpen(true)}>
-            About
-          </Button>
+        <div className="flex justify-between items-center">
+          <p className="text-sm text-muted-foreground">
+            New question every day!
+          </p>
+          <div className="flex gap-2">
+            <ThemeToggle />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTutorialDialogOpen(true)}
+            >
+              <HelpCircle className="h-8 w-8" />
+            </Button>
+            <Button variant="ghost" onClick={() => setAboutDialogOpen(true)}>
+              About
+            </Button>
+          </div>
         </div>
 
         <div className="flex flex-col items-center">

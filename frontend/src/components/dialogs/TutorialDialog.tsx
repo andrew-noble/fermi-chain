@@ -122,7 +122,8 @@ export default function TutorialDialog({
             </span>
           </p>
         </div>
-
+        <hr />
+        <p className="text-sm">There's a new question each day!</p>
         <Button onClick={() => onOpenChange(false)}>Got it</Button>
       </DialogContent>
     </Dialog>
