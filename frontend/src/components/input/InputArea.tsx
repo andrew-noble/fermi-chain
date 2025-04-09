@@ -2,7 +2,7 @@ import { InputtedFactor } from "@/types";
 import InputContainer from "@/components/input/InputContainer";
 
 //dnd imports
-import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import { DndContext, DragEndEvent, TouchSensor } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import {
   closestCenter,
@@ -25,8 +25,18 @@ const InputArea = ({
   onRemoveFactor,
   onFactorValueChange,
 }: InputAreaProps) => {
-  //dnd sensors -- it sets up event listeners
-  const sensors = useSensors(useSensor(PointerSensor));
+  //dnd sensors -- conditional to device type
+  const isTouchDevice =
+    typeof window !== "undefined" &&
+    window.matchMedia("(pointer: coarse)").matches;
+
+  const sensors = useSensors(
+    useSensor(isTouchDevice ? TouchSensor : PointerSensor, {
+      activationConstraint: isTouchDevice
+        ? { delay: 150, tolerance: 20 }
+        : undefined,
+    })
+  );
 
   // this is the logic for drag reordering
   const handleDragEnd = (event: DragEndEvent) => {
