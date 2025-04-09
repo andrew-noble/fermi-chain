@@ -11,8 +11,6 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { rectSortingStrategy } from "@dnd-kit/sortable";
-import { useState } from "react";
-import { useEffect } from "react";
 
 interface InputAreaProps {
   factors: InputtedFactor[];
