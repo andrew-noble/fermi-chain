@@ -63,7 +63,7 @@ const SliderWithLayout = ({
 
   return (
     <div className="flex justify-center items-center w-full">
-      <div className="w-[240px]">
+      <div className="w-[240px] py-2">
         <Slider
           min={min}
           max={max}
