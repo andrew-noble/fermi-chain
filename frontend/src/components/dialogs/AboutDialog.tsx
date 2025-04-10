@@ -57,8 +57,8 @@ export default function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
           </p>
           <hr className="border-gray-200 dark:border-gray-700" />
           <p>
-            Built by Andrew Noble. I'd love it if you left feedback via the
-            anonymous form on my{" "}
+            Built by Andrew Noble. If you have feedback or ideas, I'd love to
+            hear it in the anonymous form on my{" "}
             <a
               href="https://www.andrewnoble.me"
               target="_blank"
