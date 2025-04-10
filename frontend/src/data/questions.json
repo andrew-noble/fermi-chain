@@ -5,6 +5,7 @@
     "targetAnswer": 833333,
     "targetUnit": "people in the air",
     "postscript": "~800k is enough to fill 8 football stadiums, midair! 🏟️✈️",
+    "notes": "Estimates how many people are currently in the air worldwide. The answer is surprisingly intuitive and leads to a great visual postscript: 'Enough to fill 8 football stadiums, all flying midair.'",
     "factors": [
       {
         "label": "Commercial flights per day (globally)",
@@ -40,8 +41,7 @@
         "isFraction": true,
         "isRanged": false
       }
-    ],
-    "notes": "Estimates how many people are currently in the air worldwide. The answer is surprisingly intuitive and leads to a great visual postscript: 'Enough to fill 8 football stadiums, all flying midair.'"
+    ]
   },
   {
     "id": "fermi-1",
@@ -49,6 +49,7 @@
     "targetAnswer": 1951,
     "targetUnit": "acres of pizza per week",
     "postscript": "Central Park, NYC is 850 acres! Yum 🍕",
+    "notes": "",
     "factors": [
       {
         "label": "U.S. population",
@@ -91,8 +92,7 @@
         "isRanged": false,
         "isFraction": true
       }
-    ],
-    "notes": ""
+    ]
   },
   {
     "id": "fermi-2",
@@ -100,6 +100,7 @@
     "targetAnswer": 110000000000,
     "targetUnit": "cubic meters of air per day",
     "postscript": "110B is enough to fill 44 million Olympic swimming pools. Deep breath, planet. 🌬️🌍",
+    "notes": "",
     "factors": [
       {
         "label": "Global population",
@@ -142,7 +143,50 @@
         "isRanged": false,
         "isFraction": true
       }
-    ],
-    "notes": ""
+    ]
+  },
+  {
+    "id": "fermi-3",
+    "prompt": "How many gallons of coffee are consumed per day in the U.S.?",
+    "targetAnswer": 25500000,
+    "targetUnit": "gallons of coffee per day",
+    "postscript": "That's ~39 Olympic pools of coffee every single day. Caffeine nation! 🏊‍♂️☕",
+    "notes": "",
+    "factors": [
+      {
+        "label": "U.S. population",
+        "targetValue": 340000000,
+        "unit": "people",
+        "isRanged": true,
+        "isFraction": false,
+        "rangePct": 0.1,
+        "rangeStep": 10000000
+      },
+      {
+        "label": "Coffee drinkers per person",
+        "targetValue": 0.6,
+        "unit": "share of population",
+        "isRanged": true,
+        "isFraction": false,
+        "rangePct": 0.25,
+        "rangeStep": 0.05
+      },
+      {
+        "label": "Cups per coffee drinker per day",
+        "targetValue": 2,
+        "unit": "cups/person/day",
+        "isRanged": true,
+        "isFraction": false,
+        "rangePct": 0.25,
+        "rangeStep": 0.5
+      },
+      {
+        "label": "Gallons per cup",
+        "targetValue": 0.0625,
+        "unit": "gallons/cup",
+        "isRanged": false,
+        "isFraction": true
+      }
+    ]
   }
 ]

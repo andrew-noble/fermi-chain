@@ -28,6 +28,13 @@ export const formatNumber = (num: number): string => {
     return num.toExponential(2);
   }
 
+  // For trillions (greater than 1 trillion)
+  if (magnitude >= 12) {
+    // Format as trillions with T suffix, show only whole numbers
+    const trillions = num / 1e12;
+    return Math.round(trillions) + "T";
+  }
+
   // For billions (greater than 1 billion)
   if (magnitude >= 9) {
     // Format as billions with B suffix, show 1 decimal if not whole number

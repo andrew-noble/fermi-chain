@@ -26,14 +26,15 @@ const getTodaysQuestion = (questions: UnpreparedQuestion[]) => {
   const today = new Date();
   const diffTime = Math.abs(today.getTime() - start.getTime());
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-  return questions[diffDays];
+  const idx = diffDays % questions.length; //wrap questions for now
+  return questions[idx];
 };
 
 function App() {
   const [question, _] = useState<Question>(
     augmentQuestionWithFactorRanges(
       getTodaysQuestion(rawQuestions) as UnpreparedQuestion
-    ) //type assertion necessary to tell ts that augmentQWFR is getting the right type
+    )
   );
   const [userInput, setUserInput] = useState<InputtedFactor[]>([]);
   const [tutorialDialogOpen, setTutorialDialogOpen] = useState(true);

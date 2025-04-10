@@ -49,6 +49,14 @@ export default function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
           </p>
           <hr className="border-gray-200 dark:border-gray-700" />
           <p>
+            I got some great feedback and interest on this idea. As of April 11,
+            2025, I am currently building a much-improved v2.{" "}
+          </p>
+          <p>
+            In the meantime, this game cycles through 4 different questions.
+          </p>
+          <hr className="border-gray-200 dark:border-gray-700" />
+          <p>
             Built by Andrew Noble. I'd love it if you left feedback via the
             anonymous form on my{" "}
             <a
