@@ -1,35 +1,32 @@
-export interface UnpreparedQuestion {
+export type Dimension = string;
+
+export interface Unit {
+  id: string; // non-display string "liters"
+  name: string; // "liters or litros if translate long term"
+  display?: string; //if not provided, name will be used
+  dimension: Dimension;
+}
+
+export interface OOM {
+  id: string; //"1e6, 1e12, 1e3"
+  nameISO?: string; //"mega, giga, kilo"
+  nameShortScale?: string; //"million, billion, thousand"
+  value: number;
+}
+
+export interface Factor {
+  id: string; //will be a uuid (i think?)
+  numeratorUnits: Unit[];
+  denominatorUnits: Unit[];
+  numeratorOOM: OOM; //i think these don't need to be lists
+  denominatorOOM: OOM;
+}
+
+export interface Question {
   id: string;
   prompt: string;
   targetAnswer: number;
-  targetUnit: string;
-  postscript: string;
-  factors: UnpreparedFactor[];
-  notes: string;
-}
-
-export interface UnpreparedFactor {
-  label: string;
-  targetValue: number;
-  unit: string;
-  isFraction: boolean;
-  isRanged: boolean;
-
-  rangePct?: number; //if ranged, this is the percentage of the range to use
-  rangeStep?: number; //required for ranged factors, specifies how to round the range boundaries, and slider step
-}
-
-//note: don't fuck with ranged fractions for now-- the stepping logic does not work!
-
-export interface Factor extends UnpreparedFactor {
-  randomizedRange: [number, number] | null;
-}
-
-export interface Question extends UnpreparedQuestion {
-  factors: Factor[];
-}
-
-export interface InputtedFactor extends Factor {
-  id: string;
-  userSelectedValue: number;
+  targetOOM: OOM;
+  targetNumeratorUnit: Unit; //not sure if this can be null
+  targetDenominatorUnit: Unit | null;
 }
