@@ -1,6 +1,6 @@
 import { useReducer } from "react";
-import { GameState, GameAction } from "./types/gameTypes";
-import { Factor } from "./types";
+import { GameState, GameAction } from "@/types/gameTypes";
+import { Factor } from "@/types";
 
 //this is the finite state machine
 const gameReducer = (state: GameState, action: GameAction) => {

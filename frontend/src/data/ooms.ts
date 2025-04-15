@@ -34,4 +34,10 @@ export const OOMS = Array.from({ length: 25 }, (_, i) => {
 export const OOMS_MAP = new Map(OOMS.map((oom) => [oom.id, oom]));
 
 // Helper functions
-export const getOOM = (id: string) => OOMS_MAP.get(id);
+export const getOOM = (id: string): OOM => {
+  const oom = OOMS_MAP.get(id);
+  if (!oom) {
+    throw new Error(`Invalid OOM ID: ${id}`);
+  }
+  return oom;
+};

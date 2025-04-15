@@ -1,20 +1,22 @@
 import { useState, useEffect } from "react";
 
-import ThemeToggle from "./components/ThemeToggle";
-import AboutDialog from "@/components/AboutDialog";
-import { Button } from "./components/ui/button";
-import useGameLogic from "./useGameReducer";
-import question from "./question.json";
-import { Factor, OOM, Question, Unit } from "./types";
-import { OOMS } from "./data/ooms";
-import { emptyFactor } from "./data/emptyFactor";
+import ThemeToggle from "@/components/theme/ThemeToggle";
+import AboutDialog from "@/components/dialogs/AboutDialog";
+import { Button } from "@/components/ui/button";
+import useGameLogic from "@/hooks/game/useGameReducer";
+import useStagingAreaReducer from "@/hooks/game/useStagingAreaReducer";
+import question from "@/data/question.json";
+import { OOM, Question } from "@/types";
+import { OOMS } from "@/data/ooms";
 
 function App() {
   const { state, doGameLogic } = useGameLogic({
     question: question as Question,
     userFactors: [],
   });
-  const [stagingAreaState, setStagingAreaState] = useState<Factor>(emptyFactor);
+  const { state: stagingAreaState, doStagingAreaLogic } =
+    useStagingAreaReducer();
+
   const [selectedNumOOM, setSelectedNumOOM] = useState<OOM>(OOMS[0]);
   const [selectedDenOOM, setSelectedDenOOM] = useState<OOM>(OOMS[0]);
 
@@ -32,33 +34,33 @@ function App() {
     return result;
   };
 
-  const addUnitToStagingAreaNumerator = (unit: Unit) => {
-    setStagingAreaState({
-      ...stagingAreaState,
-      numeratorUnits: [...stagingAreaState.numeratorUnits, unit],
-    });
-  };
+  // const addUnitToStagingAreaNumerator = (unit: Unit) => {
+  //   setStagingAreaState({
+  //     ...stagingAreaState,
+  //     numeratorUnits: [...stagingAreaState.numeratorUnits, unit],
+  //   });
+  // };
 
-  const addUnitToStagingAreaDenominator = (unit: Unit) => {
-    setStagingAreaState({
-      ...stagingAreaState,
-      denominatorUnits: [...stagingAreaState.denominatorUnits, unit],
-    });
-  };
+  // const addUnitToStagingAreaDenominator = (unit: Unit) => {
+  //   setStagingAreaState({
+  //     ...stagingAreaState,
+  //     denominatorUnits: [...stagingAreaState.denominatorUnits, unit],
+  //   });
+  // };
 
-  const setStagingAreaNumOOM = (oom: OOM) => {
-    setStagingAreaState({
-      ...stagingAreaState,
-      numeratorOOM: oom,
-    });
-  };
+  // const setStagingAreaNumOOM = (oom: OOM) => {
+  //   setStagingAreaState({
+  //     ...stagingAreaState,
+  //     numeratorOOM: oom,
+  //   });
+  // };
 
-  const setStagingAreaDenOOM = (oom: OOM) => {
-    setStagingAreaState({
-      ...stagingAreaState,
-      denominatorOOM: oom,
-    });
-  };
+  // const setStagingAreaDenOOM = (oom: OOM) => {
+  //   setStagingAreaState({
+  //     ...stagingAreaState,
+  //     denominatorOOM: oom,
+  //   });
+  // };
 
   return (
     <>
@@ -74,10 +76,12 @@ function App() {
           <div key={unit.id}>
             <h3>{unit.name}</h3>
             <p className="text-sm text-gray-500">{unit.dimension}</p>
-            <Button onClick={() => addUnitToStagingAreaNumerator(unit)}>
+            <Button onClick={() => doStagingAreaLogic.addUnitToNumerator(unit)}>
               Add Numerator
             </Button>
-            <Button onClick={() => addUnitToStagingAreaDenominator(unit)}>
+            <Button
+              onClick={() => doStagingAreaLogic.addUnitToDenominator(unit)}
+            >
               Add Denominator
             </Button>
           </div>
@@ -110,7 +114,11 @@ function App() {
               </option>
             ))}
           </select>
-          <Button onClick={() => setStagingAreaNumOOM(selectedNumOOM)}>
+          <Button
+            onClick={() =>
+              doStagingAreaLogic.updateNumeratorOOM(selectedNumOOM)
+            }
+          >
             Set Numerator OOM
           </Button>
         </div>
@@ -132,17 +140,19 @@ function App() {
               </option>
             ))}
           </select>
-          <Button onClick={() => setStagingAreaDenOOM(selectedDenOOM)}>
+          <Button
+            onClick={() =>
+              doStagingAreaLogic.updateDenominatorOOM(selectedDenOOM)
+            }
+          >
             Set Denominator OOM
           </Button>
         </div>
-        <Button onClick={() => setStagingAreaState(emptyFactor)}>
-          Reset SA
-        </Button>
+        <Button onClick={() => doStagingAreaLogic.reset()}>Reset SA</Button>
         <Button
           onClick={() => {
             doGameLogic.addFactor(stagingAreaState);
-            setStagingAreaState(emptyFactor);
+            doStagingAreaLogic.reset();
           }}
         >
           Add Factor
