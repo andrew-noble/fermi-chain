@@ -1,4 +1,4 @@
-import { OOM, Unit } from ".";
+import { Oom, Unit } from ".";
 
 // Primitive Types
 type UnitId = string;
@@ -19,8 +19,8 @@ export type UnitInventory = {
 // Base Types
 export interface BaseFactor {
   units: UnitInventory;
-  numeratorOOM: OOM;
-  denominatorOOM: OOM;
+  numeratorOom: Oom;
+  denominatorOom: Oom;
 }
 
 // Game State Types
@@ -28,7 +28,7 @@ export interface Question {
   id: string;
   prompt: string;
   targetAnswer: number;
-  targetOOM: OOM;
+  targetOom: Oom;
   targetUnits: UnitInventory;
   usefulUnitList: Unit[];
 }

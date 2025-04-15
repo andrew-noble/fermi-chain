@@ -3,24 +3,23 @@ import { useState, useEffect } from "react";
 import ThemeToggle from "@/components/theme/ThemeToggle";
 import AboutDialog from "@/components/dialogs/AboutDialog";
 import { Button } from "@/components/ui/button";
+
 import useGameLogic from "@/hooks/game/useGameReducer";
 import useStagingAreaReducer from "@/hooks/game/useStagingAreaReducer";
-import question from "@/data/question.json";
-import { Factor, OOM, Question } from "@/types";
-import { OOMS } from "@/data/ooms";
-import { v4 as uuidv4 } from "uuid";
+
+import { Factor, Oom } from "@/types";
 import { StagingAreaState } from "@/types/stagingAreaTypes";
 
+import { ooms, getOomById } from "@/data/ooms";
+import { v4 as uuidv4 } from "uuid";
+
 function App() {
-  const game = useGameLogic({
-    question: question as Question,
-    userFactors: [],
-  });
+  const game = useGameLogic();
 
   const stagingArea = useStagingAreaReducer();
 
-  const [selectedNumOOM, setSelectedNumOOM] = useState<OOM>(OOMS[0]);
-  const [selectedDenOOM, setSelectedDenOOM] = useState<OOM>(OOMS[0]);
+  const [selectedNumOOM, setSelectedNumOOM] = useState<Oom>(getOomById("1e0"));
+  const [selectedDenOOM, setSelectedDenOOM] = useState<Oom>(getOomById("1e0"));
 
   const [aboutDialogOpen, setAboutDialogOpen] = useState(false);
 
@@ -33,8 +32,8 @@ function App() {
   const handleAddFactor = (stagingAreaState: StagingAreaState) => {
     const newFactor: Factor = {
       id: uuidv4(),
-      numeratorOOM: stagingAreaState.numeratorOOM,
-      denominatorOOM: stagingAreaState.denominatorOOM,
+      numeratorOom: stagingAreaState.numeratorOom,
+      denominatorOom: stagingAreaState.denominatorOom,
       units: stagingAreaState.units,
     };
     game.doGameLogic.addFactor(newFactor);
@@ -91,19 +90,19 @@ function App() {
             )
           )}
         </p>
-        <p>Num OOM: {stagingArea.state.numeratorOOM.id}</p>
-        <p>Den OOM: {stagingArea.state.denominatorOOM.id}</p>
+        <p>Num OOM: {stagingArea.state.numeratorOom.id}</p>
+        <p>Den OOM: {stagingArea.state.denominatorOom.id}</p>
         <div className="bg-red-400 p-4 rounded-lg m-3">
           <label htmlFor="oom-select-numerator">Select OOM for numerator</label>
           <select
             id="oom-select-numerator"
             value={selectedNumOOM.id}
             onChange={(e) => {
-              const selected = OOMS.find((oom) => oom.id === e.target.value);
+              const selected = ooms.find((oom) => oom.id === e.target.value);
               if (selected) setSelectedNumOOM(selected);
             }}
           >
-            {OOMS.map((oom) => (
+            {ooms.map((oom) => (
               <option className="bg-blue-300" key={oom.id} value={oom.id}>
                 {`10^${oom.exponent}`}
               </option>
@@ -125,11 +124,11 @@ function App() {
             id="oom-select-denominator"
             value={selectedDenOOM.id}
             onChange={(e) => {
-              const selected = OOMS.find((oom) => oom.id === e.target.value);
+              const selected = ooms.find((oom) => oom.id === e.target.value);
               if (selected) setSelectedDenOOM(selected);
             }}
           >
-            {OOMS.map((oom) => (
+            {ooms.map((oom) => (
               <option className="bg-blue-300" key={oom.id} value={oom.id}>
                 {`10^${Math.log10(oom.value)}`}
               </option>
@@ -162,7 +161,7 @@ function App() {
         <h2 className="text-lg font-bold">Current Game State:</h2>
         <p>
           Your (cancelled) units:{" "}
-          {Object.entries(game.netUserUnits).map(
+          {Object.entries(game.derivedState.netUserUnits).map(
             ([id, { count, unitMetadata }]) => (
               <span key={id}>
                 {unitMetadata.name} (
@@ -174,7 +173,7 @@ function App() {
             )
           )}
         </p>
-        <p>Your Answer: {game.netUserAnswer}</p>
+        <p>Your Answer: {game.derivedState.netUserOom.value}</p>
         <Button onClick={() => game.doGameLogic.reset()}>Reset</Button>
       </div>
 
@@ -182,8 +181,14 @@ function App() {
       {game.state.userFactors.length > 0 && (
         <div className="bg-orange-400 p-4 rounded-lg m-3">
           <h2 className="text-lg font-bold">Win?</h2>
-          <p>{game.isCorrectOOM ? "Correct OOM!" : "Incorrect OOM!"}</p>
-          <p>{game.isCorrectUnits ? "Correct Units!" : "Incorrect Units!"}</p>
+          <p>
+            {game.derivedState.isCorrectOom ? "Correct OOM!" : "Incorrect OOM!"}
+          </p>
+          <p>
+            {game.derivedState.isCorrectUnits
+              ? "Correct Units!"
+              : "Incorrect Units!"}
+          </p>
         </div>
       )}
     </>

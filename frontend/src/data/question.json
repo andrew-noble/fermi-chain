@@ -2,7 +2,7 @@
   "id": "1",
   "prompt": "How many golf balls can fit in a school bus?",
   "targetAnswer": 32735232,
-  "targetOOM": {
+  "targetOom": {
     "id": "1e7",
     "nameShortScale": "tens-of-millions",
     "value": 10000000,

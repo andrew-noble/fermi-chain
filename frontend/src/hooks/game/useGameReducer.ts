@@ -1,16 +1,23 @@
 import { useReducer } from "react";
-import { GameState, GameAction } from "@/types/gameTypes";
-import { Factor, UnitInventory } from "@/types";
+import question from "@/data/question.json";
+import { Factor, Oom, UnitInventory, GameState, GameAction } from "@/types";
+import { flattenUnits, isSameUnits } from "@/helpers/unitManagement";
+import { isSameOom, flattenOoms } from "@/helpers/oomManagement";
 
-//global finite state machine for the whole app
-const gameReducer = (state: GameState, action: GameAction) => {
+// Reducer for managing the game state (list of user factors)
+const gameReducer: React.Reducer<GameState, GameAction> = (
+  state: GameState,
+  action: GameAction
+): GameState => {
   switch (action.type) {
     case "ADD-FACTOR":
+      // Add a new factor to the user's list
       return {
         ...state,
         userFactors: [...state.userFactors, action.factor],
       };
     case "REMOVE-FACTOR":
+      // Remove a factor by id
       return {
         ...state,
         userFactors: state.userFactors.filter(
@@ -18,6 +25,7 @@ const gameReducer = (state: GameState, action: GameAction) => {
         ),
       };
     case "UPDATE-FACTOR":
+      // Update a factor by id
       return {
         ...state,
         userFactors: state.userFactors.map((factor) =>
@@ -25,72 +33,32 @@ const gameReducer = (state: GameState, action: GameAction) => {
         ),
       };
     case "RESET":
-      return {
-        ...state,
-        userFactors: [],
-      };
+      // Reset all user factors
+      return stateInit;
     default:
       return state;
   }
 };
 
-//derived state functions -- for transforming single source of truth state into displayable format
-const calculateUserAnswer = (state: GameState) => {
-  const result = state.userFactors.reduce((acc, factor) => {
-    return acc * (factor.numeratorOOM.value / factor.denominatorOOM.value);
-  }, 1);
-  return result;
+const stateInit: GameState = {
+  question: question,
+  userFactors: [],
 };
 
-const calculateUserUnits = (state: GameState) => {
-  const masterInv: UnitInventory = {};
+export default function useGameLogic(initState: GameState = stateInit) {
+  const [state, dispatch] = useReducer(gameReducer, initState);
 
-  //first, loop through the user's factors and compile their units into a master unitInventory
-  //very gross but it works
-  state.userFactors.forEach((factor) => {
-    const thisFactorsUnits = Object.entries(factor.units);
-    for (const [unitId, unitCount] of thisFactorsUnits) {
-      if (!masterInv[unitId]) {
-        //init if this unit hasn't been seen yet
-        masterInv[unitId] = { ...unitCount };
-      } else {
-        //otherwise, record its count
-        masterInv[unitId].count += factor.units[unitId].count;
-      }
-    }
-  });
+  // Extract ooms from all user factors for calculation
+  const numerators: Oom[] = state.userFactors.map((f) => f.numeratorOom);
+  const denominators: Oom[] = state.userFactors.map((f) => f.denominatorOom);
 
-  //TO-DO: modularize this-- its also used in StagingAreaReducer
-  //strip out units with quantity 0. My eyes, they hurt
-  const result = Object.entries(masterInv).reduce<UnitInventory>(
-    (acc, [id, { count, unitMetadata }]) => {
-      if (count != 0) {
-        acc[id] = { count, unitMetadata };
-      }
-      return acc;
-    },
-    {}
+  //-----Derived State for Display and Usage------
+  const netOom: Oom = flattenOoms(numerators, denominators);
+  const netUnits: UnitInventory = flattenUnits(
+    state.userFactors.map((f) => f.units)
   );
-
-  return result;
-};
-
-const isCorrectOOM = (state: GameState) => {
-  const targetOOM = Math.floor(Math.log10(state.question.targetAnswer));
-  //for now much of this is useless bc input is only powers of 10
-  const userOOM = Math.floor(Math.log10(calculateUserAnswer(state)));
-  return userOOM == targetOOM;
-};
-
-const isCorrectUnits = (state: GameState) => {
-  const areEqual =
-    JSON.stringify(calculateUserUnits(state)) ===
-    JSON.stringify(state.question.targetUnits);
-  return areEqual;
-};
-
-export default function useGameLogic(initialState: GameState) {
-  const [state, dispatch] = useReducer(gameReducer, initialState);
+  const isCorrectOom = isSameOom(state.question.targetAnswer, netOom.value);
+  const isCorrectUnits = isSameUnits(netUnits, state.question.targetUnits);
 
   return {
     state: state,
@@ -102,9 +70,11 @@ export default function useGameLogic(initialState: GameState) {
         dispatch({ type: "UPDATE-FACTOR", factor }),
       reset: () => dispatch({ type: "RESET" }),
     },
-    netUserAnswer: calculateUserAnswer(state),
-    netUserUnits: calculateUserUnits(state),
-    isCorrectOOM: isCorrectOOM(state),
-    isCorrectUnits: isCorrectUnits(state),
+    derivedState: {
+      netUserOom: netOom,
+      netUserUnits: netUnits,
+      isCorrectOom: isCorrectOom,
+      isCorrectUnits: isCorrectUnits,
+    },
   };
 }

@@ -1,4 +1,4 @@
-import { OOM } from "@/types";
+import { Oom } from "@/types";
 
 // Named entries for special OOMs
 const namedEntries: Record<
@@ -17,7 +17,7 @@ const namedEntries: Record<
 };
 
 // Generate the array programmatically
-export const OOMS = Array.from({ length: 25 }, (_, i) => {
+export const ooms = Array.from({ length: 25 }, (_, i) => {
   const power = i - 12; // From -12 to 12
   const id = `1e${power}`;
   const value = Math.pow(10, power);
@@ -27,14 +27,14 @@ export const OOMS = Array.from({ length: 25 }, (_, i) => {
     value,
     exponent: power,
     ...(namedEntries[id] || {}),
-  } as OOM;
+  } as Oom;
 });
 
 // Create a Map for efficient lookups
-export const OOMS_MAP = new Map(OOMS.map((oom) => [oom.id, oom]));
+export const OOMS_MAP = new Map(ooms.map((oom) => [oom.id, oom]));
 
 // Helper functions
-export const getOOM = (id: string): OOM => {
+export const getOomById = (id: string): Oom => {
   const oom = OOMS_MAP.get(id);
   if (!oom) {
     throw new Error(`Invalid OOM ID: ${id}`);

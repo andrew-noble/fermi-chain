@@ -1,4 +1,4 @@
-import { OOM, Unit } from ".";
+import { Oom, Unit } from ".";
 import { BaseFactor } from "./gameTypes";
 
 // Define specific action types
@@ -24,12 +24,12 @@ interface RemoveUnitFromDenominatorAction {
 
 interface UpdateNumeratorOOMAction {
   type: "UPDATE-NUMERATOR-OOM";
-  oom: OOM;
+  oom: Oom;
 }
 
 interface UpdateDenominatorOOMAction {
   type: "UPDATE-DENOMINATOR-OOM";
-  oom: OOM;
+  oom: Oom;
 }
 
 interface ResetStagingAreaAction {

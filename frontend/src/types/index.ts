@@ -1,14 +1,22 @@
-import { Dimension, Unit, OOM } from "./primitives";
-import { StagingAreaState } from "./stagingAreaTypes";
-import { GameState, Factor, Question, UnitInventory } from "./gameTypes";
+import { Dimension, Unit, Oom } from "./primitives";
+import { StagingAreaState, StagingAreaAction } from "./stagingAreaTypes";
+import {
+  GameState,
+  Factor,
+  Question,
+  UnitInventory,
+  GameAction,
+} from "./gameTypes";
 
 export type {
   Dimension,
   Unit,
-  OOM,
+  Oom,
   Factor,
   Question,
-  StagingAreaState,
   GameState,
   UnitInventory,
+  GameAction,
+  StagingAreaState,
+  StagingAreaAction,
 };
