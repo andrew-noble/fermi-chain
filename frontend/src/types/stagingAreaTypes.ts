@@ -35,6 +35,13 @@ interface ResetStagingAreaAction {
   type: "RESET";
 }
 
+export interface StagingAreaState {
+  numeratorUnits: Unit[];
+  denominatorUnits: Unit[];
+  numeratorOOM: OOM;
+  denominatorOOM: OOM;
+}
+
 export type StagingAreaAction =
   | AddUnitToNumeratorAction
   | AddUnitToDenominatorAction

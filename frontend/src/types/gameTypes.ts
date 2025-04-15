@@ -1,5 +1,21 @@
-import { Question } from ".";
-import { Factor } from ".";
+import { OOM, Unit } from ".";
+
+export interface Question {
+  id: string;
+  prompt: string;
+  targetAnswer: number;
+  targetOOM: OOM;
+  targetUnits: { numeratorUnits: Unit[] | []; denominatorUnits: Unit[] | [] };
+  units: Unit[];
+}
+
+export interface Factor {
+  id: string; //will be a uuid (i think?)
+  numeratorUnits: Unit[] | [];
+  denominatorUnits: Unit[] | [];
+  numeratorOOM: OOM; //i think these don't need to be lists
+  denominatorOOM: OOM;
+}
 
 export interface GameState {
   question: Question;
