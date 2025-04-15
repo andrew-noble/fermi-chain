@@ -3,7 +3,7 @@ import { StagingAreaAction } from "@/types/stagingAreaTypes";
 import { Factor, Unit, OOM } from "@/types";
 import { getOOM } from "@/data/ooms";
 
-//this is the finite state machine
+//state managing reducer for the factor staging area
 const stagingAreaReducer = (state: Factor, action: StagingAreaAction) => {
   switch (action.type) {
     case "ADD-UNIT-TO-NUMERATOR":

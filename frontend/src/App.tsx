@@ -10,10 +10,11 @@ import { OOM, Question } from "@/types";
 import { OOMS } from "@/data/ooms";
 
 function App() {
-  const { state, doGameLogic } = useGameLogic({
-    question: question as Question,
-    userFactors: [],
-  });
+  const { state, doGameLogic, calculateUserAnswer, calculateUserUnits } =
+    useGameLogic({
+      question: question as Question,
+      userFactors: [],
+    });
   const { state: stagingAreaState, doStagingAreaLogic } =
     useStagingAreaReducer();
 
@@ -26,41 +27,6 @@ function App() {
     const theme = localStorage.getItem("theme") || "light";
     document.documentElement.classList.toggle("dark", theme === "dark");
   }, []);
-
-  const calculateAnswer = () => {
-    const result = state.userFactors.reduce((acc, factor) => {
-      return acc * (factor.numeratorOOM.value / factor.denominatorOOM.value);
-    }, 1);
-    return result;
-  };
-
-  // const addUnitToStagingAreaNumerator = (unit: Unit) => {
-  //   setStagingAreaState({
-  //     ...stagingAreaState,
-  //     numeratorUnits: [...stagingAreaState.numeratorUnits, unit],
-  //   });
-  // };
-
-  // const addUnitToStagingAreaDenominator = (unit: Unit) => {
-  //   setStagingAreaState({
-  //     ...stagingAreaState,
-  //     denominatorUnits: [...stagingAreaState.denominatorUnits, unit],
-  //   });
-  // };
-
-  // const setStagingAreaNumOOM = (oom: OOM) => {
-  //   setStagingAreaState({
-  //     ...stagingAreaState,
-  //     numeratorOOM: oom,
-  //   });
-  // };
-
-  // const setStagingAreaDenOOM = (oom: OOM) => {
-  //   setStagingAreaState({
-  //     ...stagingAreaState,
-  //     denominatorOOM: oom,
-  //   });
-  // };
 
   return (
     <>
@@ -173,7 +139,17 @@ function App() {
             factor.denominatorUnits.map((unit) => unit.name).join(", ")
           )}
         </p>
-        <p>Answer: {calculateAnswer()}</p>
+        <p>
+          Final Units:{" "}
+          {calculateUserUnits()
+            .numeratorUnits.map((unit) => unit.name)
+            .join("-")}{" "}
+          /{" "}
+          {calculateUserUnits()
+            .denominatorUnits.map((unit) => unit.name)
+            .join("-")}
+        </p>
+        <p>Answer: {calculateUserAnswer()}</p>
       </div>
 
       <Button onClick={() => doGameLogic.reset()}>Reset</Button>
