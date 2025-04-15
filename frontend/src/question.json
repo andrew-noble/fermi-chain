@@ -8,9 +8,26 @@
     "value": 10000000
   },
   "targetNumeratorUnit": {
-    "id": "golf balls",
+    "id": "golf-balls",
     "name": "golf balls",
     "dimension": "quantity"
   },
-  "targetDenominatorUnit": null
+  "targetDenominatorUnit": null,
+  "units": [
+    {
+      "id": "golf-balls",
+      "name": "golf balls",
+      "dimension": "quantity"
+    },
+    {
+      "id": "inches",
+      "name": "inches",
+      "dimension": "length"
+    },
+    {
+      "id": "feet",
+      "name": "feet",
+      "dimension": "length"
+    }
+  ]
 }
