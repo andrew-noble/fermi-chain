@@ -160,18 +160,6 @@ function App() {
       {/* Game State */}
       <div className="bg-gray-400 p-4 rounded-lg m-3">
         <h2 className="text-lg font-bold">Current Game State:</h2>
-        {/* <p>
-          Numerator Units:{" "}
-          {game.state.userFactors.map((factor) =>
-            factor.numeratorUnits.map((unit: Unit) => unit.name).join(", ")
-          )}
-        </p>
-        <p>
-          Denominator Units:{" "}
-          {game.state.userFactors.map((factor) =>
-            factor.denominatorUnits.map((unit: Unit) => unit.name).join(", ")
-          )}
-        </p> */}
         <p>
           Your (cancelled) units:{" "}
           {Object.entries(game.netUserUnits).map(
