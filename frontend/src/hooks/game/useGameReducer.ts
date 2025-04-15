@@ -60,6 +60,7 @@ const calculateUserUnits = (state: GameState) => {
     }
   });
 
+  //TO-DO: modularize this-- its also used in StagingAreaReducer
   //strip out units with quantity 0. My eyes, they hurt
   const result = Object.entries(masterInv).reduce<UnitInventory>(
     (acc, [id, { count, unitMetadata }]) => {

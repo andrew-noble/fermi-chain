@@ -11,7 +11,7 @@ type UnitCount = {
 
 //structure for tracking what units are in num/denom
 //count is positive? thats in the num, vv for denom
-//count shouldn't ever be 0, maybe control for that later
+//note: there is special display logic to expel units with count = 0
 export type UnitInventory = {
   [K in UnitId]: UnitCount;
 };

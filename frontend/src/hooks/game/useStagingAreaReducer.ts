@@ -10,6 +10,7 @@ const updateUnitCount = (
 ) => {
   const newCount = (units[unit.id]?.count || 0) + delta;
 
+  //to-do: modularize this process
   if (newCount === 0) {
     // Remove the unit from the dictionary. Fuckin weird
     const { [unit.id]: _, ...remainingUnits } = units;
