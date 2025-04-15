@@ -1,4 +1,5 @@
 import { OOM, Unit } from ".";
+import { BaseFactor } from "./gameTypes";
 
 // Define specific action types
 interface AddUnitToNumeratorAction {
@@ -35,11 +36,8 @@ interface ResetStagingAreaAction {
   type: "RESET";
 }
 
-export interface StagingAreaState {
-  numeratorUnits: Unit[];
-  denominatorUnits: Unit[];
-  numeratorOOM: OOM;
-  denominatorOOM: OOM;
+export interface StagingAreaState extends BaseFactor {
+  //for now, nothing, but likely important down the line
 }
 
 export type StagingAreaAction =

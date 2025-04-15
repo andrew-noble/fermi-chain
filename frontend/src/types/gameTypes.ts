@@ -1,29 +1,48 @@
 import { OOM, Unit } from ".";
 
+// Primitive Types
+type UnitId = string;
+
+// Common Structures
+type UnitCount = {
+  count: number;
+  unitMetadata: Unit;
+};
+
+//structure for tracking what units are in num/denom
+//count is positive? thats in the num, vv for denom
+//count shouldn't ever be 0, maybe control for that later
+export type UnitInventory = {
+  [K in UnitId]: UnitCount;
+};
+
+// Base Types
+export interface BaseFactor {
+  units: UnitInventory;
+  numeratorOOM: OOM;
+  denominatorOOM: OOM;
+}
+
+// Game State Types
 export interface Question {
   id: string;
   prompt: string;
   targetAnswer: number;
   targetOOM: OOM;
-  targetUnits: { numeratorUnits: Unit[] | []; denominatorUnits: Unit[] | [] };
-  units: Unit[];
+  targetUnits: UnitInventory;
+  usefulUnitList: Unit[];
 }
 
-export interface Factor {
-  id: string; //will be a uuid (i think?)
-  numeratorUnits: Unit[] | [];
-  denominatorUnits: Unit[] | [];
-  numeratorOOM: OOM; //i think these don't need to be lists
-  denominatorOOM: OOM;
+export interface Factor extends BaseFactor {
+  id: string; //uuid
 }
 
 export interface GameState {
   question: Question;
-  //entirety of user input should be a list of constructed factors
-  userFactors: Factor[] | [];
+  userFactors: Factor[];
 }
 
-// Define specific action types
+// Action Types
 interface AddFactorAction {
   type: "ADD-FACTOR";
   factor: Factor;
@@ -43,7 +62,6 @@ interface ResetAction {
   type: "RESET";
 }
 
-// Union type for all actions
 export type GameAction =
   | AddFactorAction
   | RemoveFactorAction

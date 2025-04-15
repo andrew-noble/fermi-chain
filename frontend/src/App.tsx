@@ -6,17 +6,18 @@ import { Button } from "@/components/ui/button";
 import useGameLogic from "@/hooks/game/useGameReducer";
 import useStagingAreaReducer from "@/hooks/game/useStagingAreaReducer";
 import question from "@/data/question.json";
-import { OOM, Question } from "@/types";
+import { Factor, OOM, Question } from "@/types";
 import { OOMS } from "@/data/ooms";
+import { v4 as uuidv4 } from "uuid";
+import { StagingAreaState } from "@/types/stagingAreaTypes";
 
 function App() {
-  const { state, doGameLogic, calculateUserAnswer, calculateUserUnits } =
-    useGameLogic({
-      question: question as Question,
-      userFactors: [],
-    });
-  const { state: stagingAreaState, doStagingAreaLogic } =
-    useStagingAreaReducer();
+  const game = useGameLogic({
+    question: question as Question,
+    userFactors: [],
+  });
+
+  const stagingArea = useStagingAreaReducer();
 
   const [selectedNumOOM, setSelectedNumOOM] = useState<OOM>(OOMS[0]);
   const [selectedDenOOM, setSelectedDenOOM] = useState<OOM>(OOMS[0]);
@@ -28,25 +29,44 @@ function App() {
     document.documentElement.classList.toggle("dark", theme === "dark");
   }, []);
 
+  //handshake between staging area and game state.
+  const handleAddFactor = (stagingAreaState: StagingAreaState) => {
+    const newFactor: Factor = {
+      id: uuidv4(),
+      numeratorOOM: stagingAreaState.numeratorOOM,
+      denominatorOOM: stagingAreaState.denominatorOOM,
+      units: stagingAreaState.units,
+    };
+    game.doGameLogic.addFactor(newFactor);
+    stagingArea.doStagingAreaLogic.reset();
+  };
+
   return (
     <>
       <ThemeToggle />
       <AboutDialog open={aboutDialogOpen} onOpenChange={setAboutDialogOpen} />
       <Button onClick={() => setAboutDialogOpen(true)}>About</Button>
-      <h2>{state.question.prompt} </h2>
+      <h2>{game.state.question.prompt} </h2>
 
+      {/* Unit Toolbox */}
       <div className="bg-blue-800  p-4 rounded-lg m-3">
         <h2 className="text-lg font-bold">Unit Toolbox</h2>
 
-        {state.question.units.map((unit) => (
+        {game.state.question.usefulUnitList.map((unit) => (
           <div key={unit.id}>
             <h3>{unit.name}</h3>
             <p className="text-sm text-gray-500">{unit.dimension}</p>
-            <Button onClick={() => doStagingAreaLogic.addUnitToNumerator(unit)}>
+            <Button
+              onClick={() =>
+                stagingArea.doStagingAreaLogic.addUnitToNumerator(unit)
+              }
+            >
               Add Numerator
             </Button>
             <Button
-              onClick={() => doStagingAreaLogic.addUnitToDenominator(unit)}
+              onClick={() =>
+                stagingArea.doStagingAreaLogic.addUnitToDenominator(unit)
+              }
             >
               Add Denominator
             </Button>
@@ -54,16 +74,25 @@ function App() {
         ))}
       </div>
 
+      {/* Staging Area */}
       <div className="bg-green-400  p-4 rounded-lg m-3">
         <h2 className="text-lg font-bold">Staging Area</h2>
         <p>
-          Num: {stagingAreaState.numeratorUnits.map((u) => u.name).join(",")}
+          Units:{" "}
+          {Object.entries(stagingArea.state.units).map(
+            ([id, { count, unitMetadata }]) => (
+              <span key={id}>
+                {unitMetadata.name} (
+                {count > 0
+                  ? "numerator x" + count
+                  : "denominator x" + Math.abs(count)}
+                )
+              </span>
+            )
+          )}
         </p>
-        <p>
-          Den: {stagingAreaState.denominatorUnits.map((u) => u.name).join(",")}
-        </p>
-        <p>Num OOM: {stagingAreaState.numeratorOOM.id}</p>
-        <p>Den OOM: {stagingAreaState.denominatorOOM.id}</p>
+        <p>Num OOM: {stagingArea.state.numeratorOOM.id}</p>
+        <p>Den OOM: {stagingArea.state.denominatorOOM.id}</p>
         <div className="bg-red-400 p-4 rounded-lg m-3">
           <label htmlFor="oom-select-numerator">Select OOM for numerator</label>
           <select
@@ -82,7 +111,7 @@ function App() {
           </select>
           <Button
             onClick={() =>
-              doStagingAreaLogic.updateNumeratorOOM(selectedNumOOM)
+              stagingArea.doStagingAreaLogic.updateNumeratorOOM(selectedNumOOM)
             }
           >
             Set Numerator OOM
@@ -108,51 +137,67 @@ function App() {
           </select>
           <Button
             onClick={() =>
-              doStagingAreaLogic.updateDenominatorOOM(selectedDenOOM)
+              stagingArea.doStagingAreaLogic.updateDenominatorOOM(
+                selectedDenOOM
+              )
             }
           >
             Set Denominator OOM
           </Button>
         </div>
-        <Button onClick={() => doStagingAreaLogic.reset()}>Reset SA</Button>
+        <Button onClick={() => stagingArea.doStagingAreaLogic.reset()}>
+          Reset SA
+        </Button>
         <Button
           onClick={() => {
-            doGameLogic.addFactor(stagingAreaState);
-            doStagingAreaLogic.reset();
+            handleAddFactor(stagingArea.state);
           }}
         >
           Add Factor
         </Button>
       </div>
 
+      {/* Game State */}
       <div className="bg-gray-400 p-4 rounded-lg m-3">
         <h2 className="text-lg font-bold">Current Game State:</h2>
-        <p>
+        {/* <p>
           Numerator Units:{" "}
-          {state.userFactors.map((factor) =>
-            factor.numeratorUnits.map((unit) => unit.name).join(", ")
+          {game.state.userFactors.map((factor) =>
+            factor.numeratorUnits.map((unit: Unit) => unit.name).join(", ")
           )}
         </p>
         <p>
           Denominator Units:{" "}
-          {state.userFactors.map((factor) =>
-            factor.denominatorUnits.map((unit) => unit.name).join(", ")
+          {game.state.userFactors.map((factor) =>
+            factor.denominatorUnits.map((unit: Unit) => unit.name).join(", ")
+          )}
+        </p> */}
+        <p>
+          Your (cancelled) units:{" "}
+          {Object.entries(game.netUserUnits).map(
+            ([id, { count, unitMetadata }]) => (
+              <span key={id}>
+                {unitMetadata.name} (
+                {count > 0
+                  ? "numerator x" + count
+                  : "denominator x" + Math.abs(count)}
+                )
+              </span>
+            )
           )}
         </p>
-        <p>
-          Final Units:{" "}
-          {calculateUserUnits()
-            .numeratorUnits.map((unit) => unit.name)
-            .join("-")}{" "}
-          /{" "}
-          {calculateUserUnits()
-            .denominatorUnits.map((unit) => unit.name)
-            .join("-")}
-        </p>
-        <p>Answer: {calculateUserAnswer()}</p>
+        <p>Your Answer: {game.netUserAnswer}</p>
+        <Button onClick={() => game.doGameLogic.reset()}>Reset</Button>
       </div>
 
-      <Button onClick={() => doGameLogic.reset()}>Reset</Button>
+      {/* Win/Lose */}
+      {game.state.userFactors.length > 0 && (
+        <div className="bg-orange-400 p-4 rounded-lg m-3">
+          <h2 className="text-lg font-bold">Win?</h2>
+          <p>{game.isCorrectOOM ? "Correct OOM!" : "Incorrect OOM!"}</p>
+          <p>{game.isCorrectUnits ? "Correct Units!" : "Incorrect Units!"}</p>
+        </div>
+      )}
     </>
   );
 }

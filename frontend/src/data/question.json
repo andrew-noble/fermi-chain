@@ -5,15 +5,20 @@
   "targetOOM": {
     "id": "1e7",
     "nameShortScale": "tens-of-millions",
-    "value": 10000000
+    "value": 10000000,
+    "exponent": 7
   },
-  "targetNumeratorUnit": {
-    "id": "golf-balls",
-    "name": "golf balls",
-    "dimension": "quantity"
+  "targetUnits": {
+    "golf-balls": {
+      "count": 1,
+      "unitMetadata": {
+        "id": "golf-balls",
+        "name": "golf balls",
+        "dimension": "quantity"
+      }
+    }
   },
-  "targetDenominatorUnit": null,
-  "units": [
+  "usefulUnitList": [
     {
       "id": "golf-balls",
       "name": "golf balls",

@@ -1,34 +1,47 @@
 import { useReducer } from "react";
-import { StagingAreaAction } from "@/types/stagingAreaTypes";
-import { Factor, Unit, OOM } from "@/types";
+import { StagingAreaAction, StagingAreaState } from "@/types/stagingAreaTypes";
+import { Unit, OOM, UnitInventory } from "@/types";
 import { getOOM } from "@/data/ooms";
 
+const updateUnitCount = (
+  units: UnitInventory,
+  unit: Unit,
+  delta: number // +1 for increment, -1 for decrement
+) => {
+  const newCount = (units[unit.id]?.count || 0) + delta;
+
+  if (newCount === 0) {
+    // Remove the unit from the dictionary. Fuckin weird
+    const { [unit.id]: _, ...remainingUnits } = units;
+    return remainingUnits;
+  } else {
+    return {
+      ...units,
+      [unit.id]: {
+        unitMetadata: unit,
+        count: newCount,
+      },
+    };
+  }
+};
+
 //state managing reducer for the factor staging area
-const stagingAreaReducer = (state: Factor, action: StagingAreaAction) => {
+const stagingAreaReducer = (
+  state: StagingAreaState,
+  action: StagingAreaAction
+) => {
   switch (action.type) {
     case "ADD-UNIT-TO-NUMERATOR":
-      return {
-        ...state,
-        numeratorUnits: [...state.numeratorUnits, action.unit],
-      };
-    case "REMOVE-UNIT-FROM-NUMERATOR":
-      return {
-        ...state,
-        numeratorUnits: state.numeratorUnits.filter(
-          (unit) => unit.id !== action.unit.id
-        ),
-      };
-    case "ADD-UNIT-TO-DENOMINATOR":
-      return {
-        ...state,
-        denominatorUnits: [...state.denominatorUnits, action.unit],
-      };
     case "REMOVE-UNIT-FROM-DENOMINATOR":
       return {
         ...state,
-        denominatorUnits: state.denominatorUnits.filter(
-          (unit) => unit.id !== action.unit.id
-        ),
+        units: updateUnitCount(state.units, action.unit, 1),
+      };
+    case "REMOVE-UNIT-FROM-NUMERATOR":
+    case "ADD-UNIT-TO-DENOMINATOR":
+      return {
+        ...state,
+        units: updateUnitCount(state.units, action.unit, -1),
       };
     case "UPDATE-NUMERATOR-OOM":
       return {
@@ -42,35 +55,24 @@ const stagingAreaReducer = (state: Factor, action: StagingAreaAction) => {
       };
     case "RESET":
       return {
-        id: "staging-area",
-        numeratorUnits: [],
-        denominatorUnits: [],
-        numeratorOOM: getOOM("1e0"),
-        denominatorOOM: getOOM("1e0"),
+        ...stagingAreaInit,
       };
     default:
       return state;
   }
 };
 
-const emptyFactor: Factor = {
-  id: "staging-area",
-  numeratorUnits: [],
-  denominatorUnits: [],
+const stagingAreaInit: StagingAreaState = {
+  units: {},
   numeratorOOM: getOOM("1e0"),
   denominatorOOM: getOOM("1e0"),
 };
 
 export default function useStagingAreaReducer(
-  initialState: Factor = emptyFactor
+  init: StagingAreaState = stagingAreaInit
 ) {
-  const [stagingAreaState, dispatch] = useReducer(
-    stagingAreaReducer,
-    (initialState = emptyFactor)
-  );
+  const [stagingAreaState, dispatch] = useReducer(stagingAreaReducer, init);
 
-  //this technique abstracts away the logic reducer for the components that use this hook
-  //the build, noBuild, etc is an easier interface than dispatch's obj arg on the right
   return {
     state: stagingAreaState,
     doStagingAreaLogic: {

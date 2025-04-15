@@ -1,6 +1,6 @@
 import { useReducer } from "react";
 import { GameState, GameAction } from "@/types/gameTypes";
-import { Factor, Unit } from "@/types";
+import { Factor, UnitInventory } from "@/types";
 
 //global finite state machine for the whole app
 const gameReducer = (state: GameState, action: GameAction) => {
@@ -34,59 +34,76 @@ const gameReducer = (state: GameState, action: GameAction) => {
   }
 };
 
+//derived state functions -- for transforming single source of truth state into displayable format
+const calculateUserAnswer = (state: GameState) => {
+  const result = state.userFactors.reduce((acc, factor) => {
+    return acc * (factor.numeratorOOM.value / factor.denominatorOOM.value);
+  }, 1);
+  return result;
+};
+
+const calculateUserUnits = (state: GameState) => {
+  const masterInv: UnitInventory = {};
+
+  //first, loop through the user's factors and compile their units into a master unitInventory
+  //very gross but it works
+  state.userFactors.forEach((factor) => {
+    const thisFactorsUnits = Object.entries(factor.units);
+    for (const [unitId, unitCount] of thisFactorsUnits) {
+      if (!masterInv[unitId]) {
+        //init if this unit hasn't been seen yet
+        masterInv[unitId] = { ...unitCount };
+      } else {
+        //otherwise, record its count
+        masterInv[unitId].count += factor.units[unitId].count;
+      }
+    }
+  });
+
+  //strip out units with quantity 0. My eyes, they hurt
+  const result = Object.entries(masterInv).reduce<UnitInventory>(
+    (acc, [id, { count, unitMetadata }]) => {
+      if (count != 0) {
+        acc[id] = { count, unitMetadata };
+      }
+      return acc;
+    },
+    {}
+  );
+
+  return result;
+};
+
+const isCorrectOOM = (state: GameState) => {
+  const targetOOM = Math.floor(Math.log10(state.question.targetAnswer));
+  //for now much of this is useless bc input is only powers of 10
+  const userOOM = Math.floor(Math.log10(calculateUserAnswer(state)));
+  return userOOM == targetOOM;
+};
+
+const isCorrectUnits = (state: GameState) => {
+  const areEqual =
+    JSON.stringify(calculateUserUnits(state)) ===
+    JSON.stringify(state.question.targetUnits);
+  return areEqual;
+};
+
 export default function useGameLogic(initialState: GameState) {
   const [state, dispatch] = useReducer(gameReducer, initialState);
-
-  const calculateUserAnswer = () => {
-    const result = state.userFactors.reduce((acc, factor) => {
-      return acc * (factor.numeratorOOM.value / factor.denominatorOOM.value);
-    }, 1);
-    return result;
-  };
-
-  const calculateUserUnits = () => {
-    const numeratorUnits: Unit[] = [];
-    const denominatorUnits: Unit[] = [];
-
-    //unpack the user's factor string into a list of n/d units
-    state.userFactors.map((factor) => {
-      factor.numeratorUnits.map((n_unit) => {
-        numeratorUnits.push(n_unit);
-      });
-      factor.denominatorUnits.map((d_unit) => {
-        denominatorUnits.push(d_unit);
-      });
-    });
-
-    const doesCancel = (unit1: Unit, unit2: Unit) => {
-      return unit1.dimension === unit2.dimension;
-    };
-
-    //iterate through numerator seeing if units cancel
-    numeratorUnits.map((unit, idx) => {
-      denominatorUnits.map((d_unit, d_idx) => {
-        if (doesCancel(unit, d_unit)) {
-          numeratorUnits.splice(idx, 1);
-          denominatorUnits.splice(d_idx, 1);
-        }
-      });
-    });
-
-    return { numeratorUnits, denominatorUnits };
-  };
 
   return {
     state: state,
     doGameLogic: {
-      addFactor: (factor: Factor) =>
-        dispatch({ type: "ADD-FACTOR", factor: factor }),
+      addFactor: (factor: Factor) => dispatch({ type: "ADD-FACTOR", factor }),
       removeFactor: (factor: Factor) =>
-        dispatch({ type: "REMOVE-FACTOR", factor: factor }),
+        dispatch({ type: "REMOVE-FACTOR", factor }),
       updateFactor: (factor: Factor) =>
-        dispatch({ type: "UPDATE-FACTOR", factor: factor }),
+        dispatch({ type: "UPDATE-FACTOR", factor }),
       reset: () => dispatch({ type: "RESET" }),
     },
-    calculateUserAnswer: calculateUserAnswer,
-    calculateUserUnits: calculateUserUnits,
+    netUserAnswer: calculateUserAnswer(state),
+    netUserUnits: calculateUserUnits(state),
+    isCorrectOOM: isCorrectOOM(state),
+    isCorrectUnits: isCorrectUnits(state),
   };
 }
