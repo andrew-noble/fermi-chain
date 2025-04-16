@@ -62,11 +62,7 @@ function App() {
           />
         }
         middle={
-          <FermiChain
-            netUserUnits={game.derivedState.netUserUnits}
-            netUserOom={game.derivedState.netUserOom}
-            onReset={game.doGameLogic.reset}
-          />
+          <FermiChain state={game.state} onReset={game.doGameLogic.reset} />
         }
         bottom={
           <Results
