@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Panel } from "@/components/ui/Panel";
 import { Unit } from "@/types";
 
 interface FermiChainPanelProps {
@@ -13,7 +14,7 @@ export default function FermiChainPanel({
   onReset,
 }: FermiChainPanelProps) {
   return (
-    <div className="bg-gray-400 p-4 rounded-lg m-3">
+    <Panel>
       <h2 className="text-lg font-bold">Current Game State:</h2>
       <p>
         Your (cancelled) units:{" "}
@@ -29,6 +30,6 @@ export default function FermiChainPanel({
       </p>
       <p>Your Answer: {netUserOom.value}</p>
       <Button onClick={onReset}>Reset</Button>
-    </div>
+    </Panel>
   );
 }

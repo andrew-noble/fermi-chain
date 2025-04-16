@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Panel } from "@/components/ui/Panel";
 import { Unit } from "@/types";
 
 interface UnitSelectionPanelProps {
@@ -13,7 +14,7 @@ export default function UnitSelectionPanel({
   onAddDenominator,
 }: UnitSelectionPanelProps) {
   return (
-    <div className="bg-blue-800  p-4 rounded-lg m-3">
+    <Panel>
       <h2 className="text-lg font-bold">Unit Toolbox</h2>
       {units.map((unit) => (
         <div key={unit.id}>
@@ -25,6 +26,6 @@ export default function UnitSelectionPanel({
           </Button>
         </div>
       ))}
-    </div>
+    </Panel>
   );
 }

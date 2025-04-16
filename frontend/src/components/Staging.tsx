@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Panel } from "@/components/ui/Panel";
 import { Oom } from "@/types";
 import { StagingAreaState } from "@/types/stagingAreaTypes";
 import { ooms, getOomById } from "@/data/ooms";
@@ -23,7 +24,7 @@ export default function StagingPanel({
   const [selectedDenOOM, setSelectedDenOOM] = useState<Oom>(getOomById("1e0"));
 
   return (
-    <div className="bg-green-400  p-4 rounded-lg m-3">
+    <Panel>
       <h2 className="text-lg font-bold">Staging Area</h2>
       <p>
         Units:{" "}
@@ -83,6 +84,6 @@ export default function StagingPanel({
       </div>
       <Button onClick={onReset}>Reset SA</Button>
       <Button onClick={onAddFactor}>Add Factor</Button>
-    </div>
+    </Panel>
   );
 }

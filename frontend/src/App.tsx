@@ -1,7 +1,7 @@
-import UnitSelectionPanel from "@/components/UnitSelectionPanel";
-import StagingPanel from "@/components/StagingPanel";
-import ResultsPanel from "@/components/ResultsPanel";
-import FermiChainPanel from "@/components/FermiChainPanel";
+import UnitSelection from "@/components/UnitSelection";
+import Staging from "@/components/Staging";
+import Results from "@/components/Results";
+import FermiChain from "@/components/FermiChain";
 
 import MainLayout from "./components/layouts/MainLayout";
 import GameLayout from "./components/layouts/GameLayout";
@@ -40,7 +40,7 @@ function App() {
     >
       <GameLayout
         topLeft={
-          <StagingPanel
+          <Staging
             state={stagingArea.state}
             onUpdateNumeratorOOM={
               stagingArea.doStagingAreaLogic.updateNumeratorOom
@@ -53,7 +53,7 @@ function App() {
           />
         }
         topRight={
-          <UnitSelectionPanel
+          <UnitSelection
             units={game.state.question.usefulUnitList}
             onAddNumerator={stagingArea.doStagingAreaLogic.addUnitToNumerator}
             onAddDenominator={
@@ -62,14 +62,14 @@ function App() {
           />
         }
         middle={
-          <FermiChainPanel
+          <FermiChain
             netUserUnits={game.derivedState.netUserUnits}
             netUserOom={game.derivedState.netUserOom}
             onReset={game.doGameLogic.reset}
           />
         }
         bottom={
-          <ResultsPanel
+          <Results
             show={!!game.state.userFactors.length}
             isCorrectOom={!!game.derivedState.isCorrectOom}
             isCorrectUnits={!!game.derivedState.isCorrectUnits}
