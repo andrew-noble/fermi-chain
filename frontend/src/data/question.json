@@ -12,26 +12,30 @@
     "golf-balls": {
       "count": 1,
       "unitMetadata": {
-        "id": "golf-balls",
-        "name": "golf balls",
+        "id": "golf-ball",
+        "name": "golf ball",
+        "namePlural": "golf balls",
         "dimension": "quantity"
       }
     }
   },
   "usefulUnitList": [
     {
-      "id": "golf-balls",
-      "name": "golf balls",
+      "id": "golf-ball",
+      "name": "golf ball",
+      "namePlural": "golf balls",
       "dimension": "quantity"
     },
     {
-      "id": "inches",
-      "name": "inches",
+      "id": "inch",
+      "name": "inch",
+      "namePlural": "inches",
       "dimension": "length"
     },
     {
-      "id": "feet",
-      "name": "feet",
+      "id": "foot",
+      "name": "foot",
+      "namePlural": "feet",
       "dimension": "length"
     }
   ]

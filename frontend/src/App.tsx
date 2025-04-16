@@ -35,7 +35,11 @@ function App() {
   return (
     <MainLayout
       topbar={<TopBar onToggleTheme={toggleTheme} />}
-      hero={<h2>{game.state.question.prompt} </h2>}
+      hero={
+        <p className="text-4xl text-primary font-bold">
+          {game.state.question.prompt}
+        </p>
+      }
       footer={<p>Footer</p>}
     >
       <GameLayout
