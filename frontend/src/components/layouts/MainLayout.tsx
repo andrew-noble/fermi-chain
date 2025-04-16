@@ -11,7 +11,7 @@ export default function MainLayout({
   footer?: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="h-screen flex flex-col">
       {topbar && (
         <header className="w-full bg-gray-100 dark:bg-gray-900 p-4">
           {topbar}
@@ -24,7 +24,9 @@ export default function MainLayout({
         </section>
       )}
 
-      <main className="flex-1 p-6 bg-gray-50 dark:bg-black">{children}</main>
+      <main className="flex-1 p-6 bg-gray-50 dark:bg-black overflow-auto">
+        {children}
+      </main>
 
       {footer && (
         <footer className="bg-gray-100 dark:bg-gray-900 text-xs text-gray-500 text-center p-4">
