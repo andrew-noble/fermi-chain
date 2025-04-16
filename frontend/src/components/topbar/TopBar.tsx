@@ -4,14 +4,18 @@ import TutorialDialog from "@/components/topbar/TutorialDialog";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
-export default function Topbar() {
+interface TopBarProps {
+  onToggleTheme: () => void;
+}
+
+const TopBar = ({ onToggleTheme }: TopBarProps) => {
   const [aboutDialogOpen, setAboutDialogOpen] = useState(false);
   const [tutorialDialogOpen, setTutorialDialogOpen] = useState(false);
   return (
     <div className="flex justify-between items-center max-w-6xl mx-auto">
       <div className="font-bold text-lg">Fermi Game</div>
       <div className="flex gap-4 items-center">
-        <ThemeToggle />
+        <ThemeToggle onToggleTheme={onToggleTheme} />
         <AboutDialog open={aboutDialogOpen} onOpenChange={setAboutDialogOpen} />
         <Button onClick={() => setAboutDialogOpen(true)}>About</Button>
         <TutorialDialog
@@ -22,4 +26,6 @@ export default function Topbar() {
       </div>
     </div>
   );
-}
+};
+
+export default TopBar;

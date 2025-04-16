@@ -18,7 +18,7 @@ import TopBar from "./components/topbar/TopBar";
 function App() {
   const game = useGameLogic();
   const stagingArea = useStagingAreaReducer();
-  useTheme();
+  const { toggleTheme } = useTheme();
 
   //handshake between staging area and game state. This will change later
   const handleAddFactor = (stagingAreaState: StagingAreaState) => {
@@ -34,7 +34,7 @@ function App() {
 
   return (
     <MainLayout
-      topbar={<TopBar />}
+      topbar={<TopBar onToggleTheme={toggleTheme} />}
       hero={<h2>{game.state.question.prompt} </h2>}
       footer={<p>Footer</p>}
     >
