@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
-import ThemeToggle from "@/components/theme/ThemeToggle";
-import AboutDialog from "@/components/dialogs/AboutDialog";
-import { Button } from "@/components/ui/button";
 import UnitSelectionPanel from "@/components/UnitSelectionPanel";
 import StagingPanel from "@/components/StagingPanel";
 import ResultsPanel from "@/components/ResultsPanel";
 import FermiChainPanel from "@/components/FermiChainPanel";
+
+import MainLayout from "./components/layouts/MainLayout";
+import GameLayout from "./components/layouts/GameLayout";
 
 import useGameLogic from "@/hooks/game/useGameReducer";
 import useStagingAreaReducer from "@/hooks/game/useStagingAreaReducer";
@@ -15,13 +15,11 @@ import { Factor } from "@/types";
 import { StagingAreaState } from "@/types/stagingAreaTypes";
 
 import { v4 as uuidv4 } from "uuid";
+import TopBar from "./components/topbar/TopBar";
 
 function App() {
   const game = useGameLogic();
-
   const stagingArea = useStagingAreaReducer();
-
-  const [aboutDialogOpen, setAboutDialogOpen] = useState(false);
 
   useEffect(() => {
     const theme = localStorage.getItem("theme") || "light";
@@ -41,43 +39,50 @@ function App() {
   };
 
   return (
-    <>
-      <ThemeToggle />
-      <AboutDialog open={aboutDialogOpen} onOpenChange={setAboutDialogOpen} />
-      <Button onClick={() => setAboutDialogOpen(true)}>About</Button>
-      <h2>{game.state.question.prompt} </h2>
-
-      <UnitSelectionPanel
-        units={game.state.question.usefulUnitList}
-        onAddNumerator={stagingArea.doStagingAreaLogic.addUnitToNumerator}
-        onAddDenominator={stagingArea.doStagingAreaLogic.addUnitToDenominator}
-      />
-
-      {/* Staging Area */}
-      <StagingPanel
-        state={stagingArea.state}
-        onUpdateNumeratorOOM={stagingArea.doStagingAreaLogic.updateNumeratorOOM}
-        onUpdateDenominatorOOM={
-          stagingArea.doStagingAreaLogic.updateDenominatorOOM
+    <MainLayout
+      topbar={<TopBar />}
+      hero={<h2>{game.state.question.prompt} </h2>}
+      footer={<p>Footer</p>}
+    >
+      <GameLayout
+        topLeft={
+          <StagingPanel
+            state={stagingArea.state}
+            onUpdateNumeratorOOM={
+              stagingArea.doStagingAreaLogic.updateNumeratorOOM
+            }
+            onUpdateDenominatorOOM={
+              stagingArea.doStagingAreaLogic.updateDenominatorOOM
+            }
+            onReset={stagingArea.doStagingAreaLogic.reset}
+            onAddFactor={() => handleAddFactor(stagingArea.state)}
+          />
         }
-        onReset={stagingArea.doStagingAreaLogic.reset}
-        onAddFactor={() => handleAddFactor(stagingArea.state)}
+        topRight={
+          <UnitSelectionPanel
+            units={game.state.question.usefulUnitList}
+            onAddNumerator={stagingArea.doStagingAreaLogic.addUnitToNumerator}
+            onAddDenominator={
+              stagingArea.doStagingAreaLogic.addUnitToDenominator
+            }
+          />
+        }
+        middle={
+          <FermiChainPanel
+            netUserUnits={game.derivedState.netUserUnits}
+            netUserOom={game.derivedState.netUserOom}
+            onReset={game.doGameLogic.reset}
+          />
+        }
+        bottom={
+          <ResultsPanel
+            show={!!game.state.userFactors.length}
+            isCorrectOom={!!game.derivedState.isCorrectOom}
+            isCorrectUnits={!!game.derivedState.isCorrectUnits}
+          />
+        }
       />
-
-      {/* Game State */}
-      <FermiChainPanel
-        netUserUnits={game.derivedState.netUserUnits}
-        netUserOom={game.derivedState.netUserOom}
-        onReset={game.doGameLogic.reset}
-      />
-
-      {/* Results */}
-      <ResultsPanel
-        show={!!game.state.userFactors.length}
-        isCorrectOom={!!game.derivedState.isCorrectOom}
-        isCorrectUnits={!!game.derivedState.isCorrectUnits}
-      />
-    </>
+    </MainLayout>
   );
 }
 
