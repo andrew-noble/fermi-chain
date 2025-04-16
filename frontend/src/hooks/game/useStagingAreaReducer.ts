@@ -65,9 +65,9 @@ export default function useStagingAreaReducer(
         dispatch({ type: "ADD-UNIT-TO-DENOMINATOR", unit }),
       removeUnitFromDenominator: (unit: Unit) =>
         dispatch({ type: "REMOVE-UNIT-FROM-DENOMINATOR", unit }),
-      updateNumeratorOOM: (oom: Oom) =>
+      updateNumeratorOom: (oom: Oom) =>
         dispatch({ type: "UPDATE-NUMERATOR-OOM", oom }),
-      updateDenominatorOOM: (oom: Oom) =>
+      updateDenominatorOom: (oom: Oom) =>
         dispatch({ type: "UPDATE-DENOMINATOR-OOM", oom }),
       reset: () => dispatch({ type: "RESET" }),
     },

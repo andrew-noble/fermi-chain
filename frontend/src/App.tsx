@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import UnitSelectionPanel from "@/components/UnitSelectionPanel";
 import StagingPanel from "@/components/StagingPanel";
 import ResultsPanel from "@/components/ResultsPanel";
@@ -10,7 +8,7 @@ import GameLayout from "./components/layouts/GameLayout";
 
 import useGameLogic from "@/hooks/game/useGameReducer";
 import useStagingAreaReducer from "@/hooks/game/useStagingAreaReducer";
-
+import useTheme from "@/hooks/useTheme";
 import { Factor } from "@/types";
 import { StagingAreaState } from "@/types/stagingAreaTypes";
 
@@ -20,13 +18,9 @@ import TopBar from "./components/topbar/TopBar";
 function App() {
   const game = useGameLogic();
   const stagingArea = useStagingAreaReducer();
+  useTheme();
 
-  useEffect(() => {
-    const theme = localStorage.getItem("theme") || "light";
-    document.documentElement.classList.toggle("dark", theme === "dark");
-  }, []);
-
-  //handshake between staging area and game state.
+  //handshake between staging area and game state. This will change later
   const handleAddFactor = (stagingAreaState: StagingAreaState) => {
     const newFactor: Factor = {
       id: uuidv4(),
@@ -49,10 +43,10 @@ function App() {
           <StagingPanel
             state={stagingArea.state}
             onUpdateNumeratorOOM={
-              stagingArea.doStagingAreaLogic.updateNumeratorOOM
+              stagingArea.doStagingAreaLogic.updateNumeratorOom
             }
             onUpdateDenominatorOOM={
-              stagingArea.doStagingAreaLogic.updateDenominatorOOM
+              stagingArea.doStagingAreaLogic.updateDenominatorOom
             }
             onReset={stagingArea.doStagingAreaLogic.reset}
             onAddFactor={() => handleAddFactor(stagingArea.state)}
