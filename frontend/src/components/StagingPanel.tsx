@@ -2,11 +2,10 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Oom } from "@/types";
 import { StagingAreaState } from "@/types/stagingAreaTypes";
-import { getOomById } from "@/data/ooms";
+import { ooms, getOomById } from "@/data/ooms";
 
 interface StagingPanelProps {
   state: StagingAreaState;
-  ooms: Oom[];
   onUpdateNumeratorOOM: (oom: Oom) => void;
   onUpdateDenominatorOOM: (oom: Oom) => void;
   onReset: () => void;
@@ -15,7 +14,6 @@ interface StagingPanelProps {
 
 export default function StagingPanel({
   state,
-  ooms,
   onUpdateNumeratorOOM,
   onUpdateDenominatorOOM,
   onReset,

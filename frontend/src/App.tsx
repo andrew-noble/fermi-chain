@@ -14,7 +14,6 @@ import useStagingAreaReducer from "@/hooks/game/useStagingAreaReducer";
 import { Factor } from "@/types";
 import { StagingAreaState } from "@/types/stagingAreaTypes";
 
-import { ooms } from "@/data/ooms";
 import { v4 as uuidv4 } from "uuid";
 
 function App() {
@@ -57,7 +56,6 @@ function App() {
       {/* Staging Area */}
       <StagingPanel
         state={stagingArea.state}
-        ooms={ooms}
         onUpdateNumeratorOOM={stagingArea.doStagingAreaLogic.updateNumeratorOOM}
         onUpdateDenominatorOOM={
           stagingArea.doStagingAreaLogic.updateDenominatorOOM
