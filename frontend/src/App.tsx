@@ -40,7 +40,7 @@ function App() {
           {game.state.question.prompt}
         </p>
       }
-      footer={<p>Footer</p>}
+      footer={<p>© Andrew Noble, {new Date().getFullYear()}</p>}
     >
       <GameLayout
         topLeft={

@@ -23,7 +23,7 @@ export default function UnitSelector({
             variant="secondary"
             size="sm"
             onClick={() => onAddNumerator(unit)}
-            className="h-5 w-5 p-0 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-base leading-none"
+            className="h-8 w-8 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-base leading-none"
           >
             +
           </Button>
@@ -32,7 +32,7 @@ export default function UnitSelector({
             variant="secondary"
             size="sm"
             onClick={() => onAddDenominator(unit)}
-            className="h-5 w-5 p-0 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-base leading-none"
+            className="h-8 w-8 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-base leading-none"
           >
             +
           </Button>
