@@ -4,7 +4,6 @@ interface GameLayoutProps {
   topRight: React.ReactNode;
   middle: React.ReactNode;
   bottom: React.ReactNode;
-  rowHeights?: [string, string, string]; // Tailwind-compatible height classes or raw CSS
 }
 
 export default function GameLayout({
@@ -12,15 +11,9 @@ export default function GameLayout({
   topRight,
   middle,
   bottom,
-  rowHeights = ["auto", "1fr", "auto"],
 }: GameLayoutProps) {
   return (
-    <div
-      className="grid h-screen"
-      style={{
-        gridTemplateRows: rowHeights.join(" "),
-      }}
-    >
+    <div className="flex flex-col min-h-0">
       {/* Top Row: split into two columns */}
       <div className="grid grid-cols-2 gap-4 p-4 border-b border-gray-200 dark:border-gray-800">
         <div>{topLeft}</div>
@@ -28,7 +21,7 @@ export default function GameLayout({
       </div>
 
       {/* Middle Row: full-width */}
-      <div className="p-4 overflow-auto border-b border-gray-200 dark:border-gray-800">
+      <div className="flex-1 p-4 overflow-auto border-b border-gray-200 dark:border-gray-800">
         {middle}
       </div>
 

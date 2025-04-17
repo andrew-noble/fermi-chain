@@ -15,7 +15,7 @@
         "id": "golf-ball",
         "name": "golf ball",
         "namePlural": "golf balls",
-        "dimension": "quantity"
+        "dimension": "Quantity"
       }
     }
   },
@@ -24,19 +24,19 @@
       "id": "golf-ball",
       "name": "golf ball",
       "namePlural": "golf balls",
-      "dimension": "quantity"
+      "dimension": "Quantity"
     },
     {
       "id": "inch",
       "name": "inch",
       "namePlural": "inches",
-      "dimension": "length"
+      "dimension": "Length"
     },
     {
       "id": "foot",
       "name": "foot",
       "namePlural": "feet",
-      "dimension": "length"
+      "dimension": "Length"
     }
   ]
 }
