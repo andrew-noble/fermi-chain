@@ -1,38 +1,93 @@
-import { Button } from "@/components/ui/button";
-import { Panel } from "@/components/ui/Panel";
-import { GameState } from "@/types";
-import FactorDisplay from "@/components/display/FactorDisplay";
+import { GameHook, EditorHook } from "@/types";
 
-interface FermiChainPanelProps {
-  show: boolean;
-  state: GameState;
-  onReset: () => void;
+import Editor from "@/components/fermi-chain/Editor";
+import FactorDisplay from "./FactorDisplay";
+import PhantomFactorDisplay from "./PhantomFactorDisplay";
+
+import { Button } from "@/components/ui/button";
+
+interface FermiChainAreaProps {
+  game: GameHook;
+  editor: EditorHook;
 }
 
-export default function FermiChainPanel({
-  show,
-  state,
-  onReset,
-}: FermiChainPanelProps) {
-  if (!show) return null;
+export default function FermiChainArea({ game, editor }: FermiChainAreaProps) {
+  const factorList = game.state.userFactors;
+  const mode = game.state.mode;
+
+  const renderItems = () => {
+    switch (mode.type) {
+      case "VIEWING":
+        return (
+          //TODO: re-implement the multiplication signs!!
+          <>
+            {factorList.map((factor, index) => (
+              <FactorDisplay
+                key={factor.id}
+                factor={factor}
+                onEdit={() => {
+                  game.actions.setMode({
+                    type: "EDITING",
+                    idOfFactorBeingEdited: factor.id,
+                  });
+                }}
+              />
+            ))}
+            <PhantomFactorDisplay
+              onClick={() => {
+                game.actions.setMode({ type: "CREATING" });
+              }}
+            />
+          </>
+        );
+      case "EDITING":
+        return (
+          <>
+            {factorList.map((factor) =>
+              factor.id === mode.idOfFactorBeingEdited ? (
+                <Editor />
+              ) : (
+                <FactorDisplay
+                  key={factor.id}
+                  factor={factor}
+                  onEdit={() => {
+                    game.actions.setMode({
+                      type: "EDITING",
+                      idOfFactorBeingEdited: factor.id,
+                    });
+                  }}
+                />
+              )
+            )}
+          </>
+        );
+      case "CREATING":
+        return (
+          <>
+            {factorList.map((factor) => (
+              <FactorDisplay
+                key={factor.id}
+                factor={factor}
+                onEdit={() => {
+                  game.actions.setMode({
+                    type: "EDITING",
+                    idOfFactorBeingEdited: factor.id,
+                  });
+                }}
+              />
+            ))}
+            <Editor />
+          </>
+        );
+    }
+  };
 
   return (
-    <Panel header={"Fermi Chain"}>
-      <div className="flex flex-wrap gap-2 items-center">
-        {state.userFactors.map((factor, index) => (
-          <>
-            {index > 0 && (
-              <span className="text-gray-500 dark:text-gray-400">×</span>
-            )}
-            <FactorDisplay key={factor.id} factor={factor} />
-          </>
-        ))}
-      </div>
-      <div className="flex justify-end">
-        <Button onClick={onReset} size="sm">
-          Reset
-        </Button>
-      </div>
-    </Panel>
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-wrap gap-4">{renderItems()}</div>
+      <Button variant="outline" onClick={game.actions.reset}>
+        Reset All
+      </Button>
+    </div>
   );
 }

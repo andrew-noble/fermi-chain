@@ -1,31 +1,24 @@
 // components/layouts/ThreeRowGridLayout.tsx
 interface GameLayoutProps {
-  topLeft: React.ReactNode;
-  topRight: React.ReactNode;
+  top: React.ReactNode;
   middle: React.ReactNode;
   bottom: React.ReactNode;
 }
 
-export default function GameLayout({
-  topLeft,
-  topRight,
-  middle,
-  bottom,
-}: GameLayoutProps) {
+export default function GameLayout({ top, middle, bottom }: GameLayoutProps) {
   return (
     <div className="flex flex-col min-h-0">
-      {/* Top Row: split into two columns */}
-      <div className="grid grid-cols-2 gap-4 p-4 border-b border-gray-200 dark:border-gray-800">
-        <div>{topLeft}</div>
-        <div>{topRight}</div>
+      {/* Top Row */}
+      <div className="p-4 border-b border-gray-200 dark:border-gray-800">
+        {top}
       </div>
 
-      {/* Middle Row: full-width */}
+      {/* Middle Row */}
       <div className="flex-1 p-4 overflow-auto border-b border-gray-200 dark:border-gray-800">
         {middle}
       </div>
 
-      {/* Bottom Row: full-width */}
+      {/* Bottom Row */}
       <div className="p-4">{bottom}</div>
     </div>
   );

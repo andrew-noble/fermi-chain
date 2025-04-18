@@ -37,14 +37,21 @@ export interface Factor extends BaseFactor {
   id: string; //uuid
 }
 
+export type Mode =
+  | { type: "VIEWING" }
+  | { type: "CREATING" }
+  | { type: "EDITING"; idOfFactorBeingEdited: string };
+
+// Core game state
 export interface GameState {
   question: Question;
   userFactors: Factor[];
+  mode: Mode;
 }
 
-// Action Types
-interface AddFactorAction {
-  type: "ADD-FACTOR";
+// Internal reducer action types
+interface SubmitFactorAction {
+  type: "SUBMIT-FACTOR";
   factor: Factor;
 }
 
@@ -53,17 +60,34 @@ interface RemoveFactorAction {
   factor: Factor;
 }
 
-interface UpdateFactorAction {
-  type: "UPDATE-FACTOR";
-  factor: Factor;
-}
-
 interface ResetAction {
   type: "RESET";
 }
 
+interface SetModeAction {
+  type: "SET-MODE";
+  mode: Mode;
+}
+
 export type GameAction =
-  | AddFactorAction
+  | SubmitFactorAction
   | RemoveFactorAction
-  | UpdateFactorAction
-  | ResetAction;
+  | ResetAction
+  | SetModeAction;
+
+// Public interface for the game hook
+export interface GameHook {
+  state: GameState;
+  actions: {
+    submitFactor: (factor: Factor) => void;
+    removeFactor: (factor: Factor) => void;
+    reset: () => void;
+    setMode: (mode: Mode) => void;
+  };
+  derivedState: {
+    netUserOom: Oom;
+    netUserUnits: UnitInventory;
+    isCorrectOom: boolean;
+    isCorrectUnits: boolean;
+  };
+}

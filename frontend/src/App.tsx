@@ -1,36 +1,20 @@
 import UnitSelectionArea from "@/components/unit-selection/UnitSelectionArea";
-import StagingArea from "@/components/staging/StagingArea";
 import ResultsArea from "@/components/results/ResultsArea";
 import FermiChainArea from "@/components/fermi-chain/FermiChainArea";
 
 import MainLayout from "./components/layouts/MainLayout";
 import GameLayout from "./components/layouts/GameLayout";
 
-import useGameLogic from "@/hooks/game/useGameReducer";
-import useStagingAreaReducer from "@/hooks/game/useStagingAreaReducer";
+import useGameReducer from "@/hooks/game/useGameReducer";
 import useTheme from "@/hooks/useTheme";
-import { Factor } from "@/types";
-import { StagingAreaState } from "@/types/stagingAreaTypes";
 
-import { v4 as uuidv4 } from "uuid";
 import TopBar from "./components/topbar/TopBar";
+import useEditorReducer from "./hooks/game/useEditorReducer";
 
 function App() {
-  const game = useGameLogic();
-  const stagingArea = useStagingAreaReducer();
+  const game = useGameReducer();
+  const editor = useEditorReducer();
   const { toggleTheme } = useTheme();
-
-  //handshake between staging area and game state. This will change later
-  const handleAddFactor = (stagingAreaState: StagingAreaState) => {
-    const newFactor: Factor = {
-      id: uuidv4(),
-      numeratorOom: stagingAreaState.numeratorOom,
-      denominatorOom: stagingAreaState.denominatorOom,
-      units: stagingAreaState.units,
-    };
-    game.doGameLogic.addFactor(newFactor);
-    stagingArea.doStagingAreaLogic.reset();
-  };
 
   return (
     <MainLayout
@@ -43,35 +27,14 @@ function App() {
       footer={<p>© Andrew Noble, {new Date().getFullYear()}</p>}
     >
       <GameLayout
-        topLeft={
-          <StagingArea
-            state={stagingArea.state}
-            onUpdateNumeratorOOM={
-              stagingArea.doStagingAreaLogic.updateNumeratorOom
-            }
-            onUpdateDenominatorOOM={
-              stagingArea.doStagingAreaLogic.updateDenominatorOom
-            }
-            onReset={stagingArea.doStagingAreaLogic.reset}
-            onAddFactor={() => handleAddFactor(stagingArea.state)}
-          />
-        }
-        topRight={
+        top={
           <UnitSelectionArea
             units={game.state.question.usefulUnitList}
-            onAddNumerator={stagingArea.doStagingAreaLogic.addUnitToNumerator}
-            onAddDenominator={
-              stagingArea.doStagingAreaLogic.addUnitToDenominator
-            }
+            onAddNumerator={editor.actions.addUnitToNumerator}
+            onAddDenominator={editor.actions.addUnitToDenominator}
           />
         }
-        middle={
-          <FermiChainArea
-            show={!!game.state.userFactors.length}
-            state={game.state}
-            onReset={game.doGameLogic.reset}
-          />
-        }
+        middle={<FermiChainArea game={game} editor={editor} />}
         bottom={
           <ResultsArea
             show={!!game.state.userFactors.length}

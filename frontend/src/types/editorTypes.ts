@@ -1,5 +1,4 @@
-import { Oom, Unit } from ".";
-import { BaseFactor } from "./gameTypes";
+import { Oom, Unit, Factor, BaseFactor } from ".";
 
 // Define specific action types
 interface AddUnitToNumeratorAction {
@@ -32,19 +31,41 @@ interface UpdateDenominatorOOMAction {
   oom: Oom;
 }
 
-interface ResetStagingAreaAction {
+interface ResetEditorAction {
   type: "RESET";
 }
 
-export interface StagingAreaState extends BaseFactor {
+interface SetAllEditorAction {
+  //for loading an existing factor into editor
+  type: "SET-ALL";
+  factor: Factor;
+}
+
+export interface EditorState extends BaseFactor {
   //for now, nothing, but likely important down the line
 }
 
-export type StagingAreaAction =
+export type EditorAction =
   | AddUnitToNumeratorAction
   | AddUnitToDenominatorAction
   | RemoveUnitFromNumeratorAction
   | RemoveUnitFromDenominatorAction
   | UpdateNumeratorOOMAction
   | UpdateDenominatorOOMAction
-  | ResetStagingAreaAction;
+  | ResetEditorAction
+  | SetAllEditorAction;
+
+// Public interface for the game hook
+export interface EditorHook {
+  state: EditorState;
+  actions: {
+    addUnitToNumerator: (unit: Unit) => void;
+    removeUnitFromNumerator: (unit: Unit) => void;
+    addUnitToDenominator: (unit: Unit) => void;
+    removeUnitFromDenominator: (unit: Unit) => void;
+    updateNumeratorOom: (oom: Oom) => void;
+    updateDenominatorOom: (oom: Oom) => void;
+    setAll: (factor: Factor) => void;
+    reset: () => void;
+  };
+}

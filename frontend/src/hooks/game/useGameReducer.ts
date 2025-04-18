@@ -1,8 +1,17 @@
 import { useReducer } from "react";
 import question from "@/data/question.json";
-import { Factor, Oom, UnitInventory, GameState, GameAction } from "@/types";
+import {
+  Factor,
+  Oom,
+  UnitInventory,
+  GameState,
+  GameAction,
+  GameHook,
+  Mode,
+} from "@/types";
 import { flattenUnits, isSameUnits } from "@/helpers/unitManagement";
 import { isSameOom, flattenOoms } from "@/helpers/oomManagement";
+import { v4 as uuidv4 } from "uuid";
 
 // Reducer for managing the game state (list of user factors)
 const gameReducer: React.Reducer<GameState, GameAction> = (
@@ -10,12 +19,34 @@ const gameReducer: React.Reducer<GameState, GameAction> = (
   action: GameAction
 ): GameState => {
   switch (action.type) {
-    case "ADD-FACTOR":
-      // Add a new factor to the user's list
-      return {
-        ...state,
-        userFactors: [...state.userFactors, action.factor],
-      };
+    case "SUBMIT-FACTOR":
+      switch (state.mode.type) {
+        case "CREATING":
+          const newId = uuidv4();
+          const newFactor: Factor = {
+            ...action.factor,
+            id: newId,
+          };
+          return {
+            ...state,
+            userFactors: [...state.userFactors, newFactor],
+            mode: { type: "VIEWING" },
+          };
+        case "EDITING":
+          return {
+            ...state,
+            userFactors: state.userFactors.map((factor) =>
+              state.mode.type === "EDITING" &&
+              factor.id === state.mode.idOfFactorBeingEdited
+                ? { ...action.factor, id: factor.id }
+                : factor
+            ),
+            mode: { type: "VIEWING" },
+          };
+
+        case "VIEWING":
+          return state;
+      }
     case "REMOVE-FACTOR":
       // Remove a factor by id
       return {
@@ -24,17 +55,11 @@ const gameReducer: React.Reducer<GameState, GameAction> = (
           (factor) => factor.id !== action.factor.id
         ),
       };
-    case "UPDATE-FACTOR":
-      // Update a factor by id
-      return {
-        ...state,
-        userFactors: state.userFactors.map((factor) =>
-          factor.id === action.factor.id ? action.factor : factor
-        ),
-      };
     case "RESET":
       // Reset all user factors
       return stateInit;
+    case "SET-MODE":
+      return { ...state, mode: action.mode };
     default:
       return state;
   }
@@ -43,9 +68,12 @@ const gameReducer: React.Reducer<GameState, GameAction> = (
 const stateInit: GameState = {
   question: question,
   userFactors: [],
+  mode: { type: "VIEWING" },
 };
 
-export default function useGameLogic(initState: GameState = stateInit) {
+export default function useGameReducer(
+  initState: GameState = stateInit
+): GameHook {
   const [state, dispatch] = useReducer(gameReducer, initState);
 
   // Extract ooms from all user factors for calculation
@@ -57,18 +85,24 @@ export default function useGameLogic(initState: GameState = stateInit) {
   const netUnits: UnitInventory = flattenUnits(
     state.userFactors.map((f) => f.units)
   );
-  const isCorrectOom = isSameOom(state.question.targetAnswer, netOom.value);
-  const isCorrectUnits = isSameUnits(netUnits, state.question.targetUnits);
+  const isCorrectOom: boolean = isSameOom(
+    state.question.targetAnswer,
+    netOom.value
+  );
+  const isCorrectUnits: boolean = isSameUnits(
+    netUnits,
+    state.question.targetUnits
+  );
 
   return {
-    state: state,
-    doGameLogic: {
-      addFactor: (factor: Factor) => dispatch({ type: "ADD-FACTOR", factor }),
+    state,
+    actions: {
+      submitFactor: (factor: Factor) =>
+        dispatch({ type: "SUBMIT-FACTOR", factor }),
       removeFactor: (factor: Factor) =>
         dispatch({ type: "REMOVE-FACTOR", factor }),
-      updateFactor: (factor: Factor) =>
-        dispatch({ type: "UPDATE-FACTOR", factor }),
       reset: () => dispatch({ type: "RESET" }),
+      setMode: (mode: Mode) => dispatch({ type: "SET-MODE", mode }),
     },
     derivedState: {
       netUserOom: netOom,

@@ -1,10 +1,12 @@
 import { Factor } from "@/types";
+import { Button } from "../ui/button";
 
 interface FactorDisplayProps {
   factor: Factor;
+  onEdit: () => void;
 }
 
-export default function FactorDisplay({ factor }: FactorDisplayProps) {
+export default function FactorDisplay({ factor, onEdit }: FactorDisplayProps) {
   // Filter and map units for numerator (positive counts)
   const numeratorUnits = Object.entries(factor.units)
     .filter(([_, unitCount]) => unitCount.count > 0)
@@ -47,6 +49,7 @@ export default function FactorDisplay({ factor }: FactorDisplayProps) {
         </div>
       </div>
 
+      {/* Division Line */}
       <div className="w-full border-t border-gray-200 dark:border-gray-800 my-2" />
 
       <div className="flex items-center gap-2 w-full">
@@ -66,6 +69,9 @@ export default function FactorDisplay({ factor }: FactorDisplayProps) {
             : ""}
         </div>
       </div>
+      <Button variant="outline" size="sm" onClick={onEdit}>
+        Edit
+      </Button>
     </div>
   );
 }
