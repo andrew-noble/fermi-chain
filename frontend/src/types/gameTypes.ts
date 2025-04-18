@@ -1,4 +1,5 @@
 import { Oom, Unit } from ".";
+import { EditorState } from "./editorTypes";
 
 // Primitive Types
 type UnitId = string;
@@ -52,7 +53,7 @@ export interface GameState {
 // Internal reducer action types
 interface SubmitFactorAction {
   type: "SUBMIT-FACTOR";
-  factor: Factor;
+  factor: EditorState;
 }
 
 interface RemoveFactorAction {
@@ -79,7 +80,7 @@ export type GameAction =
 export interface GameHook {
   state: GameState;
   actions: {
-    submitFactor: (factor: Factor) => void;
+    submitFactor: (factor: EditorState) => void;
     removeFactor: (factor: Factor) => void;
     reset: () => void;
     setMode: (mode: Mode) => void;

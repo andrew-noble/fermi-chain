@@ -8,6 +8,7 @@ import {
   GameAction,
   GameHook,
   Mode,
+  EditorState,
 } from "@/types";
 import { flattenUnits, isSameUnits } from "@/helpers/unitManagement";
 import { isSameOom, flattenOoms } from "@/helpers/oomManagement";
@@ -97,7 +98,7 @@ export default function useGameReducer(
   return {
     state,
     actions: {
-      submitFactor: (factor: Factor) =>
+      submitFactor: (factor: EditorState) =>
         dispatch({ type: "SUBMIT-FACTOR", factor }),
       removeFactor: (factor: Factor) =>
         dispatch({ type: "REMOVE-FACTOR", factor }),

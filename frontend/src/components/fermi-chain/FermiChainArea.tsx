@@ -1,8 +1,8 @@
 import { GameHook, EditorHook } from "@/types";
 
-import Editor from "@/components/fermi-chain/Editor";
-import FactorDisplay from "./FactorDisplay";
-import PhantomFactorDisplay from "./PhantomFactorDisplay";
+import Editor from "@/components/fermi-chain/editor/Editor";
+import FactorDisplay from "@/components/fermi-chain/display/FactorDisplay";
+import PhantomFactorDisplay from "@/components/fermi-chain/display/PhantomFactorDisplay";
 
 import { Button } from "@/components/ui/button";
 
@@ -19,7 +19,7 @@ export default function FermiChainArea({ game, editor }: FermiChainAreaProps) {
     switch (mode.type) {
       case "VIEWING":
         return (
-          //TODO: re-implement the multiplication signs!!
+          //TODO: re-implement the multiplication signs!! using index
           <>
             {factorList.map((factor, index) => (
               <FactorDisplay
@@ -45,7 +45,12 @@ export default function FermiChainArea({ game, editor }: FermiChainAreaProps) {
           <>
             {factorList.map((factor) =>
               factor.id === mode.idOfFactorBeingEdited ? (
-                <Editor />
+                <Editor
+                  editor={editor}
+                  onSubmit={() => {
+                    game.actions.setMode({ type: "VIEWING" });
+                  }}
+                />
               ) : (
                 <FactorDisplay
                   key={factor.id}
@@ -76,7 +81,10 @@ export default function FermiChainArea({ game, editor }: FermiChainAreaProps) {
                 }}
               />
             ))}
-            <Editor />
+            <Editor
+              editor={editor}
+              onSubmit={() => game.actions.submitFactor(editor.state)}
+            />
           </>
         );
     }

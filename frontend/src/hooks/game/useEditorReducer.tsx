@@ -5,8 +5,6 @@ import { updateUnitCount } from "@/helpers/unitManagement";
 import { EditorAction, EditorHook } from "@/types/editorTypes";
 import { EditorState } from "@/types/editorTypes";
 
-import { v4 as uuidv4 } from "uuid";
-
 // Reducer managing the editor state
 const editorReducer: React.Reducer<EditorState, EditorAction> = (
   state: EditorState,
@@ -50,7 +48,6 @@ const editorReducer: React.Reducer<EditorState, EditorAction> = (
 //if factor is null, it means the user is creating a new factor, if not null, they're editing
 function getInitStateFromFactor(factor?: Factor | null): EditorState {
   return {
-    id: factor?.id ?? uuidv4(),
     units: factor?.units ?? {},
     numeratorOom: factor?.numeratorOom ?? getOomById("1e0"),
     denominatorOom: factor?.denominatorOom ?? getOomById("1e0"),
