@@ -56,6 +56,6 @@ export const flattenUnits = (inventories: UnitInventory[]): UnitInventory => {
 export const isSameUnits = (
   inv1: UnitInventory,
   inv2: UnitInventory
-): Boolean => {
+): boolean => {
   return JSON.stringify(inv1) === JSON.stringify(inv2);
 };

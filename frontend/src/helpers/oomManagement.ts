@@ -1,7 +1,7 @@
 import { Oom } from "@/types";
 import { ooms, getOomById } from "@/data/ooms";
 
-export const isSameOom = (a: number, b: number): Boolean => {
+export const isSameOom = (a: number, b: number): boolean => {
   const aOom = Math.floor(Math.log10(a));
   const bOom = Math.floor(Math.log10(b));
   return aOom == bOom;
