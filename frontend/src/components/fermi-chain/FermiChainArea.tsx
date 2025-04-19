@@ -108,15 +108,17 @@ export default function FermiChainArea({ chain, editor }: FermiChainAreaProps) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap gap-4">{renderItems()}</div>
-      <Button
-        variant="outline"
-        onClick={() => {
-          chain.actions.reset();
-          editor.actions.reset();
-        }}
-      >
-        Reset All
-      </Button>
+      {mode.type !== "INIT" && (
+        <Button
+          variant="outline"
+          onClick={() => {
+            chain.actions.reset();
+            editor.actions.reset();
+          }}
+        >
+          Reset All
+        </Button>
+      )}
     </div>
   );
 }
