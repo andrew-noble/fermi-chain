@@ -1,6 +1,6 @@
 import { Panel } from "@/components/ui/Panel";
 import { Unit } from "@/types";
-import DimensionBox from "@/components/unit-selection/DimensionBox";
+import UnitSelector from "@/components/unit-selection/UnitSelector";
 
 interface UnitSelectionPanelProps {
   show: boolean;
@@ -17,8 +17,6 @@ export default function UnitSelectionPanel({
 }: UnitSelectionPanelProps) {
   if (!show) return null;
 
-  const uniqueDimensions = [...new Set(units.map((unit) => unit.dimension))];
-
   return (
     <Panel
       header={
@@ -27,12 +25,11 @@ export default function UnitSelectionPanel({
         </div>
       }
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {uniqueDimensions.map((dim) => (
-          <DimensionBox
-            key={dim}
-            dimension={dim}
-            units={units.filter((unit) => unit.dimension === dim)}
+      <div className="flex flex-wrap gap-2">
+        {units.map((unit) => (
+          <UnitSelector
+            key={unit.id}
+            unit={unit}
             onAddNumerator={onAddNumerator}
             onAddDenominator={onAddDenominator}
           />

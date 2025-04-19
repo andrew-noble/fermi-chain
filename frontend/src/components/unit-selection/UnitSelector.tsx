@@ -3,7 +3,6 @@ import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 
 interface UnitSelectorProps {
-  dimension: string;
   unit: Unit;
   onAddNumerator: (unit: Unit) => void;
   onAddDenominator: (unit: Unit) => void;
