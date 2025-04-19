@@ -1,5 +1,7 @@
 import { Oom } from "@/types";
 import { ooms } from "@/data/ooms";
+import { Button } from "@/components/ui/button";
+import { ChevronUp, ChevronDown } from "lucide-react";
 
 interface OomSelectorsProps {
   onUpdateNumeratorOom: (oom: Oom) => void;
@@ -26,34 +28,42 @@ export default function OomSelectors({
 
   return (
     <div className="flex flex-col gap-2">
-      <button
+      <Button
+        variant="outline"
+        size="icon"
         onClick={() => onUpdateNumeratorOom(getHigherOom(currentNumeratorOom))}
-        className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+        title="Increase numerator order of magnitude"
       >
-        Higher
-      </button>
-      <button
+        <ChevronUp className="h-4 w-4" />
+      </Button>
+      <Button
+        variant="outline"
+        size="icon"
         onClick={() => onUpdateNumeratorOom(getLowerOom(currentNumeratorOom))}
-        className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+        title="Decrease numerator order of magnitude"
       >
-        Lower
-      </button>
-      <button
+        <ChevronDown className="h-4 w-4" />
+      </Button>
+      <Button
+        variant="outline"
+        size="icon"
         onClick={() =>
           onUpdateDenominatorOom(getHigherOom(currentDenominatorOom))
         }
-        className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+        title="Increase denominator order of magnitude"
       >
-        Higher
-      </button>
-      <button
+        <ChevronUp className="h-4 w-4" />
+      </Button>
+      <Button
+        variant="outline"
+        size="icon"
         onClick={() =>
           onUpdateDenominatorOom(getLowerOom(currentDenominatorOom))
         }
-        className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+        title="Decrease denominator order of magnitude"
       >
-        Lower
-      </button>
+        <ChevronDown className="h-4 w-4" />
+      </Button>
     </div>
   );
 }
