@@ -5,7 +5,7 @@ interface ThemeToggleProps {
   onToggleTheme: () => void;
 }
 
-const ThemeToggle = ({ onToggleTheme }: ThemeToggleProps) => {
+export default function ThemeToggle({ onToggleTheme }: ThemeToggleProps) {
   return (
     <Button variant="ghost" size="icon" onClick={onToggleTheme}>
       <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
@@ -13,6 +13,4 @@ const ThemeToggle = ({ onToggleTheme }: ThemeToggleProps) => {
       <span className="sr-only">Toggle theme</span>
     </Button>
   );
-};
-
-export default ThemeToggle;
+}

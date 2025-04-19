@@ -8,7 +8,7 @@ interface TopBarProps {
   onToggleTheme: () => void;
 }
 
-const TopBar = ({ onToggleTheme }: TopBarProps) => {
+export default function TopBar({ onToggleTheme }: TopBarProps) {
   const [aboutDialogOpen, setAboutDialogOpen] = useState(false);
   const [tutorialDialogOpen, setTutorialDialogOpen] = useState(false);
   return (
@@ -26,6 +26,4 @@ const TopBar = ({ onToggleTheme }: TopBarProps) => {
       </div>
     </div>
   );
-};
-
-export default TopBar;
+}
