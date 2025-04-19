@@ -11,7 +11,7 @@ interface EditorProps {
 
 export default function Editor({ editor, onSubmit }: EditorProps) {
   return (
-    <div className="flex flex-col items-center w-full min-w-[200px] gap-2 p-4">
+    <div className="flex flex-col items-center w-full min-w-[200px] gap-2 p-4 bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-primary/20">
       <div className="flex flex-col md:flex-row items-center gap-4 w-full">
         {/* OOM's stacked on the left */}
         <div className="w-full md:w-auto">

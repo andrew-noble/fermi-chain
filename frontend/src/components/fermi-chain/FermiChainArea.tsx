@@ -98,7 +98,13 @@ export default function FermiChainArea({ game, editor }: FermiChainAreaProps) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap gap-4">{renderItems()}</div>
-      <Button variant="outline" onClick={game.actions.reset}>
+      <Button
+        variant="outline"
+        onClick={() => {
+          game.actions.reset();
+          editor.actions.reset();
+        }}
+      >
         Reset All
       </Button>
     </div>
