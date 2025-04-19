@@ -42,16 +42,27 @@ export default function Editor({ editor, onSubmit }: EditorProps) {
         </div>
       </div>
 
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => {
-          onSubmit(editor.state);
-          editor.actions.reset();
-        }}
-      >
-        Submit
-      </Button>
+      <div className="flex flex-row gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => {
+            onSubmit(editor.state);
+            editor.actions.reset();
+          }}
+        >
+          Submit
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => {
+            editor.actions.reset();
+          }}
+        >
+          Clear
+        </Button>
+      </div>
     </div>
   );
 }

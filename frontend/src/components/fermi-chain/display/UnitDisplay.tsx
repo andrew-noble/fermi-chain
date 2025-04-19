@@ -47,10 +47,16 @@ export default function UnitDisplay({
   );
 
   return (
-    <div className={`flex flex-col items-center min-w-[200px] ${className}`}>
-      {renderFilteredUnits(numeratorUnits)}
+    <div
+      className={`flex flex-col items-center w-32 md:w-40 lg:w-48 ${className}`}
+    >
+      <div className="min-h-[1.5em] flex items-center justify-center">
+        {renderFilteredUnits(numeratorUnits)}
+      </div>
       <div className="w-full border-t border-gray-200 dark:border-gray-800 my-2" />
-      {renderFilteredUnits(denominatorUnits)}
+      <div className="min-h-[1.5em] flex items-center justify-center">
+        {renderFilteredUnits(denominatorUnits)}
+      </div>
     </div>
   );
 }

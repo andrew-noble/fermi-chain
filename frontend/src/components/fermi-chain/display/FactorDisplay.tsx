@@ -27,12 +27,15 @@ export default function FactorDisplay({
         <UnitDisplay unitInventory={factor.units} />
         <MultiplicationSign />
       </div>
-      <Button variant="outline" size="sm" onClick={onEdit}>
-        Edit
-      </Button>
-      <Button variant="outline" size="sm" onClick={onRemove}>
-        Delete
-      </Button>
+
+      <div className="flex flex-row gap-2">
+        <Button variant="outline" size="sm" onClick={onEdit}>
+          Edit
+        </Button>
+        <Button variant="outline" size="sm" onClick={onRemove}>
+          Delete
+        </Button>
+      </div>
     </div>
   );
 }
