@@ -3,9 +3,13 @@ import { UnitInventory } from "@/types";
 
 interface UnitDisplayProps {
   unitInventory: UnitInventory;
+  className?: string;
 }
 
-export default function UnitDisplay({ unitInventory }: UnitDisplayProps) {
+export default function UnitDisplay({
+  unitInventory,
+  className,
+}: UnitDisplayProps) {
   //filters for numerator units in the UnitInventory
   const numeratorUnits = Object.entries(unitInventory)
     .filter(([_, unitCount]) => unitCount.count > 0)
@@ -43,7 +47,7 @@ export default function UnitDisplay({ unitInventory }: UnitDisplayProps) {
   );
 
   return (
-    <div className="flex flex-col items-center min-w-[200px]">
+    <div className={`flex flex-col items-center min-w-[200px] ${className}`}>
       {renderFilteredUnits(numeratorUnits)}
       <div className="w-full border-t border-gray-200 dark:border-gray-800 my-2" />
       {renderFilteredUnits(denominatorUnits)}

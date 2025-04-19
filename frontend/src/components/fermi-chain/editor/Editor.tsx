@@ -9,6 +9,8 @@ interface EditorProps {
   onSubmit: (editorState: EditorState) => void;
 }
 
+const editorTextSize = "text-4xl";
+
 export default function Editor({ editor, onSubmit }: EditorProps) {
   return (
     <div className="flex flex-col items-center min-w-[200px] gap-2">
@@ -24,16 +26,23 @@ export default function Editor({ editor, onSubmit }: EditorProps) {
         <OomDisplay
           numeratorOom={editor.state.numeratorOom}
           denominatorOom={editor.state.denominatorOom}
+          className={editorTextSize}
         />
 
         {/* Units on the right */}
-        <UnitDisplay unitInventory={editor.state.units} />
+        <UnitDisplay
+          unitInventory={editor.state.units}
+          className={editorTextSize}
+        />
       </div>
 
       <Button
         variant="outline"
         size="sm"
-        onClick={() => onSubmit(editor.state)}
+        onClick={() => {
+          onSubmit(editor.state);
+          editor.actions.reset();
+        }}
       >
         Submit
       </Button>

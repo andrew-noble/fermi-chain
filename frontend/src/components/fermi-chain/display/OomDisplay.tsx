@@ -3,14 +3,16 @@ import { Oom } from "@/types";
 interface OomDisplayProps {
   numeratorOom: Oom;
   denominatorOom: Oom;
+  className?: string;
 }
 
 export default function OomDisplay({
   numeratorOom,
   denominatorOom,
+  className,
 }: OomDisplayProps) {
   return (
-    <div className="flex flex-col items-end">
+    <div className={`flex flex-col items-end ${className}`}>
       <span className="font-mono text-gray-600 dark:text-gray-400">
         {numeratorOom.value.toString()}
       </span>
