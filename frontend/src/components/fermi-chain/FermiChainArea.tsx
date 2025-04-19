@@ -1,4 +1,4 @@
-import { GameHook, EditorHook } from "@/types";
+import { ChainHook, EditorHook } from "@/types";
 
 import Editor from "@/components/fermi-chain/editor/Editor";
 import FactorDisplay from "@/components/fermi-chain/display/FactorDisplay";
@@ -7,17 +7,26 @@ import PhantomFactorDisplay from "@/components/fermi-chain/display/PhantomFactor
 import { Button } from "@/components/ui/button";
 
 interface FermiChainAreaProps {
-  game: GameHook;
+  chain: ChainHook;
   editor: EditorHook;
 }
 
-export default function FermiChainArea({ game, editor }: FermiChainAreaProps) {
-  const factorList = game.state.userFactors;
-  const mode = game.state.mode;
+export default function FermiChainArea({ chain, editor }: FermiChainAreaProps) {
+  const factorList = chain.state.userFactors;
+  const mode = chain.state.mode;
 
   //this nasty tree is gross but okay for now
   const renderItems = () => {
     switch (mode.type) {
+      case "INIT":
+        return (
+          <PhantomFactorDisplay
+            isInit={true}
+            onClick={() => {
+              chain.actions.setMode({ type: "CREATING" });
+            }}
+          />
+        );
       case "VIEWING":
         return (
           <>
@@ -27,18 +36,19 @@ export default function FermiChainArea({ game, editor }: FermiChainAreaProps) {
                   key={factor.id}
                   factor={factor}
                   onEdit={() => {
-                    game.actions.setMode({
+                    chain.actions.setMode({
                       type: "EDITING",
                       idOfFactorBeingEdited: factor.id,
                     });
                   }}
-                  onRemove={() => game.actions.removeFactor(factor)}
+                  onRemove={() => chain.actions.removeFactor(factor)}
                 />
               </>
             ))}
             <PhantomFactorDisplay
+              isInit={false}
               onClick={() => {
-                game.actions.setMode({ type: "CREATING" });
+                chain.actions.setMode({ type: "CREATING" });
               }}
             />
           </>
@@ -51,7 +61,7 @@ export default function FermiChainArea({ game, editor }: FermiChainAreaProps) {
                 <Editor
                   editor={editor}
                   onSubmit={() => {
-                    game.actions.setMode({ type: "VIEWING" });
+                    chain.actions.setMode({ type: "VIEWING" });
                   }}
                 />
               ) : (
@@ -59,12 +69,12 @@ export default function FermiChainArea({ game, editor }: FermiChainAreaProps) {
                   key={factor.id}
                   factor={factor}
                   onEdit={() => {
-                    game.actions.setMode({
+                    chain.actions.setMode({
                       type: "EDITING",
                       idOfFactorBeingEdited: factor.id,
                     });
                   }}
-                  onRemove={() => game.actions.removeFactor(factor)}
+                  onRemove={() => chain.actions.removeFactor(factor)}
                 />
               )
             )}
@@ -78,17 +88,17 @@ export default function FermiChainArea({ game, editor }: FermiChainAreaProps) {
                 key={factor.id}
                 factor={factor}
                 onEdit={() => {
-                  game.actions.setMode({
+                  chain.actions.setMode({
                     type: "EDITING",
                     idOfFactorBeingEdited: factor.id,
                   });
                 }}
-                onRemove={() => game.actions.removeFactor(factor)}
+                onRemove={() => chain.actions.removeFactor(factor)}
               />
             ))}
             <Editor
               editor={editor}
-              onSubmit={() => game.actions.submitFactor(editor.state)}
+              onSubmit={() => chain.actions.submitFactor(editor.state)}
             />
           </>
         );
@@ -101,7 +111,7 @@ export default function FermiChainArea({ game, editor }: FermiChainAreaProps) {
       <Button
         variant="outline"
         onClick={() => {
-          game.actions.reset();
+          chain.actions.reset();
           editor.actions.reset();
         }}
       >

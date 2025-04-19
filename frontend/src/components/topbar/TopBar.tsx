@@ -13,7 +13,7 @@ const TopBar = ({ onToggleTheme }: TopBarProps) => {
   const [tutorialDialogOpen, setTutorialDialogOpen] = useState(false);
   return (
     <div className="flex justify-between items-center max-w-6xl mx-auto">
-      <div className="font-bold text-lg">Fermi Game</div>
+      <div className="font-bold text-lg">Fermi Chain</div>
       <div className="flex gap-4 items-center">
         <ThemeToggle onToggleTheme={onToggleTheme} />
         <AboutDialog open={aboutDialogOpen} onOpenChange={setAboutDialogOpen} />

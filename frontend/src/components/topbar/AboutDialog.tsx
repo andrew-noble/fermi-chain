@@ -16,11 +16,11 @@ export default function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>About Fermi Game</DialogTitle>
+          <DialogTitle>About Fermi Chain</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <p>
-            Fermi Game is a brain teaser that challenges your ability to make
+            Fermi Chain is a brain teaser that challenges your ability to make
             real-world (if outlandish) estimates using reasonable assumptions
             and mathematical reasoning.
           </p>
@@ -53,7 +53,7 @@ export default function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
             2025, I am currently building a much-improved v2.{" "}
           </p>
           <p>
-            In the meantime, this game cycles through 4 different questions.
+            In the meantime, this chain cycles through 4 different questions.
           </p>
           <hr className="border-gray-200 dark:border-gray-700" />
           <p>

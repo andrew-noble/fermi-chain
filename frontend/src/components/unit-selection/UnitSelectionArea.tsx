@@ -3,16 +3,20 @@ import { Unit } from "@/types";
 import DimensionBox from "@/components/unit-selection/DimensionBox";
 
 interface UnitSelectionPanelProps {
+  show: boolean;
   units: Unit[];
   onAddNumerator: (unit: Unit) => void;
   onAddDenominator: (unit: Unit) => void;
 }
 
 export default function UnitSelectionPanel({
+  show,
   units,
   onAddNumerator,
   onAddDenominator,
 }: UnitSelectionPanelProps) {
+  if (!show) return null;
+
   const uniqueDimensions = [...new Set(units.map((unit) => unit.dimension))];
 
   return (

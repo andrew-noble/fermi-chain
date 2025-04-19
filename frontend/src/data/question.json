@@ -9,7 +9,7 @@
     "exponent": 7
   },
   "targetUnits": {
-    "golf-balls": {
+    "golf-ball": {
       "count": 1,
       "unitMetadata": {
         "id": "golf-ball",

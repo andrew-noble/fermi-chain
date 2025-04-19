@@ -33,7 +33,7 @@ export const updateUnitCount = (
 };
 
 //flattens list of unitInventories into one UnitInventory and strips out zeroes
-export const flattenUnits = (inventories: UnitInventory[]): UnitInventory => {
+export const resolveUnits = (inventories: UnitInventory[]): UnitInventory => {
   const newInv: UnitInventory = {};
 
   //unpack each factor's unitInventory into a master unitInventory

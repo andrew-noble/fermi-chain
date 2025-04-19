@@ -5,14 +5,14 @@ import FermiChainArea from "@/components/fermi-chain/FermiChainArea";
 import MainLayout from "./components/layouts/MainLayout";
 import GameLayout from "./components/layouts/GameLayout";
 
-import useGameReducer from "@/hooks/game/useGameReducer";
 import useTheme from "@/hooks/useTheme";
 
 import TopBar from "./components/topbar/TopBar";
 import useEditorReducer from "./hooks/game/useEditorReducer";
+import useChainReducer from "./hooks/game/useChainReducer";
 
 function App() {
-  const game = useGameReducer();
+  const chain = useChainReducer();
   const editor = useEditorReducer();
   const { toggleTheme } = useTheme();
 
@@ -21,7 +21,7 @@ function App() {
       topbar={<TopBar onToggleTheme={toggleTheme} />}
       hero={
         <p className="text-2xl md:text-3xl lg:text-4xl text-primary font-bold">
-          {game.state.question.prompt}
+          {chain.state.question.prompt}
         </p>
       }
       footer={<p>© Andrew Noble, {new Date().getFullYear()}</p>}
@@ -29,17 +29,21 @@ function App() {
       <GameLayout
         top={
           <UnitSelectionArea
-            units={game.state.question.usefulUnitList}
+            show={chain.state.mode.type !== "INIT"}
+            units={chain.state.question.usefulUnitList}
             onAddNumerator={editor.actions.addUnitToNumerator}
             onAddDenominator={editor.actions.addUnitToDenominator}
           />
         }
-        middle={<FermiChainArea game={game} editor={editor} />}
+        middle={<FermiChainArea chain={chain} editor={editor} />}
         bottom={
           <ResultsArea
-            show={!!game.state.userFactors.length}
-            isCorrectOom={!!game.derivedState.isCorrectOom}
-            isCorrectUnits={!!game.derivedState.isCorrectUnits}
+            show={
+              chain.state.mode.type !== "INIT" &&
+              chain.state.userFactors.length > 0
+            }
+            chain={chain}
+            editor={editor}
           />
         }
       />

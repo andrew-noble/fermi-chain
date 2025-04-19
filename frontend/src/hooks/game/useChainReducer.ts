@@ -4,21 +4,21 @@ import {
   Factor,
   Oom,
   UnitInventory,
-  GameState,
-  GameAction,
-  GameHook,
   Mode,
   EditorState,
+  ChainState,
+  ChainAction,
+  ChainHook,
 } from "@/types";
-import { flattenUnits, isSameUnits } from "@/helpers/unitManagement";
-import { isSameOom, flattenOoms } from "@/helpers/oomManagement";
+import { resolveUnits } from "@/helpers/unitManagement";
+import { resolveOoms } from "@/helpers/oomManagement";
 import { v4 as uuidv4 } from "uuid";
 
-// Reducer for managing the game state (list of user factors)
-const gameReducer: React.Reducer<GameState, GameAction> = (
-  state: GameState,
-  action: GameAction
-): GameState => {
+// Reducer for managing the chain state (list of user factors)
+const chainReducer: React.Reducer<ChainState, ChainAction> = (
+  state: ChainState,
+  action: ChainAction
+): ChainState => {
   //fuggggly nested switch...
   switch (action.type) {
     case "SUBMIT-FACTOR":
@@ -45,8 +45,7 @@ const gameReducer: React.Reducer<GameState, GameAction> = (
             ),
             mode: { type: "VIEWING" },
           };
-
-        case "VIEWING":
+        default:
           return state;
       }
     case "REMOVE-FACTOR":
@@ -59,7 +58,7 @@ const gameReducer: React.Reducer<GameState, GameAction> = (
       };
     case "RESET":
       // Reset all user factors
-      return stateInit;
+      return emptyState;
     case "SET-MODE":
       return { ...state, mode: action.mode };
     default:
@@ -67,39 +66,37 @@ const gameReducer: React.Reducer<GameState, GameAction> = (
   }
 };
 
-const stateInit: GameState = {
+const initState: ChainState = {
+  question: question,
+  userFactors: [],
+  mode: { type: "INIT" },
+};
+
+const emptyState: ChainState = {
   question: question,
   userFactors: [],
   mode: { type: "VIEWING" },
 };
 
-export default function useGameReducer(
-  initState: GameState = stateInit
-): GameHook {
-  const [state, dispatch] = useReducer(gameReducer, initState);
+export default function useChainReducer(
+  init: ChainState = initState
+): ChainHook {
+  const [state, dispatch] = useReducer(chainReducer, init);
 
   // Extract ooms from all user factors for calculation
   const numerators: Oom[] = state.userFactors.map((f) => f.numeratorOom);
   const denominators: Oom[] = state.userFactors.map((f) => f.denominatorOom);
 
   //-----Derived State for Display and Usage------
-  const netOom: Oom = flattenOoms(numerators, denominators);
-  const netUnits: UnitInventory = flattenUnits(
+  const chainOom: Oom = resolveOoms(numerators, denominators);
+  const chainUnits: UnitInventory = resolveUnits(
     state.userFactors.map((f) => f.units)
-  );
-  const isCorrectOom: boolean = isSameOom(
-    state.question.targetAnswer,
-    netOom.value
-  );
-  const isCorrectUnits: boolean = isSameUnits(
-    netUnits,
-    state.question.targetUnits
   );
 
   return {
     state,
     actions: {
-      submitFactor: (factor: EditorState) =>
+      submitFactor: (factor: Factor | EditorState) =>
         dispatch({ type: "SUBMIT-FACTOR", factor }),
       removeFactor: (factor: Factor) =>
         dispatch({ type: "REMOVE-FACTOR", factor }),
@@ -107,10 +104,8 @@ export default function useGameReducer(
       setMode: (mode: Mode) => dispatch({ type: "SET-MODE", mode }),
     },
     derivedState: {
-      netUserOom: netOom,
-      netUserUnits: netUnits,
-      isCorrectOom: isCorrectOom,
-      isCorrectUnits: isCorrectUnits,
+      chainOom: chainOom,
+      chainUnits: chainUnits,
     },
   };
 }

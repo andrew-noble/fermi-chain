@@ -12,7 +12,7 @@ export const getClosestOom = (num: number): Oom => {
   return ooms.find((oom) => oom.exponent === exp) || getOomById("1e0"); // fallback to OOMS[0] if not found
 };
 
-export const flattenOoms = (numerators: Oom[], denominators: Oom[]): Oom => {
+export const resolveOoms = (numerators: Oom[], denominators: Oom[]): Oom => {
   const numProduct = numerators.reduce((acc, oom) => acc * oom.value, 1);
   const denomProduct = denominators.reduce((acc, oom) => acc * oom.value, 1);
   return getClosestOom(numProduct / denomProduct);

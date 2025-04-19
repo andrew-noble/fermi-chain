@@ -24,7 +24,6 @@ export interface BaseFactor {
   denominatorOom: Oom;
 }
 
-// Game State Types
 export interface Question {
   id: string;
   prompt: string;
@@ -41,10 +40,12 @@ export interface Factor extends BaseFactor {
 export type Mode =
   | { type: "VIEWING" }
   | { type: "CREATING" }
-  | { type: "EDITING"; idOfFactorBeingEdited: string };
+  | { type: "EDITING"; idOfFactorBeingEdited: string }
+  | { type: "INIT" }; //for just when the game starts to give ultra-minimal UI
 
-// Core game state
-export interface GameState {
+// Chain State Types
+// Core chain state
+export interface ChainState {
   question: Question;
   userFactors: Factor[];
   mode: Mode;
@@ -70,15 +71,15 @@ interface SetModeAction {
   mode: Mode;
 }
 
-export type GameAction =
+export type ChainAction =
   | SubmitFactorAction
   | RemoveFactorAction
   | ResetAction
   | SetModeAction;
 
-// Public interface for the game hook
-export interface GameHook {
-  state: GameState;
+// Public interface for the chain hook
+export interface ChainHook {
+  state: ChainState;
   actions: {
     submitFactor: (factor: EditorState) => void;
     removeFactor: (factor: Factor) => void;
@@ -86,9 +87,7 @@ export interface GameHook {
     setMode: (mode: Mode) => void;
   };
   derivedState: {
-    netUserOom: Oom;
-    netUserUnits: UnitInventory;
-    isCorrectOom: boolean;
-    isCorrectUnits: boolean;
+    chainOom: Oom;
+    chainUnits: UnitInventory;
   };
 }

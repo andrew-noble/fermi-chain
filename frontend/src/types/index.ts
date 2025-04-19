@@ -1,3 +1,3 @@
 export * from "./primitives";
-export * from "./gameTypes";
+export * from "./chainTypes";
 export * from "./editorTypes";
