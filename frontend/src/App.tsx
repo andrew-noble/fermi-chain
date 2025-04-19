@@ -20,7 +20,7 @@ function App() {
     <MainLayout
       topbar={<TopBar onToggleTheme={toggleTheme} />}
       hero={
-        <p className="text-4xl text-primary font-bold">
+        <p className="text-2xl md:text-3xl lg:text-4xl text-primary font-bold">
           {game.state.question.prompt}
         </p>
       }

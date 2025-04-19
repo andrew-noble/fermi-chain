@@ -24,7 +24,7 @@ export default function MainLayout({
         </section>
       )}
 
-      <main className="p-6 bg-gray-50 dark:bg-black max-w-4xl mx-auto">
+      <main className="p-4 md:p-6 bg-gray-50 dark:bg-black w-full max-w-full md:max-w-2xl lg:max-w-4xl mx-auto">
         {children}
       </main>
 

@@ -19,7 +19,7 @@ export default function DimensionBox({
     <Panel className="bg-gray-50 dark:bg-gray-950">
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-2">
-          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+          <h3 className="text-xs md:text-sm font-semibold text-gray-700 dark:text-gray-300">
             {dimension}
           </h3>
           <div className="flex-1 h-px bg-gray-200 dark:bg-gray-800" />

@@ -19,7 +19,7 @@ export default function UnitSelectionPanel({
     <Panel
       header={
         <div className="flex items-center gap-2">
-          <h2 className="text-lg font-semibold">Unit Toolbox</h2>
+          <h2 className="text-base md:text-lg font-semibold">Unit Toolbox</h2>
         </div>
       }
     >

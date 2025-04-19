@@ -9,31 +9,37 @@ interface EditorProps {
   onSubmit: (editorState: EditorState) => void;
 }
 
-const editorTextSize = "text-4xl";
-
 export default function Editor({ editor, onSubmit }: EditorProps) {
   return (
-    <div className="flex flex-col items-center min-w-[200px] gap-2">
-      <div className="flex flex-row items-center gap-4">
+    <div className="flex flex-col items-center w-full min-w-[200px] gap-2 p-4">
+      <div className="flex flex-col md:flex-row items-center gap-4 w-full">
         {/* OOM's stacked on the left */}
-        <OomSelectors
-          onUpdateNumeratorOom={editor.actions.updateNumeratorOom}
-          onUpdateDenominatorOom={editor.actions.updateDenominatorOom}
-          currentNumeratorOom={editor.state.numeratorOom}
-          currentDenominatorOom={editor.state.denominatorOom}
-        />
+        <div className="w-full md:w-auto">
+          <OomSelectors
+            onUpdateNumeratorOom={editor.actions.updateNumeratorOom}
+            onUpdateDenominatorOom={editor.actions.updateDenominatorOom}
+            currentNumeratorOom={editor.state.numeratorOom}
+            currentDenominatorOom={editor.state.denominatorOom}
+          />
+        </div>
 
-        <OomDisplay
-          numeratorOom={editor.state.numeratorOom}
-          denominatorOom={editor.state.denominatorOom}
-          className={editorTextSize}
-        />
+        {/* Display container with responsive layout */}
+        <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 w-full md:flex-1">
+          <div className="w-full md:w-28 lg:w-32 flex justify-center md:justify-end">
+            <OomDisplay
+              numeratorOom={editor.state.numeratorOom}
+              denominatorOom={editor.state.denominatorOom}
+              className="text-2xl md:text-3xl lg:text-4xl"
+            />
+          </div>
 
-        {/* Units on the right */}
-        <UnitDisplay
-          unitInventory={editor.state.units}
-          className={editorTextSize}
-        />
+          <div className="w-full md:w-28 lg:w-32 flex justify-center">
+            <UnitDisplay
+              unitInventory={editor.state.units}
+              className="text-2xl md:text-3xl lg:text-4xl"
+            />
+          </div>
+        </div>
       </div>
 
       <Button
