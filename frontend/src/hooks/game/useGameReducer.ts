@@ -19,6 +19,7 @@ const gameReducer: React.Reducer<GameState, GameAction> = (
   state: GameState,
   action: GameAction
 ): GameState => {
+  //fuggggly nested switch...
   switch (action.type) {
     case "SUBMIT-FACTOR":
       switch (state.mode.type) {

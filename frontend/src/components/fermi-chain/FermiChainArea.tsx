@@ -15,23 +15,27 @@ export default function FermiChainArea({ game, editor }: FermiChainAreaProps) {
   const factorList = game.state.userFactors;
   const mode = game.state.mode;
 
+  //this nasty tree is gross but okay for now
   const renderItems = () => {
     switch (mode.type) {
       case "VIEWING":
         return (
           //TODO: re-implement the multiplication signs!! using index
           <>
-            {factorList.map((factor, index) => (
-              <FactorDisplay
-                key={factor.id}
-                factor={factor}
-                onEdit={() => {
-                  game.actions.setMode({
-                    type: "EDITING",
-                    idOfFactorBeingEdited: factor.id,
-                  });
-                }}
-              />
+            {factorList.map((factor) => (
+              <>
+                <FactorDisplay
+                  key={factor.id}
+                  factor={factor}
+                  onEdit={() => {
+                    game.actions.setMode({
+                      type: "EDITING",
+                      idOfFactorBeingEdited: factor.id,
+                    });
+                  }}
+                  onRemove={() => game.actions.removeFactor(factor)}
+                />
+              </>
             ))}
             <PhantomFactorDisplay
               onClick={() => {
@@ -61,6 +65,7 @@ export default function FermiChainArea({ game, editor }: FermiChainAreaProps) {
                       idOfFactorBeingEdited: factor.id,
                     });
                   }}
+                  onRemove={() => game.actions.removeFactor(factor)}
                 />
               )
             )}
@@ -79,6 +84,7 @@ export default function FermiChainArea({ game, editor }: FermiChainAreaProps) {
                     idOfFactorBeingEdited: factor.id,
                   });
                 }}
+                onRemove={() => game.actions.removeFactor(factor)}
               />
             ))}
             <Editor
