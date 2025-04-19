@@ -20,7 +20,6 @@ export default function FermiChainArea({ game, editor }: FermiChainAreaProps) {
     switch (mode.type) {
       case "VIEWING":
         return (
-          //TODO: re-implement the multiplication signs!! using index
           <>
             {factorList.map((factor) => (
               <>
