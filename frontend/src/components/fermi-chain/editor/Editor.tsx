@@ -10,6 +10,13 @@ interface EditorProps {
 }
 
 export default function Editor({ editor, onSubmit }: EditorProps) {
+  const isEmpty =
+    Object.values(editor.state.units).every(
+      (unitCount) => unitCount.count === 0
+    ) &&
+    editor.state.numeratorOom === null &&
+    editor.state.denominatorOom === null;
+
   return (
     <div className="flex flex-col items-center w-full min-w-[200px] gap-2 p-4 bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-primary/20">
       <div className="flex flex-col md:flex-row items-center gap-4 w-full">
@@ -46,6 +53,7 @@ export default function Editor({ editor, onSubmit }: EditorProps) {
         <Button
           variant="outline"
           size="sm"
+          disabled={isEmpty}
           onClick={() => {
             onSubmit(editor.state);
             editor.actions.reset();
