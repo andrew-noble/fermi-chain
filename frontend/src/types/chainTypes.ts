@@ -38,10 +38,9 @@ export interface Factor extends BaseFactor {
 }
 
 export type Mode =
-  | { type: "VIEWING" }
-  | { type: "CREATING" }
+  | { type: "INIT" }
   | { type: "EDITING"; idOfFactorBeingEdited: string }
-  | { type: "INIT" }; //for just when the game starts to give ultra-minimal UI
+  | null; // default "creating" mode
 
 // Chain State Types
 // Core chain state
@@ -54,37 +53,37 @@ export interface ChainState {
 // Internal reducer action types
 interface SubmitFactorAction {
   type: "SUBMIT-FACTOR";
-  factor: EditorState;
+  payload: EditorState;
 }
 
 interface RemoveFactorAction {
   type: "REMOVE-FACTOR";
-  factor: Factor;
+  payload: Factor;
 }
 
 interface ResetAction {
   type: "RESET";
 }
 
-interface SetModeAction {
-  type: "SET-MODE";
-  mode: Mode;
+interface StartEditAction {
+  type: "START-EDIT";
+  payload: Factor | null;
 }
 
 export type ChainAction =
   | SubmitFactorAction
   | RemoveFactorAction
   | ResetAction
-  | SetModeAction;
+  | StartEditAction;
 
 // Public interface for the chain hook
 export interface ChainHook {
   state: ChainState;
   actions: {
-    submitFactor: (factor: EditorState) => void;
-    removeFactor: (factor: Factor) => void;
+    submitFactor: (payload: EditorState) => void;
+    removeFactor: (payload: Factor) => void;
     reset: () => void;
-    setMode: (mode: Mode) => void;
+    startEdit: (payload: Factor | null) => void;
   };
   derivedState: {
     chainOom: Oom;

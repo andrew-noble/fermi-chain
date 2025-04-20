@@ -18,5 +18,5 @@ export default function useTheme() {
     localStorage.setItem("theme", isDark ? "light" : "dark");
   };
 
-  return { toggleTheme };
+  return toggleTheme;
 }

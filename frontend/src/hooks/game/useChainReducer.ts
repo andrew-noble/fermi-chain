@@ -4,7 +4,6 @@ import {
   Factor,
   Oom,
   UnitInventory,
-  Mode,
   EditorState,
   ChainState,
   ChainAction,
@@ -19,63 +18,72 @@ const chainReducer: React.Reducer<ChainState, ChainAction> = (
   state: ChainState,
   action: ChainAction
 ): ChainState => {
-  //fuggggly nested switch...
   switch (action.type) {
-    case "SUBMIT-FACTOR":
-      switch (state.mode.type) {
-        case "CREATING":
-          const newId = uuidv4();
-          const newFactor: Factor = {
-            ...action.factor,
-            id: newId,
-          };
-          return {
-            ...state,
-            userFactors: [...state.userFactors, newFactor],
-            mode: { type: "VIEWING" },
-          };
-        case "EDITING":
-          return {
-            ...state,
-            userFactors: state.userFactors.map((factor) =>
-              state.mode.type === "EDITING" &&
-              factor.id === state.mode.idOfFactorBeingEdited
-                ? { ...action.factor, id: factor.id }
-                : factor
-            ),
-            mode: { type: "VIEWING" },
-          };
-        default:
-          return state;
+    case "SUBMIT-FACTOR": {
+      if (state.mode?.type === "EDITING" && state.mode.idOfFactorBeingEdited) {
+        return {
+          ...state,
+          userFactors: state.userFactors.map((factor) =>
+            state.mode?.type === "EDITING" && //annoying extra mode check bc ts is fussy
+            factor.id === state.mode.idOfFactorBeingEdited
+              ? { ...action.payload, id: factor.id }
+              : factor
+          ),
+          mode: null, // back to default create mode
+        };
+      } else {
+        // default: new factor
+        const newId = uuidv4();
+        const newFactor: Factor = {
+          ...action.payload,
+          id: newId,
+        };
+        return {
+          ...state,
+          userFactors: [...state.userFactors, newFactor],
+          mode: null,
+        };
       }
+    }
+    case "START-EDIT": {
+      if (action.payload?.id) {
+        return {
+          //edit existing
+          ...state,
+          mode: { type: "EDITING", idOfFactorBeingEdited: action.payload.id },
+        };
+      } else {
+        //this shouldn't get triggered, but sends back to normal creating
+        return { ...state, mode: null }; //create new
+      }
+    }
+
     case "REMOVE-FACTOR":
       // Remove a factor by id
       return {
         ...state,
         userFactors: state.userFactors.filter(
-          (factor) => factor.id !== action.factor.id
+          (factor) => factor.id !== action.payload.id
         ),
       };
     case "RESET":
       // Reset all user factors
       return emptyState;
-    case "SET-MODE":
-      return { ...state, mode: action.mode };
     default:
       return state;
   }
+};
+
+const emptyState: ChainState = {
+  question: question,
+  userFactors: [],
+  mode: null,
 };
 
 const initState: ChainState = {
   question: question,
   userFactors: [],
   mode: { type: "INIT" },
-};
-
-const emptyState: ChainState = {
-  question: question,
-  userFactors: [],
-  mode: { type: "VIEWING" },
 };
 
 export default function useChainReducer(
@@ -96,12 +104,16 @@ export default function useChainReducer(
   return {
     state,
     actions: {
-      submitFactor: (factor: Factor | EditorState) =>
-        dispatch({ type: "SUBMIT-FACTOR", factor }),
-      removeFactor: (factor: Factor) =>
-        dispatch({ type: "REMOVE-FACTOR", factor }),
+      submitFactor: (payload: Factor | EditorState) =>
+        dispatch({ type: "SUBMIT-FACTOR", payload }),
+      removeFactor: (payload: Factor) =>
+        dispatch({ type: "REMOVE-FACTOR", payload }),
       reset: () => dispatch({ type: "RESET" }),
-      setMode: (mode: Mode) => dispatch({ type: "SET-MODE", mode }),
+      startEdit: (payload: Factor | null) =>
+        dispatch({
+          type: "START-EDIT",
+          payload,
+        }),
     },
     derivedState: {
       chainOom: chainOom,

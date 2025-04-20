@@ -1,9 +1,9 @@
 import UnitSelectionArea from "@/components/unit-selection/UnitSelectionArea";
-import ResultsArea from "@/components/results/ResultsArea";
+import FeedbackArea from "@/components/FeedbackArea";
 import FermiChainArea from "@/components/fermi-chain/FermiChainArea";
 
-import MainLayout from "./components/layouts/MainLayout";
-import GameLayout from "./components/layouts/GameLayout";
+import RootLayout from "./components/layouts/RootLayout";
+import ResponsiveGameLayout from "./components/layouts/ResponsiveGameLayout";
 
 import useTheme from "@/hooks/useTheme";
 
@@ -14,10 +14,10 @@ import useChainReducer from "./hooks/game/useChainReducer";
 function App() {
   const chain = useChainReducer();
   const editor = useEditorReducer();
-  const { toggleTheme } = useTheme();
+  const toggleTheme = useTheme();
 
   return (
-    <MainLayout
+    <RootLayout
       topbar={<TopBar onToggleTheme={toggleTheme} />}
       hero={
         <p className="text-2xl md:text-3xl lg:text-4xl text-primary font-bold">
@@ -26,20 +26,20 @@ function App() {
       }
       footer={<p>© Andrew Noble, {new Date().getFullYear()}</p>}
     >
-      <GameLayout
-        top={
+      <ResponsiveGameLayout
+        unitSelection={
           <UnitSelectionArea
-            show={chain.state.mode.type !== "INIT"}
+            show={chain.state.mode?.type !== "INIT"}
             units={chain.state.question.usefulUnitList}
             onAddNumerator={editor.actions.addUnitToNumerator}
             onAddDenominator={editor.actions.addUnitToDenominator}
           />
         }
-        middle={<FermiChainArea chain={chain} editor={editor} />}
-        bottom={
-          <ResultsArea
+        fermiChain={<FermiChainArea chain={chain} editor={editor} />}
+        feedback={
+          <FeedbackArea
             show={
-              chain.state.mode.type !== "INIT" &&
+              chain.state.mode?.type !== "INIT" &&
               chain.state.userFactors.length > 0
             }
             chain={chain}
@@ -47,7 +47,7 @@ function App() {
           />
         }
       />
-    </MainLayout>
+    </RootLayout>
   );
 }
 

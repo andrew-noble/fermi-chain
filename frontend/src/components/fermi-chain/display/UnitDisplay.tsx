@@ -1,5 +1,6 @@
 import React from "react";
 import { UnitInventory } from "@/types";
+import { getUnitStrings } from "@/helpers/unitManagement";
 
 interface UnitDisplayProps {
   unitInventory: UnitInventory;
@@ -10,30 +11,24 @@ export default function UnitDisplay({
   unitInventory,
   className,
 }: UnitDisplayProps) {
-  //filters for numerator units in the UnitInventory
-  const numeratorUnits = Object.entries(unitInventory)
-    .filter(([_, unitCount]) => unitCount.count > 0)
-    .map(([_, unitCount]) => (
-      <span key={unitCount.unitMetadata.id} className="whitespace-nowrap">
-        {unitCount.unitMetadata.name}
-        {unitCount.count > 1 && <sup className="ml-0.5">{unitCount.count}</sup>}
-      </span>
-    ));
+  const { numerators, denominators } = getUnitStrings(unitInventory);
 
-  //filters for denominator units in the UnitInventory
-  const denominatorUnits = Object.entries(unitInventory)
-    .filter(([_, unitCount]) => unitCount.count < 0)
-    .map(([_, unitCount]) => (
-      <span key={unitCount.unitMetadata.id} className="whitespace-nowrap">
-        {unitCount.unitMetadata.name}
-        {unitCount.count < -1 && (
-          <sup className="ml-0.5">{Math.abs(unitCount.count)}</sup>
-        )}
-      </span>
-    ));
+  const numeratorUnits = numerators.map((unit) => (
+    <span key={unit.name} className="whitespace-nowrap">
+      {unit.name}
+      {unit.exponent > 1 && <sup className="ml-0.5">{unit.exponent}</sup>}
+    </span>
+  ));
+
+  const denominatorUnits = denominators.map((unit) => (
+    <span key={unit.name} className="whitespace-nowrap">
+      {unit.name}
+      {unit.exponent > 1 && <sup className="ml-0.5">{unit.exponent}</sup>}
+    </span>
+  ));
 
   //does the job of interjecting ·'s when there are multiple units strung together
-  const renderFilteredUnits = (units: React.ReactElement[]) => (
+  const renderUnitsWithSeparator = (units: React.ReactElement[]) => (
     <div className="flex flex-wrap">
       {units.map((unit, index) => (
         <span key={index} className="flex items-center">
@@ -51,11 +46,11 @@ export default function UnitDisplay({
       className={`flex flex-col items-center w-32 md:w-40 lg:w-48 ${className}`}
     >
       <div className="min-h-[1.5em] flex items-center justify-center">
-        {renderFilteredUnits(numeratorUnits)}
+        {renderUnitsWithSeparator(numeratorUnits)}
       </div>
       <div className="w-full border-t border-gray-200 dark:border-gray-800 my-2" />
       <div className="min-h-[1.5em] flex items-center justify-center">
-        {renderFilteredUnits(denominatorUnits)}
+        {renderUnitsWithSeparator(denominatorUnits)}
       </div>
     </div>
   );

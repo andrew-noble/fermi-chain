@@ -59,3 +59,29 @@ export const isSameUnits = (
 ): boolean => {
   return JSON.stringify(inv1) === JSON.stringify(inv2);
 };
+
+export interface UnitString {
+  name: string;
+  exponent: number;
+}
+
+export interface UnitStrings {
+  numerators: UnitString[];
+  denominators: UnitString[];
+}
+
+export const getUnitStrings = (inv: UnitInventory): UnitStrings => {
+  const allUnits = Object.entries(inv)
+    .filter(([_, unitCount]) => unitCount.count !== 0)
+    .map(([_, unitCount]) => ({
+      name: unitCount.unitMetadata.name,
+      exponent: unitCount.count,
+    }));
+
+  return {
+    numerators: allUnits.filter((unit) => unit.exponent > 0),
+    denominators: allUnits
+      .filter((unit) => unit.exponent < 0)
+      .map((unit) => ({ ...unit, exponent: Math.abs(unit.exponent) })),
+  };
+};
