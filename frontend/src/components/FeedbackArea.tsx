@@ -1,6 +1,5 @@
 import { Panel } from "@/components/ui/Panel";
 import { EditorHook, ChainHook } from "@/types";
-import UnitDisplay from "@/components/fermi-chain/display/UnitDisplay";
 import { resolveUnits, isSameUnits } from "@/helpers/unitManagement";
 import { getUnitStrings } from "@/helpers/unitManagement";
 // import { isSameOom } from "@/helpers/oomManagement";
