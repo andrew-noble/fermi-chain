@@ -4,7 +4,6 @@ import { InlineUnit } from "@/components/fermi-chain/display/InlineUnit";
 import { InlineOom } from "@/components/fermi-chain/display/InlineOom";
 import { Button } from "@/components/ui/button";
 import { getOomById } from "@/data/ooms";
-import { useIsMobile } from "@/hooks/useIsMobile";
 import { getUnitStrings } from "@/helpers/unitManagement";
 
 interface EditorProps {
@@ -13,9 +12,7 @@ interface EditorProps {
 }
 
 export default function Editor({ editor, onSubmit }: EditorProps) {
-  const isMobile = useIsMobile();
   const { numerators, denominators } = getUnitStrings(editor.state.units);
-
   const hasNoUnits = Object.values(editor.state.units).every(
     (unitCount) => unitCount.count === 0
   );

@@ -1,4 +1,10 @@
 import { Oom } from "@/types";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface InlineOomProps {
   oom: Oom;
@@ -20,5 +26,22 @@ export function InlineOom({ oom, className }: InlineOomProps) {
     }
   };
 
-  return <span className={` ${className}`}>{getDisplayVersion(oom)}</span>;
+  const fullValue = oom.value.toLocaleString();
+
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <span
+            className={`inline-block w-[2.5rem] text-center mr-2 ${className}`}
+          >
+            {getDisplayVersion(oom)}
+          </span>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>{fullValue}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
 }
