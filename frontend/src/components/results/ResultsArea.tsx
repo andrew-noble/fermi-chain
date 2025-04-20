@@ -2,7 +2,7 @@ import { Panel } from "@/components/ui/Panel";
 import { EditorHook, ChainHook } from "@/types";
 import UnitDisplay from "@/components/fermi-chain/display/UnitDisplay";
 import { resolveUnits, isSameUnits } from "@/helpers/unitManagement";
-import { isSameOom } from "@/helpers/oomManagement";
+// import { isSameOom } from "@/helpers/oomManagement";
 
 interface ResultsAreaProps {
   show: boolean;
@@ -30,16 +30,15 @@ export default function ResultsArea({ show, chain, editor }: ResultsAreaProps) {
     else return "text-yellow-500";
   };
 
-  //later, when user can do more granular than just oom, this do more lifting
-  const isCorrectOom = isSameOom(
-    chain.derivedState.chainOom.value,
-    chain.state.question.targetOom.value
-  );
+  // //later, when user can do more granular than just oom, this do more lifting
+  // const isCorrectOom = isSameOom(
+  //   chain.derivedState.chainOom.value,
+  //   chain.state.question.targetOom.value
+  // );
 
   return (
     <Panel>
       <h2 className="text-lg font-bold">Results</h2>
-      <p>{isCorrectOom ? "Correct OOM!" : "Incorrect OOM!"}</p>
       <div className={`flex flex-col gap-2 ${winStyling(isCorrectUnits)}`}>
         <p>Goal Units:</p>
         <UnitDisplay unitInventory={chain.state.question.targetUnits} />
