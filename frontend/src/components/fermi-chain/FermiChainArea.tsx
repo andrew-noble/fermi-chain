@@ -31,19 +31,17 @@ export default function FermiChainArea({ chain, editor }: FermiChainAreaProps) {
         return (
           <>
             {factorList.map((factor) => (
-              <>
-                <FactorDisplay
-                  key={factor.id}
-                  factor={factor}
-                  onEdit={() => {
-                    chain.actions.setMode({
-                      type: "EDITING",
-                      idOfFactorBeingEdited: factor.id,
-                    });
-                  }}
-                  onRemove={() => chain.actions.removeFactor(factor)}
-                />
-              </>
+              <FactorDisplay
+                key={factor.id}
+                factor={factor}
+                onEdit={() => {
+                  chain.actions.setMode({
+                    type: "EDITING",
+                    idOfFactorBeingEdited: factor.id,
+                  });
+                }}
+                onRemove={() => chain.actions.removeFactor(factor)}
+              />
             ))}
             <PhantomFactorDisplay
               isInit={false}
