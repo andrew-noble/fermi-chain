@@ -3,6 +3,7 @@ import { EditorHook, ChainHook } from "@/types";
 import { resolveUnits, isSameUnits } from "@/helpers/unitManagement";
 import { getUnitStrings } from "@/helpers/unitManagement";
 // import { isSameOom } from "@/helpers/oomManagement";
+import { InlineUnit } from "@/components/fermi-chain/display/InlineUnit";
 
 interface FeedbackAreaProps {
   show: boolean;
@@ -29,7 +30,7 @@ export default function FeedbackArea({
     chain.state.question.targetUnits
   );
 
-  const winStyling = (isCorrect: boolean) => {
+  const correctUnitsStyling = (isCorrect: boolean) => {
     if (isCorrect) return "text-green-500";
     else return "text-yellow-500";
   };
@@ -44,21 +45,16 @@ export default function FeedbackArea({
 
   return (
     <Panel>
-      <div className={` ${winStyling(isCorrectUnits)}`}>
-        <span>Your Units: </span>
-        {numerators.map((unit) => (
-          <span key={unit.name}>
-            {unit.name}
-            {unit.exponent > 1 && <sup className="ml-0.5">{unit.exponent}</sup>}
-          </span>
-        ))}
-        <span> / </span>
-        {denominators.map((unit) => (
-          <span key={unit.name}>
-            {unit.name}
-            {unit.exponent > 1 && <sup className="ml-0.5">{unit.exponent}</sup>}
-          </span>
-        ))}
+      <div className="flex gap-2 items-center">
+        <span>Your Answer: </span>
+        <span className="text-primary font-semibold">
+          {chain.derivedState.chainOom.value}
+        </span>
+        <div className={`flex gap-1 ${correctUnitsStyling(isCorrectUnits)}`}>
+          <InlineUnit units={numerators} />
+          <p> / </p>
+          <InlineUnit units={denominators} />
+        </div>
       </div>
     </Panel>
   );
