@@ -3,6 +3,7 @@ import OomSelectors from "@/components/fermi-chain/editor/OomSelectors";
 import UnitDisplay from "@/components/fermi-chain/display/UnitDisplay";
 import OomDisplay from "../display/OomDisplay";
 import { Button } from "@/components/ui/button";
+import { getOomById } from "@/data/ooms";
 
 interface EditorProps {
   editor: EditorHook;
@@ -10,12 +11,15 @@ interface EditorProps {
 }
 
 export default function Editor({ editor, onSubmit }: EditorProps) {
-  const isEmpty =
-    Object.values(editor.state.units).every(
-      (unitCount) => unitCount.count === 0
-    ) &&
-    editor.state.numeratorOom === null &&
-    editor.state.denominatorOom === null;
+  const hasNoUnits = Object.values(editor.state.units).every(
+    (unitCount) => unitCount.count === 0
+  );
+
+  const hasNoOoms =
+    editor.state.numeratorOom === getOomById("1e0") &&
+    editor.state.denominatorOom === getOomById("1e0");
+
+  const isInvalid = hasNoUnits || hasNoOoms;
 
   return (
     <div className="flex flex-col items-center w-full min-w-[200px] gap-2 p-4 bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-primary/20">
@@ -53,7 +57,7 @@ export default function Editor({ editor, onSubmit }: EditorProps) {
         <Button
           variant="outline"
           size="sm"
-          disabled={isEmpty}
+          disabled={isInvalid}
           onClick={() => {
             onSubmit(editor.state);
             editor.actions.reset();
