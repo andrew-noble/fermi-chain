@@ -1,11 +1,12 @@
 interface InlineUnitProps {
   units: { name: string; exponent: number }[];
+  className?: string;
 }
 
 //this component renders a single level of units (numerator or denominator), separated by dots
-export function InlineUnit({ units }: InlineUnitProps) {
+export function InlineUnit({ units, className }: InlineUnitProps) {
   return (
-    <div className="flex flex-wrap">
+    <div className={`flex flex-wrap ${className}`}>
       {units.map((unit, index) => (
         <span key={index} className="flex items-center">
           <span className="whitespace-nowrap">
