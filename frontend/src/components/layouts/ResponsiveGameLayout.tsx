@@ -6,7 +6,7 @@ import MobileLayout from "@/components/layouts/MobileLayout";
 interface Props {
   unitSelection: React.ReactNode;
   fermiChain: React.ReactNode;
-  results: React.ReactNode;
+  feedback: React.ReactNode;
 }
 
 export default function ResponsiveGameLayout(props: Props) {
@@ -15,14 +15,14 @@ export default function ResponsiveGameLayout(props: Props) {
   return isMobile ? (
     <MobileLayout
       top={props.unitSelection}
-      middle={props.results}
+      middle={props.feedback}
       bottom={props.fermiChain}
     />
   ) : (
     <DesktopLayout
       top={props.unitSelection}
       middle={props.fermiChain}
-      bottom={props.results}
+      bottom={props.feedback}
     />
   );
 }

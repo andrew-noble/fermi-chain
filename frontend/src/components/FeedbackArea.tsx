@@ -4,13 +4,17 @@ import UnitDisplay from "@/components/fermi-chain/display/UnitDisplay";
 import { resolveUnits, isSameUnits } from "@/helpers/unitManagement";
 // import { isSameOom } from "@/helpers/oomManagement";
 
-interface ResultsAreaProps {
+interface FeedbackAreaProps {
   show: boolean;
   chain: ChainHook;
   editor: EditorHook;
 }
 
-export default function ResultsArea({ show, chain, editor }: ResultsAreaProps) {
+export default function FeedbackArea({
+  show,
+  chain,
+  editor,
+}: FeedbackAreaProps) {
   if (!show) return null;
 
   //this isolated stage merge isn't architechturally amazing, but it works
