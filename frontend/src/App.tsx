@@ -29,7 +29,7 @@ function App() {
       <ResponsiveGameLayout
         unitSelection={
           <UnitSelectionArea
-            show={chain.state.mode.type !== "INIT"}
+            show={chain.state.mode?.type !== "INIT"}
             units={chain.state.question.usefulUnitList}
             onAddNumerator={editor.actions.addUnitToNumerator}
             onAddDenominator={editor.actions.addUnitToDenominator}
@@ -39,7 +39,7 @@ function App() {
         results={
           <ResultsArea
             show={
-              chain.state.mode.type !== "INIT" &&
+              chain.state.mode?.type !== "INIT" &&
               chain.state.userFactors.length > 0
             }
             chain={chain}
