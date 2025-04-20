@@ -1,11 +1,14 @@
-// components/layouts/ThreeRowGridLayout.tsx
-interface GameLayoutProps {
+interface MobileLayoutProps {
   top: React.ReactNode;
   middle: React.ReactNode;
   bottom: React.ReactNode;
 }
 
-export default function GameLayout({ top, middle, bottom }: GameLayoutProps) {
+export default function MobileLayout({
+  top,
+  middle,
+  bottom,
+}: MobileLayoutProps) {
   return (
     <div className="flex flex-col min-h-0">
       {/* Top Row */}

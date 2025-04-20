@@ -25,11 +25,6 @@ export default function ResultsArea({ show, chain, editor }: ResultsAreaProps) {
     chain.state.question.targetUnits
   );
 
-  console.log("iveUnits", liveUnits);
-  console.log("targetUnits", chain.state.question.targetUnits);
-
-  console.log(isCorrectUnits);
-
   const winStyling = (isCorrect: boolean) => {
     if (isCorrect) return "text-green-500";
     else return "text-yellow-500";
