@@ -1,5 +1,5 @@
 import UnitSelectionArea from "@/components/unit-selection/UnitSelectionArea";
-import ResultsArea from "@/components/results/ResultsArea";
+import FeedbackArea from "@/components/FeedbackArea";
 import FermiChainArea from "@/components/fermi-chain/FermiChainArea";
 
 import RootLayout from "./components/layouts/RootLayout";
@@ -36,8 +36,8 @@ function App() {
           />
         }
         fermiChain={<FermiChainArea chain={chain} editor={editor} />}
-        results={
-          <ResultsArea
+        feedback={
+          <FeedbackArea
             show={
               chain.state.mode?.type !== "INIT" &&
               chain.state.userFactors.length > 0

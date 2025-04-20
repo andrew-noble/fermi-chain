@@ -2,6 +2,7 @@ import { Panel } from "@/components/ui/Panel";
 import { EditorHook, ChainHook } from "@/types";
 import UnitDisplay from "@/components/fermi-chain/display/UnitDisplay";
 import { resolveUnits, isSameUnits } from "@/helpers/unitManagement";
+import { getUnitStrings } from "@/helpers/unitManagement";
 // import { isSameOom } from "@/helpers/oomManagement";
 
 interface FeedbackAreaProps {
@@ -40,14 +41,25 @@ export default function FeedbackArea({
   //   chain.state.question.targetOom.value
   // );
 
+  const { numerators, denominators } = getUnitStrings(liveUnits);
+
   return (
     <Panel>
-      <h2 className="text-lg font-bold">Results</h2>
-      <div className={`flex flex-col gap-2 ${winStyling(isCorrectUnits)}`}>
-        <p>Goal Units:</p>
-        <UnitDisplay unitInventory={chain.state.question.targetUnits} />
-        <p>Your Units:</p>
-        <UnitDisplay unitInventory={liveUnits} />
+      <div className={` ${winStyling(isCorrectUnits)}`}>
+        <span>Your Units: </span>
+        {numerators.map((unit) => (
+          <span key={unit.name}>
+            {unit.name}
+            {unit.exponent > 1 && <sup className="ml-0.5">{unit.exponent}</sup>}
+          </span>
+        ))}
+        <span> / </span>
+        {denominators.map((unit) => (
+          <span key={unit.name}>
+            {unit.name}
+            {unit.exponent > 1 && <sup className="ml-0.5">{unit.exponent}</sup>}
+          </span>
+        ))}
       </div>
     </Panel>
   );
