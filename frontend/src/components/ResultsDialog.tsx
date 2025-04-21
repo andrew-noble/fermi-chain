@@ -47,9 +47,8 @@ export default function ResultsDialog({
               setCopied(true);
               setTimeout(() => setCopied(false), 1500);
             }}
-            className={`flex items-center gap-2 bg-purple-600 hover:bg-purple-700 ${
-              copied ? "bg-purple-400" : ""
-            }`}
+            variant={copied ? "outline" : "default"}
+            className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700"
           >
             <Share className="h-4 w-4" />
             {copied ? "Copied to clipboard!" : "Share Results"}

@@ -111,6 +111,6 @@ export const formatNumberWithCommas = (num: number): string => {
   if (num >= 1000) {
     return num.toLocaleString(undefined, { maximumFractionDigits: 0 });
   } else {
-    return num.toFixed(2);
+    return num.toString();
   }
 };

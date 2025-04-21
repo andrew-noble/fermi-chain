@@ -6,13 +6,15 @@ import { getUnitStrings } from "@/helpers/unitManagement";
 import InlineUnit from "@/components/InlineUnit";
 import { Button } from "./ui/button";
 import { formatNumberWithCommas } from "@/helpers/formatNumber";
-
+import { useState } from "react";
+import ResultsDialog from "@/components/ResultsDialog";
 interface FeedbackAreaProps {
   show: boolean;
   hook: Hook;
 }
 
 export default function FeedbackArea({ show, hook }: FeedbackAreaProps) {
+  const [isResultsDialogOpen, setIsResultsDialogOpen] = useState(false);
   if (!show) return null;
 
   //this isolated stage merge isn't architechturally amazing, but it works
@@ -76,6 +78,7 @@ export default function FeedbackArea({ show, hook }: FeedbackAreaProps) {
               hook.state.mode === "EDITING"
                 ? hook.actions.updateFactor()
                 : hook.actions.createFactor();
+              setIsResultsDialogOpen(true);
             }}
           >
             Submit
@@ -90,6 +93,11 @@ export default function FeedbackArea({ show, hook }: FeedbackAreaProps) {
           </Button>
         </div>
       </div>
+      <ResultsDialog
+        open={isResultsDialogOpen}
+        onOpenChange={setIsResultsDialogOpen}
+        hook={hook}
+      />
     </Panel>
   );
 }
