@@ -4,7 +4,8 @@ import { resolveUnits, isSameUnits } from "@/helpers/unitManagement";
 import { getUnitStrings } from "@/helpers/unitManagement";
 // import { isSameOom } from "@/helpers/oomManagement";
 import InlineUnit from "@/components/InlineUnit";
-import ResetButton from "@/components/ResetButton";
+import { Button } from "./ui/button";
+import { formatNumberWithCommas } from "@/helpers/formatNumber";
 
 interface FeedbackAreaProps {
   show: boolean;
@@ -50,7 +51,7 @@ export default function FeedbackArea({ show, hook }: FeedbackAreaProps) {
         <div className="flex gap-2 items-center">
           <span>Your Answer: </span>
           <span className="text-primary font-semibold">
-            {liveOom.toLocaleString()}
+            {formatNumberWithCommas(liveOom)}
           </span>
           <div className="flex gap-1">
             <InlineUnit
@@ -68,7 +69,26 @@ export default function FeedbackArea({ show, hook }: FeedbackAreaProps) {
             )}
           </div>
         </div>
-        <ResetButton hook={hook} />
+        <div className="flex gap-2">
+          <Button
+            className="bg-green-900 hover:bg-green-700"
+            onClick={() => {
+              hook.state.mode === "EDITING"
+                ? hook.actions.updateFactor()
+                : hook.actions.createFactor();
+            }}
+          >
+            Submit
+          </Button>
+          <Button
+            className="bg-red-900 hover:bg-red-700"
+            onClick={() => {
+              hook.actions.reset();
+            }}
+          >
+            Start Over
+          </Button>
+        </div>
       </div>
     </Panel>
   );
