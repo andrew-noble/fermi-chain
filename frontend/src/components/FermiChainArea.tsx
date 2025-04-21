@@ -3,6 +3,7 @@ import { Hook } from "@/types";
 import FactorDisplay from "@/components/FactorDisplay";
 import PhantomFactorDisplay from "@/components/PhantomFactorDisplay";
 import MultiplicationSign from "@/components/MultiplicationSign";
+import { Fragment } from "react/jsx-runtime";
 
 interface FermiChainAreaProps {
   hook: Hook;
@@ -38,7 +39,7 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
     // EDIT: editing an existing factor
     if (hook.state.mode === "EDITING" && hook.state.editingFactor) {
       return factorList.map((factor) => (
-        <>
+        <Fragment key={factor.id}>
           <FactorDisplay
             key={factor.id}
             isEditing={factor.id === hook.state.editingFactor?.id}
@@ -53,7 +54,7 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
           <div className="h-[306px] pt-[calc(92px)]">
             <MultiplicationSign className="text-2xl md:text-3xl lg:text-4xl" />
           </div>
-        </>
+        </Fragment>
       ));
     }
 
@@ -61,7 +62,7 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
     return (
       <>
         {factorList.map((factor) => (
-          <>
+          <Fragment key={factor.id}>
             <FactorDisplay
               key={factor.id}
               data={factor}
@@ -73,7 +74,7 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
             <div className="h-[306px] pt-[calc(92px)]">
               <MultiplicationSign className="text-2xl md:text-3xl lg:text-4xl" />
             </div>
-          </>
+          </Fragment>
         ))}
         <FactorDisplay
           data={hook.state.editorState}

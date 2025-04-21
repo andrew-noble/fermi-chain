@@ -21,6 +21,11 @@ export default function FeedbackArea({ show, hook }: FeedbackAreaProps) {
   const editorUnits = hook.state.editorState.units;
   const liveUnits = resolveUnits([chainUnits, editorUnits]);
 
+  const chainOom = hook.derivedState.chainOom.value;
+  const editorOom_n = hook.state.editorState.numeratorOom;
+  const editorOom_d = hook.state.editorState.denominatorOom;
+  const liveOom = (chainOom * editorOom_n.value) / editorOom_d.value;
+
   const isCorrectUnits = isSameUnits(
     liveUnits,
     hook.state.question.targetUnits
@@ -45,18 +50,22 @@ export default function FeedbackArea({ show, hook }: FeedbackAreaProps) {
         <div className="flex gap-2 items-center">
           <span>Your Answer: </span>
           <span className="text-primary font-semibold">
-            {hook.derivedState.chainOom.value}
+            {liveOom.toLocaleString()}
           </span>
           <div className="flex gap-1">
             <InlineUnit
               units={numerators}
               className={`${correctUnitsStyling(isCorrectUnits)}`}
             />
-            <p> / </p>
-            <InlineUnit
-              units={denominators}
-              className={`${correctUnitsStyling(isCorrectUnits)}`}
-            />
+            {denominators.length > 0 && (
+              <>
+                <p> / </p>
+                <InlineUnit
+                  units={denominators}
+                  className={`${correctUnitsStyling(isCorrectUnits)}`}
+                />
+              </>
+            )}
           </div>
         </div>
         <ResetButton hook={hook} />
