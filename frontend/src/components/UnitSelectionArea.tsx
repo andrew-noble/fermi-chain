@@ -1,6 +1,6 @@
 import { Panel } from "@/components/ui/Panel";
+import UnitSelector from "@/components/UnitSelector";
 import { Unit } from "@/types";
-import UnitSelector from "@/components/unit-selection/UnitSelector";
 
 interface UnitSelectionPanelProps {
   show: boolean;

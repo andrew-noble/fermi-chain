@@ -1,6 +1,6 @@
-import UnitSelectionArea from "@/components/unit-selection/UnitSelectionArea";
+import UnitSelectionArea from "@/components/UnitSelectionArea";
 import FeedbackArea from "@/components/FeedbackArea";
-import FermiChainArea from "@/components/fermi-chain/FermiChainArea";
+import FermiChainArea from "@/components/FermiChainArea";
 
 import RootLayout from "./components/layouts/RootLayout";
 import ResponsiveGameLayout from "./components/layouts/ResponsiveGameLayout";

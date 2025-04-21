@@ -1,7 +1,7 @@
 import { Hook } from "@/types";
 
-import FactorDisplay from "@/components/fermi-chain/display/FactorDisplay";
-import PhantomFactorDisplay from "@/components/fermi-chain/display/PhantomFactorDisplay";
+import FactorDisplay from "@/components/FactorDisplay";
+import PhantomFactorDisplay from "@/components/PhantomFactorDisplay";
 
 interface FermiChainAreaProps {
   hook: Hook;

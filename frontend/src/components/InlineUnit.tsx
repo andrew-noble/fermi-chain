@@ -4,7 +4,7 @@ interface InlineUnitProps {
 }
 
 //this component renders a single level of units (numerator or denominator), separated by dots
-export function InlineUnit({ units, className }: InlineUnitProps) {
+export default function InlineUnit({ units, className }: InlineUnitProps) {
   return (
     <div className={`flex flex-wrap ${className}`}>
       {units.map((unit, index) => (

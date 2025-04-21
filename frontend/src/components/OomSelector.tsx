@@ -9,7 +9,7 @@ interface OomSelectorProps {
   title: string;
 }
 
-export function OomSelector({
+export default function OomSelector({
   onUpdateOom,
   currentOom,
   title,

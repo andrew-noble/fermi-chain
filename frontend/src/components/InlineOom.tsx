@@ -15,7 +15,7 @@ interface InlineOomProps {
   className?: string;
 }
 
-export function InlineOom({ oom, className }: InlineOomProps) {
+export default function InlineOom({ oom, className }: InlineOomProps) {
   const isMobile = useIsMobile();
 
   const getDisplayVersion = (oom: Oom) => {

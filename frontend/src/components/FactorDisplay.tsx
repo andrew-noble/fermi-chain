@@ -1,10 +1,10 @@
 import { Factor, EditorState, Oom } from "@/types";
 import { Button } from "@/components/ui/button";
-import { InlineOom } from "./InlineOom";
-import { InlineUnit } from "./InlineUnit";
+import InlineOom from "@/components/InlineOom";
+import InlineUnit from "@/components/InlineUnit";
 import { getUnitStrings } from "@/helpers/unitManagement";
 import { Pencil, Trash2 } from "lucide-react";
-import { OomSelector } from "../editor/OomSelector";
+import OomSelector from "@/components/OomSelector";
 
 interface FactorDisplayProps {
   data: Factor | EditorState;

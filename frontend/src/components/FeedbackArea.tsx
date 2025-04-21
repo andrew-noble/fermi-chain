@@ -3,8 +3,8 @@ import { Hook } from "@/types";
 import { resolveUnits, isSameUnits } from "@/helpers/unitManagement";
 import { getUnitStrings } from "@/helpers/unitManagement";
 // import { isSameOom } from "@/helpers/oomManagement";
-import { InlineUnit } from "@/components/fermi-chain/display/InlineUnit";
-import ResetButton from "@/components/fermi-chain/ResetButton";
+import InlineUnit from "@/components/InlineUnit";
+import ResetButton from "@/components/ResetButton";
 
 interface FeedbackAreaProps {
   show: boolean;
