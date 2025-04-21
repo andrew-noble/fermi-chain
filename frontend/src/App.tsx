@@ -8,12 +8,10 @@ import ResponsiveGameLayout from "./components/layouts/ResponsiveGameLayout";
 import useTheme from "@/hooks/useTheme";
 
 import TopBar from "./components/topbar/TopBar";
-import useEditorReducer from "./hooks/game/useEditorReducer";
-import useChainReducer from "./hooks/game/useChainReducer";
+import useFermiReducer from "./hooks/useFermiReducer";
 
 function App() {
-  const chain = useChainReducer();
-  const editor = useEditorReducer();
+  const hook = useFermiReducer();
   const toggleTheme = useTheme();
 
   return (
@@ -21,30 +19,22 @@ function App() {
       topbar={<TopBar onToggleTheme={toggleTheme} />}
       hero={
         <p className="text-2xl md:text-3xl lg:text-4xl text-primary font-bold">
-          {chain.state.question.prompt}
+          {hook.state.question.prompt}
         </p>
       }
-      footer={<p>© Andrew Noble, {new Date().getFullYear()}</p>}
     >
       <ResponsiveGameLayout
         unitSelection={
           <UnitSelectionArea
-            show={chain.state.mode?.type !== "INIT"}
-            units={chain.state.question.usefulUnitList}
-            onAddNumerator={editor.actions.addUnitToNumerator}
-            onAddDenominator={editor.actions.addUnitToDenominator}
+            show={hook.state.mode !== "INIT"}
+            units={hook.state.question.usefulUnitList}
+            onAddNumerator={hook.actions.addUnitToNumerator}
+            onAddDenominator={hook.actions.addUnitToDenominator}
           />
         }
-        fermiChain={<FermiChainArea chain={chain} editor={editor} />}
+        fermiChain={<FermiChainArea hook={hook} />}
         feedback={
-          <FeedbackArea
-            show={
-              chain.state.mode?.type !== "INIT" &&
-              chain.state.userFactors.length > 0
-            }
-            chain={chain}
-            editor={editor}
-          />
+          <FeedbackArea show={hook.state.mode !== "INIT"} hook={hook} />
         }
       />
     </RootLayout>

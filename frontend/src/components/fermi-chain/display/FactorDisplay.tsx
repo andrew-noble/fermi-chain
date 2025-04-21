@@ -20,8 +20,8 @@ export default function FactorDisplay({
   const { numerators, denominators } = getUnitStrings(factor.units);
 
   return (
-    <div className="flex flex-col items-center w-48 gap-1 p-4 rounded-lg shadow-sm">
-      <div className="flex flex-row items-center justify-center w-full">
+    <div className="flex flex-col items-center w-48 p-2 rounded-lg shadow-sm">
+      <div className="flex flex-row items-center justify-center w-full mb-2">
         <div className="flex flex-col items-center gap-1 w-full">
           {/* Numerator Row */}
           <div className="flex items-center gap-1 w-full">

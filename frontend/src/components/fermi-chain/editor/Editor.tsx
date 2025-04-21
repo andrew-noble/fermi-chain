@@ -1,4 +1,4 @@
-import { EditorHook, EditorState } from "@/types";
+import { Hook } from "@/types";
 import { OomSelector } from "@/components/fermi-chain/editor/OomSelector";
 import { InlineUnit } from "@/components/fermi-chain/display/InlineUnit";
 import { InlineOom } from "@/components/fermi-chain/display/InlineOom";
@@ -7,18 +7,20 @@ import { getOomById } from "@/data/ooms";
 import { getUnitStrings } from "@/helpers/unitManagement";
 
 interface EditorProps {
-  editor: EditorHook;
-  onSubmit: (editorState: EditorState) => void;
+  hook: Hook;
+  onSubmit: () => void;
 }
 
-export default function Editor({ editor, onSubmit }: EditorProps) {
-  const { numerators, denominators } = getUnitStrings(editor.state.units);
-  const hasNoUnits = Object.values(editor.state.units).every(
+export default function Editor({ hook, onSubmit }: EditorProps) {
+  const { numerators, denominators } = getUnitStrings(
+    hook.state.editorState.units
+  );
+  const hasNoUnits = Object.values(hook.state.editorState.units).every(
     (unitCount) => unitCount.count === 0
   );
   const hasNoOoms =
-    editor.state.numeratorOom === getOomById("1e0") &&
-    editor.state.denominatorOom === getOomById("1e0");
+    hook.state.editorState.numeratorOom === getOomById("1e0") &&
+    hook.state.editorState.denominatorOom === getOomById("1e0");
   const isInvalid = hasNoUnits || hasNoOoms;
 
   return (
@@ -26,13 +28,13 @@ export default function Editor({ editor, onSubmit }: EditorProps) {
       {/* Numerator Row */}
       <div className="flex items-center gap-4 w-full">
         <OomSelector
-          onUpdateOom={editor.actions.updateNumeratorOom}
-          currentOom={editor.state.numeratorOom}
+          onUpdateOom={hook.actions.updateNumeratorOom}
+          currentOom={hook.state.editorState.numeratorOom}
           title="numerator"
         />
         <div className="flex items-center gap-2 flex-1">
           <InlineOom
-            oom={editor.state.numeratorOom}
+            oom={hook.state.editorState.numeratorOom}
             className="text-xl md:text-2xl lg:text-3xl"
           />
           <InlineUnit
@@ -47,13 +49,13 @@ export default function Editor({ editor, onSubmit }: EditorProps) {
       {/* Denominator Row */}
       <div className="flex items-center gap-4 w-full">
         <OomSelector
-          onUpdateOom={editor.actions.updateDenominatorOom}
-          currentOom={editor.state.denominatorOom}
+          onUpdateOom={hook.actions.updateDenominatorOom}
+          currentOom={hook.state.editorState.denominatorOom}
           title="denominator"
         />
         <div className="flex items-center gap-2 flex-1">
           <InlineOom
-            oom={editor.state.denominatorOom}
+            oom={hook.state.editorState.denominatorOom}
             className="text-xl md:text-2xl lg:text-3xl"
           />
           <InlineUnit
@@ -69,8 +71,7 @@ export default function Editor({ editor, onSubmit }: EditorProps) {
           size="sm"
           disabled={isInvalid}
           onClick={() => {
-            onSubmit(editor.state);
-            editor.actions.reset();
+            onSubmit();
           }}
         >
           Submit
@@ -79,7 +80,7 @@ export default function Editor({ editor, onSubmit }: EditorProps) {
           variant="outline"
           size="sm"
           onClick={() => {
-            editor.actions.reset();
+            hook.actions.cancelEditing();
           }}
         >
           Clear

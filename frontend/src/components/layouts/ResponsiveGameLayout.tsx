@@ -1,7 +1,4 @@
-// components/layouts/ResponsiveGameLayout.tsx
 import { useIsMobile } from "@/hooks/useIsMobile";
-import DesktopLayout from "@/components/layouts/DesktopLayout";
-import MobileLayout from "@/components/layouts/MobileLayout";
 
 interface Props {
   unitSelection: React.ReactNode;
@@ -12,17 +9,20 @@ interface Props {
 export default function ResponsiveGameLayout(props: Props) {
   const isMobile = useIsMobile();
 
-  return isMobile ? (
-    <MobileLayout
-      top={props.unitSelection}
-      middle={props.feedback}
-      bottom={props.fermiChain}
-    />
-  ) : (
-    <DesktopLayout
-      top={props.unitSelection}
-      middle={props.fermiChain}
-      bottom={props.feedback}
-    />
+  return (
+    <div className="flex flex-col min-h-0">
+      {/* Top Row */}
+      <div className="p-2">
+        {isMobile ? props.feedback : props.unitSelection}
+      </div>
+
+      {/* Middle Row */}
+      <div className="flex-1 p-2">
+        {isMobile ? props.unitSelection : props.fermiChain}
+      </div>
+
+      {/* Bottom Row */}
+      <div className="p-2">{isMobile ? props.fermiChain : props.feedback}</div>
+    </div>
   );
 }

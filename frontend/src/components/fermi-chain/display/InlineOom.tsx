@@ -32,14 +32,14 @@ export function InlineOom({ oom, className }: InlineOomProps) {
     }
   };
 
-  const fullValue = oom.value.toLocaleString();
+  const fullValue = oom.nameShortScale || oom.value.toString();
 
   //for mobile, a touch popover, for desktop, a hover tooltip
   return isMobile ? (
     <Popover>
       <PopoverTrigger asChild>
         <span
-          className={`inline-block w-[2.5rem] text-center mr-2 ${className}`}
+          className={`inline-block w-[3.5rem] text-center mr-2 ${className}`}
         >
           {getDisplayVersion(oom)}
         </span>
@@ -52,7 +52,7 @@ export function InlineOom({ oom, className }: InlineOomProps) {
     <Tooltip>
       <TooltipTrigger asChild>
         <span
-          className={`inline-block w-[2.5rem] text-center mr-2 ${className}`}
+          className={`inline-block w-[3.5rem] text-center mr-2 ${className}`}
         >
           {getDisplayVersion(oom)}
         </span>

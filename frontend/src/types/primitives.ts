@@ -15,3 +15,38 @@ export interface Oom {
   nameISO?: string; //"mega, giga, kilo"
   nameShortScale?: string; //"million, billion, thousand"
 }
+
+type UnitId = string;
+
+// Common Structures
+type UnitCount = {
+  count: number;
+  unitMetadata: Unit;
+};
+
+//structure for tracking what units are in num/denom
+//count is positive? thats in the num, vv for denom
+//note: there is special display logic to expel units with count = 0
+export type UnitInventory = {
+  [K in UnitId]: UnitCount;
+};
+
+// Base Types
+export interface BaseFactor {
+  units: UnitInventory;
+  numeratorOom: Oom;
+  denominatorOom: Oom;
+}
+
+export interface Question {
+  id: string;
+  prompt: string;
+  targetAnswer: number;
+  targetOom: Oom;
+  targetUnits: UnitInventory;
+  usefulUnitList: Unit[];
+}
+
+export interface Factor extends BaseFactor {
+  id: string; //uuid
+}
