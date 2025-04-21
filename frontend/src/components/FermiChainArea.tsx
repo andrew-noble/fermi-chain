@@ -4,12 +4,14 @@ import FactorDisplay from "@/components/FactorDisplay";
 import PhantomFactorDisplay from "@/components/PhantomFactorDisplay";
 import MultiplicationSign from "@/components/MultiplicationSign";
 import { Fragment } from "react/jsx-runtime";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 interface FermiChainAreaProps {
   hook: Hook;
 }
 
 export default function FermiChainArea({ hook }: FermiChainAreaProps) {
+  const isMobile = useIsMobile();
   const factorList = hook.state.factors;
 
   //shouldn't be here...
@@ -89,6 +91,14 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
   };
 
   return (
-    <div className="flex flex-wrap gap-4 items-center">{renderItems()}</div>
+    <div
+      className={`flex gap-4 items-center ${
+        isMobile
+          ? "flex-nowrap overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory"
+          : "flex-wrap"
+      }`}
+    >
+      {renderItems()}
+    </div>
   );
 }

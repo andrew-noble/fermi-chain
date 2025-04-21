@@ -1,6 +1,6 @@
-import { Panel } from "@/components/ui/Panel";
 import UnitSelector from "@/components/UnitSelector";
 import { Unit } from "@/types";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 interface UnitSelectionPanelProps {
   show: boolean;
@@ -15,26 +15,26 @@ export default function UnitSelectionPanel({
   onAddNumerator,
   onAddDenominator,
 }: UnitSelectionPanelProps) {
+  const isMobile = useIsMobile();
+
   if (!show) return null;
 
   return (
-    <Panel
-      header={
-        <div className="flex items-center gap-2">
-          <h2 className="text-base md:text-lg font-semibold">Units</h2>
-        </div>
-      }
+    <div
+      className={`flex gap-2 ${
+        isMobile
+          ? "flex-nowrap overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory"
+          : "flex-wrap"
+      }`}
     >
-      <div className="flex flex-wrap gap-2">
-        {units.map((unit) => (
-          <UnitSelector
-            key={unit.id}
-            unit={unit}
-            onAddNumerator={onAddNumerator}
-            onAddDenominator={onAddDenominator}
-          />
-        ))}
-      </div>
-    </Panel>
+      {units.map((unit) => (
+        <UnitSelector
+          key={unit.id}
+          unit={unit}
+          onAddNumerator={onAddNumerator}
+          onAddDenominator={onAddDenominator}
+        />
+      ))}
+    </div>
   );
 }

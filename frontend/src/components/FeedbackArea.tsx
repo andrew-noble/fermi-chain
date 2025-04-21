@@ -1,4 +1,3 @@
-import { Panel } from "@/components/ui/Panel";
 import { Hook } from "@/types";
 import { resolveUnits, isSameUnits } from "@/helpers/unitManagement";
 import { getUnitStrings } from "@/helpers/unitManagement";
@@ -48,10 +47,9 @@ export default function FeedbackArea({ show, hook }: FeedbackAreaProps) {
   const { numerators, denominators } = getUnitStrings(liveUnits);
 
   return (
-    <Panel>
-      <div className="flex flex-row justify-between items-center">
-        <div className="flex gap-2 items-center">
-          <span>Your Answer: </span>
+    <>
+      <div className="flex items-center gap-4 min-w-max">
+        <div className="flex items-center gap-2">
           <span className="text-primary font-semibold">
             {formatNumberWithCommas(liveOom)}
           </span>
@@ -71,7 +69,8 @@ export default function FeedbackArea({ show, hook }: FeedbackAreaProps) {
             )}
           </div>
         </div>
-        <div className="flex gap-2">
+
+        <div className="flex gap-2 shrink-0">
           <Button
             className="bg-green-900 hover:bg-green-700"
             onClick={() => {
@@ -98,6 +97,6 @@ export default function FeedbackArea({ show, hook }: FeedbackAreaProps) {
         onOpenChange={setIsResultsDialogOpen}
         hook={hook}
       />
-    </Panel>
+    </>
   );
 }

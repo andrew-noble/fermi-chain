@@ -29,7 +29,6 @@ export default function FactorDisplay({
 }: FactorDisplayProps) {
   const { numerators, denominators } = getUnitStrings(data.units);
 
-  const editingTextColor = "text-primary";
   const editingBgColor = "bg-primary/15";
   const isValid = Object.keys(data.units).length > 0;
 
@@ -55,15 +54,11 @@ export default function FactorDisplay({
         >
           <InlineOom
             oom={data.numeratorOom}
-            className={`text-xl md:text-2xl lg:text-3xl ${
-              isEditing ? editingTextColor : ""
-            }`}
+            className="text-xl md:text-2xl lg:text-3xl"
           />
           <InlineUnit
             units={numerators}
-            className={`text-xl md:text-2xl lg:text-3xl ${
-              isEditing ? editingTextColor : ""
-            }`}
+            className="text-xl md:text-2xl lg:text-3xl"
           />
         </div>
       </div>
@@ -87,15 +82,11 @@ export default function FactorDisplay({
         >
           <InlineOom
             oom={data.denominatorOom}
-            className={`text-xl md:text-2xl lg:text-3xl ${
-              isEditing ? editingTextColor : ""
-            }`}
+            className="text-xl md:text-2xl lg:text-3xl"
           />
           <InlineUnit
             units={denominators}
-            className={`text-xl md:text-2xl lg:text-3xl ${
-              isEditing ? editingTextColor : ""
-            }`}
+            className="text-xl md:text-2xl lg:text-3xl"
           />
         </div>
       </div>
