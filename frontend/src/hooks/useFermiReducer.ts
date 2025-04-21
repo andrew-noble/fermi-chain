@@ -86,7 +86,7 @@ const fermiReducer = (state: State, action: Action): State => {
         editorState: initialState.editorState,
       };
 
-    case "CANCEL_EDITING":
+    case "CLEAR_EDITOR":
       return {
         ...state,
         mode: "CREATING",
@@ -160,7 +160,7 @@ export default function useFermiReducer(): Hook {
       startEditMode: (factor: Factor) =>
         dispatch({ type: "START_EDIT_MODE", factor }),
       startCreateMode: () => dispatch({ type: "START_CREATE_MODE" }),
-      cancelEditing: () => dispatch({ type: "CANCEL_EDITING" }),
+      clearEditor: () => dispatch({ type: "CLEAR_EDITOR" }),
       reset: () => dispatch({ type: "RESET" }),
       addUnitToNumerator: (unit: Unit) =>
         dispatch({ type: "UPDATE_EDITOR_UNITS", unit, delta: 1 }),

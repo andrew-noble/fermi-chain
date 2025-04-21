@@ -4,17 +4,19 @@ import { Question } from "./primitives";
 // Mode type
 export type Mode = "INIT" | "CREATING" | "EDITING";
 
+export type EditorState = {
+  units: UnitInventory;
+  numeratorOom: Oom;
+  denominatorOom: Oom;
+};
+
 // CombinFactor, e, UnitInventoryd state type
 export interface State {
   question: Question;
   factors: Factor[];
   mode: Mode;
   editingFactor: Factor | null; // null means creating new
-  editorState: {
-    units: UnitInventory;
-    numeratorOom: Oom;
-    denominatorOom: Oom;
-  };
+  editorState: EditorState;
 }
 
 // Hook interface
@@ -26,7 +28,7 @@ export interface Hook {
     deleteFactor: (id: string) => void;
     startEditMode: (factor: Factor) => void;
     startCreateMode: () => void;
-    cancelEditing: () => void;
+    clearEditor: () => void;
     reset: () => void;
     addUnitToNumerator: (unit: Unit) => void;
     removeUnitFromNumerator: (unit: Unit) => void;
@@ -48,7 +50,7 @@ export type Action =
   | { type: "DELETE_FACTOR"; id: string }
   | { type: "START_EDIT_MODE"; factor: Factor }
   | { type: "START_CREATE_MODE" }
-  | { type: "CANCEL_EDITING" }
+  | { type: "CLEAR_EDITOR" }
   | { type: "RESET" }
   | { type: "UPDATE_EDITOR_UNITS"; unit: Unit; delta: number }
   | { type: "UPDATE_EDITOR_NUMERATOR_OOM"; oom: Oom }

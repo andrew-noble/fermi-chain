@@ -1,10 +1,7 @@
 import { Hook } from "@/types";
 
-import Editor from "@/components/fermi-chain/editor/Editor";
 import FactorDisplay from "@/components/fermi-chain/display/FactorDisplay";
 import PhantomFactorDisplay from "@/components/fermi-chain/display/PhantomFactorDisplay";
-
-import { Button } from "@/components/ui/button";
 
 interface FermiChainAreaProps {
   hook: Hook;
@@ -25,22 +22,6 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
   };
 
   const renderItems = () => {
-    // EDIT: editing an existing factor
-    if (hook.state.mode === "EDITING" && hook.state.editingFactor) {
-      return factorList.map((factor) =>
-        factor.id === hook.state.editingFactor?.id ? (
-          <Editor key={factor.id} hook={hook} onSubmit={handleSubmit} />
-        ) : (
-          <FactorDisplay
-            key={factor.id}
-            factor={factor}
-            onEdit={() => hook.actions.startEditMode(factor)}
-            onRemove={() => hook.actions.deleteFactor(factor.id)}
-          />
-        )
-      );
-    }
-
     // INIT: show just the start prompt
     if (hook.state.mode === "INIT") {
       return (
@@ -53,18 +34,42 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
       );
     }
 
+    // EDIT: editing an existing factor
+    if (hook.state.mode === "EDITING" && hook.state.editingFactor) {
+      return factorList.map((factor) => (
+        <FactorDisplay
+          key={factor.id}
+          isEditing={factor.id === hook.state.editingFactor?.id}
+          data={factor}
+          onStartEdit={() => hook.actions.startEditMode(factor)}
+          onSubmit={handleSubmit}
+          onClear={() => hook.actions.clearEditor()}
+          updateNumeratorOom={hook.actions.updateNumeratorOom}
+          updateDenominatorOom={hook.actions.updateDenominatorOom}
+        />
+      ));
+    }
+
     // DEFAULT: creating new factor
     return (
       <>
         {factorList.map((factor) => (
           <FactorDisplay
             key={factor.id}
-            factor={factor}
-            onEdit={() => hook.actions.startEditMode(factor)}
+            data={factor}
+            isEditing={false}
+            onStartEdit={() => hook.actions.startEditMode(factor)}
             onRemove={() => hook.actions.deleteFactor(factor.id)}
           />
         ))}
-        <Editor hook={hook} onSubmit={handleSubmit} />
+        <FactorDisplay
+          data={hook.state.editorState}
+          isEditing={true}
+          updateNumeratorOom={hook.actions.updateNumeratorOom}
+          updateDenominatorOom={hook.actions.updateDenominatorOom}
+          onSubmit={handleSubmit}
+          onClear={() => hook.actions.clearEditor()}
+        />
       </>
     );
   };
