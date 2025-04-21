@@ -2,6 +2,7 @@ import { Hook } from "@/types";
 
 import FactorDisplay from "@/components/FactorDisplay";
 import PhantomFactorDisplay from "@/components/PhantomFactorDisplay";
+import MultiplicationSign from "@/components/MultiplicationSign";
 
 interface FermiChainAreaProps {
   hook: Hook;
@@ -37,16 +38,22 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
     // EDIT: editing an existing factor
     if (hook.state.mode === "EDITING" && hook.state.editingFactor) {
       return factorList.map((factor) => (
-        <FactorDisplay
-          key={factor.id}
-          isEditing={factor.id === hook.state.editingFactor?.id}
-          data={factor}
-          onStartEdit={() => hook.actions.startEditMode(factor)}
-          onSubmit={handleSubmit}
-          onClear={() => hook.actions.clearEditor()}
-          updateNumeratorOom={hook.actions.updateNumeratorOom}
-          updateDenominatorOom={hook.actions.updateDenominatorOom}
-        />
+        <>
+          <FactorDisplay
+            key={factor.id}
+            isEditing={factor.id === hook.state.editingFactor?.id}
+            data={factor}
+            onStartEdit={() => hook.actions.startEditMode(factor)}
+            onSubmit={handleSubmit}
+            onClear={() => hook.actions.clearEditor()}
+            updateNumeratorOom={hook.actions.updateNumeratorOom}
+            updateDenominatorOom={hook.actions.updateDenominatorOom}
+          />
+          {/* Hack citu, but it works*/}
+          <div className="h-[306px] pt-[calc(92px)]">
+            <MultiplicationSign className="text-2xl md:text-3xl lg:text-4xl" />
+          </div>
+        </>
       ));
     }
 
@@ -54,13 +61,19 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
     return (
       <>
         {factorList.map((factor) => (
-          <FactorDisplay
-            key={factor.id}
-            data={factor}
-            isEditing={false}
-            onStartEdit={() => hook.actions.startEditMode(factor)}
-            onRemove={() => hook.actions.deleteFactor(factor.id)}
-          />
+          <>
+            <FactorDisplay
+              key={factor.id}
+              data={factor}
+              isEditing={false}
+              onStartEdit={() => hook.actions.startEditMode(factor)}
+              onRemove={() => hook.actions.deleteFactor(factor.id)}
+            />
+            {/* Hack citu, but it works*/}
+            <div className="h-[306px] pt-[calc(92px)]">
+              <MultiplicationSign className="text-2xl md:text-3xl lg:text-4xl" />
+            </div>
+          </>
         ))}
         <FactorDisplay
           data={hook.state.editorState}
@@ -74,5 +87,7 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
     );
   };
 
-  return <div className="flex flex-wrap">{renderItems()}</div>;
+  return (
+    <div className="flex flex-wrap gap-4 items-center">{renderItems()}</div>
+  );
 }

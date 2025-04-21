@@ -30,7 +30,8 @@ export default function FactorDisplay({
   const { numerators, denominators } = getUnitStrings(data.units);
 
   const editingTextColor = "text-primary";
-  const editingBgColor = "bg-primary/10";
+  const editingBgColor = "bg-primary/15";
+  const isValid = Object.keys(data.units).length > 0;
 
   return (
     <div
@@ -99,40 +100,32 @@ export default function FactorDisplay({
         </div>
       </div>
 
-      {isEditing ? (
-        <div className="flex flex-row gap-1 mt-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={onSubmit}
-            className="p-1"
-          >
-            Save
-          </Button>
-          <Button variant="outline" size="sm" onClick={onClear} className="p-1">
-            Clear
-          </Button>
-        </div>
-      ) : (
-        <div className="flex flex-row gap-1 mt-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={onStartEdit}
-            className="p-1"
-          >
-            <Pencil className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={onRemove}
-            className="p-1"
-          >
-            <Trash2 className="h-4 w-4" />
-          </Button>
-        </div>
-      )}
+      <div className="flex flex-row gap-2 mt-6">
+        {isEditing ? (
+          <>
+            <Button
+              variant="outline"
+              disabled={!isValid}
+              onClick={onSubmit}
+              className="p-2"
+            >
+              Add
+            </Button>
+            <Button variant="outline" onClick={onClear} className="p-2">
+              Clear
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button variant="outline" onClick={onStartEdit} className="p-1">
+              <Pencil />
+            </Button>
+            <Button variant="outline" onClick={onRemove} className="p-1">
+              <Trash2 />
+            </Button>
+          </>
+        )}
+      </div>
     </div>
   );
 }

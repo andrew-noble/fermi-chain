@@ -19,12 +19,12 @@ export default function MainLayout({
       )}
 
       {hero && (
-        <section className="w-full bg-white dark:bg-gray-950 p-4 text-center border-b border-gray-200 dark:border-gray-800">
+        <section className="w-full bg-white dark:bg-gray-950 p-4 text-center">
           {hero}
         </section>
       )}
 
-      <main className="p-2 bg-gray-50 dark:bg-black w-full max-w-full md:max-w-2xl lg:max-w-4xl mx-auto">
+      <main className="p-2 bg-gray-100 dark:bg-black w-full max-w-full md:max-w-2xl lg:max-w-4xl mx-auto">
         {children}
       </main>
 
