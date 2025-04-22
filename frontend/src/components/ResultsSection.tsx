@@ -1,7 +1,7 @@
 import { Hook } from "@/types";
 import { useState } from "react";
-import SubmitResetButtonGroup from "./SubmitResetButtonGroup";
-import ResultsDialog from "./ResultsDialog";
+import SubmitResetButtonGroup from "@/components/SubmitResetButtonGroup";
+import ResultsDialog from "@/components/ResultsDialog";
 
 interface ResultsSectionProps {
   show: boolean;

@@ -30,14 +30,12 @@ export default function ResultsDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-zinc-900 text-white rounded-lg p-6 shadow-lg max-w-md">
+      <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold mb-2">
-            Results
-          </DialogTitle>
+          <DialogTitle>Results</DialogTitle>
         </DialogHeader>
 
-        <div className="flex flex-col gap-4">
+        <div className="space-y-4">
           <pre className="text-lg">{getResultsString(hook)}</pre>
 
           <Button
@@ -47,7 +45,7 @@ export default function ResultsDialog({
               setTimeout(() => setCopied(false), 1500);
             }}
             variant={copied ? "outline" : "default"}
-            className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700"
+            className="flex items-center gap-2"
           >
             <Share className="h-4 w-4" />
             {copied ? "Copied to clipboard!" : "Share Results"}

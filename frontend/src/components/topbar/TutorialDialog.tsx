@@ -11,7 +11,7 @@ interface TutorialDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export default function AboutDialog({
+export default function TutorialDialog({
   open,
   onOpenChange,
 }: TutorialDialogProps) {
