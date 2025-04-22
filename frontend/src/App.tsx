@@ -9,7 +9,7 @@ import useTheme from "@/hooks/useTheme";
 
 import TopBar from "./components/topbar/TopBar";
 import useFermiReducer from "./hooks/useFermiReducer";
-
+import ResultsSection from "./components/ResultsSection";
 function App() {
   const hook = useFermiReducer();
   const toggleTheme = useTheme();
@@ -35,6 +35,9 @@ function App() {
         fermiChain={<FermiChainArea hook={hook} />}
         feedback={
           <FeedbackArea show={hook.state.mode !== "INIT"} hook={hook} />
+        }
+        resultsSection={
+          <ResultsSection show={hook.state.mode !== "INIT"} hook={hook} />
         }
       />
     </RootLayout>

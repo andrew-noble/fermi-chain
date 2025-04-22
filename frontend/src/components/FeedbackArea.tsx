@@ -3,22 +3,16 @@ import { resolveUnits, isSameUnits } from "@/helpers/unitManagement";
 import { getUnitStrings } from "@/helpers/unitManagement";
 // import { isSameOom } from "@/helpers/oomManagement";
 import InlineUnit from "@/components/InlineUnit";
-import { Button } from "./ui/button";
 import { formatNumberWithCommas } from "@/helpers/formatNumber";
-import { useState } from "react";
-import ResultsDialog from "@/components/ResultsDialog";
+
 interface FeedbackAreaProps {
   show: boolean;
   hook: Hook;
 }
 
 export default function FeedbackArea({ show, hook }: FeedbackAreaProps) {
-  const [isResultsDialogOpen, setIsResultsDialogOpen] = useState(false);
   if (!show) return null;
 
-  //this isolated stage merge isn't architechturally amazing, but it works
-  // Need to resolve the units the user has in the editor and committed to
-  // the chain. If not editing, the editorUnits is a no-op
   const chainUnits = hook.derivedState.chainUnits;
   const editorUnits = hook.state.editorState.units;
   const liveUnits = resolveUnits([chainUnits, editorUnits]);
@@ -69,34 +63,7 @@ export default function FeedbackArea({ show, hook }: FeedbackAreaProps) {
             )}
           </div>
         </div>
-
-        <div className="flex gap-2 shrink-0">
-          <Button
-            className="bg-green-900 hover:bg-green-700"
-            onClick={() => {
-              hook.state.mode === "EDITING"
-                ? hook.actions.updateFactor()
-                : hook.actions.createFactor();
-              setIsResultsDialogOpen(true);
-            }}
-          >
-            Submit
-          </Button>
-          <Button
-            className="bg-red-900 hover:bg-red-700"
-            onClick={() => {
-              hook.actions.reset();
-            }}
-          >
-            Start Over
-          </Button>
-        </div>
       </div>
-      <ResultsDialog
-        open={isResultsDialogOpen}
-        onOpenChange={setIsResultsDialogOpen}
-        hook={hook}
-      />
     </>
   );
 }
