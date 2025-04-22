@@ -10,82 +10,78 @@ interface FermiChainAreaProps {
 }
 
 export default function FermiChainArea({ hook }: FermiChainAreaProps) {
-  const factorList = hook.state.factors;
+  const { mode, factors, editingFactor, editorState } = hook.state;
 
-  //shouldn't be here...
   const handleSubmit = () => {
-    if (hook.state.mode === "EDITING") {
+    if (mode === "EDITING") {
       hook.actions.updateFactor();
-    } else {
+    } else if (mode === "CREATING") {
       hook.actions.createFactor();
     }
-    // After submission, ensure we're in create mode with a fresh editor
-    hook.actions.startCreateMode();
+    hook.actions.setViewingMode();
   };
 
-  const renderItems = () => {
-    // INIT: show just the start prompt
-    if (hook.state.mode === "INIT") {
-      return (
-        <PhantomFactorDisplay
-          isInit={true}
-          onClick={() => {
-            hook.actions.startCreateMode();
-          }}
-        />
-      );
-    }
-
-    // EDIT: editing an existing factor
-    if (hook.state.mode === "EDITING" && hook.state.editingFactor) {
-      return factorList.map((factor) => (
-        <Fragment key={factor.id}>
-          <FactorDisplay
-            key={factor.id}
-            isEditing={factor.id === hook.state.editingFactor?.id}
-            data={factor}
-            onStartEdit={() => hook.actions.startEditMode(factor)}
-            onSubmit={handleSubmit}
-            onClear={() => hook.actions.clearEditor()}
-            updateNumeratorOom={hook.actions.updateNumeratorOom}
-            updateDenominatorOom={hook.actions.updateDenominatorOom}
-          />
-          {/* Hacky alignment, but it works*/}
-          <div className="h-[306px] pt-[calc(92px)]">
-            <MultiplicationSign className="text-2xl md:text-3xl lg:text-4xl" />
-          </div>
-        </Fragment>
-      ));
-    }
-
-    // DEFAULT: creating new factor
-    return (
-      <>
-        {factorList.map((factor) => (
-          <Fragment key={factor.id}>
-            <FactorDisplay
-              key={factor.id}
-              data={factor}
-              isEditing={false}
-              onStartEdit={() => hook.actions.startEditMode(factor)}
-              onRemove={() => hook.actions.deleteFactor(factor.id)}
-            />
-            <div className="h-[306px] pt-[calc(92px)]">
-              <MultiplicationSign className="text-2xl md:text-3xl lg:text-4xl" />
-            </div>
-          </Fragment>
-        ))}
+  const renderFactors = () => {
+    return factors.map((factor) => (
+      <Fragment key={factor.id}>
         <FactorDisplay
-          data={hook.state.editorState}
+          data={factor}
+          isEditing={mode === "EDITING" && editingFactor?.id === factor.id}
+          onStartEdit={() => hook.actions.setEditMode(factor)}
+          onRemove={() => hook.actions.deleteFactor(factor.id)}
+          onSubmit={handleSubmit}
+          onClear={() => {
+            hook.actions.clearEditor();
+            hook.actions.setViewingMode();
+          }}
+          updateNumeratorOom={hook.actions.updateNumeratorOom}
+          updateDenominatorOom={hook.actions.updateDenominatorOom}
+        />
+        <div className="h-[306px] pt-[calc(92px)]">
+          <MultiplicationSign className="text-2xl md:text-3xl lg:text-4xl" />
+        </div>
+      </Fragment>
+    ));
+  };
+
+  const renderEditor = () => {
+    if (mode === "CREATING" || mode === "EDITING") {
+      return (
+        <FactorDisplay
+          data={editorState}
           isEditing={true}
           updateNumeratorOom={hook.actions.updateNumeratorOom}
           updateDenominatorOom={hook.actions.updateDenominatorOom}
           onSubmit={handleSubmit}
-          onClear={() => hook.actions.clearEditor()}
+          onClear={() => {
+            hook.actions.clearEditor();
+            hook.actions.setViewingMode();
+          }}
         />
-      </>
-    );
+      );
+    }
+    return null;
   };
 
-  return <>{renderItems()}</>;
+  if (mode === "INIT") {
+    return (
+      <PhantomFactorDisplay
+        isInit={true}
+        onClick={() => hook.actions.setCreateMode()}
+      />
+    );
+  }
+
+  return (
+    <>
+      {renderFactors()}
+      {renderEditor()}
+      {mode === "VIEWING" && (
+        <PhantomFactorDisplay
+          isInit={false}
+          onClick={() => hook.actions.setCreateMode()}
+        />
+      )}
+    </>
+  );
 }

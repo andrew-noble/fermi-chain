@@ -20,6 +20,9 @@ const initialState: State = {
   },
 };
 
+const isEditorActive = (mode: State["mode"]) =>
+  mode === "CREATING" || mode === "EDITING";
+
 // Reducer function
 const fermiReducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -66,7 +69,7 @@ const fermiReducer = (state: State, action: Action): State => {
         factors: state.factors.filter((f) => f.id !== action.id),
       };
 
-    case "START_EDIT_MODE":
+    case "SET_EDIT_MODE":
       return {
         ...state,
         mode: "EDITING",
@@ -78,7 +81,7 @@ const fermiReducer = (state: State, action: Action): State => {
         },
       };
 
-    case "START_CREATE_MODE":
+    case "SET_CREATE_MODE":
       return {
         ...state,
         mode: "CREATING",
@@ -102,8 +105,8 @@ const fermiReducer = (state: State, action: Action): State => {
         editingFactor: null,
         editorState: initialState.editorState,
       };
-
     case "UPDATE_EDITOR_UNITS":
+      if (!isEditorActive(state.mode)) return state;
       return {
         ...state,
         editorState: {
@@ -117,6 +120,7 @@ const fermiReducer = (state: State, action: Action): State => {
       };
 
     case "UPDATE_EDITOR_NUMERATOR_OOM":
+      if (!isEditorActive(state.mode)) return state;
       return {
         ...state,
         editorState: {
@@ -126,12 +130,19 @@ const fermiReducer = (state: State, action: Action): State => {
       };
 
     case "UPDATE_EDITOR_DENOMINATOR_OOM":
+      if (!isEditorActive(state.mode)) return state;
       return {
         ...state,
         editorState: {
           ...state.editorState,
           denominatorOom: action.oom,
         },
+      };
+
+    case "SET_VIEWING_MODE":
+      return {
+        ...state,
+        mode: "VIEWING",
       };
 
     default:
@@ -159,9 +170,10 @@ export default function useFermiReducer(): Hook {
       createFactor: () => dispatch({ type: "CREATE_FACTOR" }),
       updateFactor: () => dispatch({ type: "UPDATE_FACTOR" }),
       deleteFactor: (id: string) => dispatch({ type: "DELETE_FACTOR", id }),
-      startEditMode: (factor: Factor) =>
-        dispatch({ type: "START_EDIT_MODE", factor }),
-      startCreateMode: () => dispatch({ type: "START_CREATE_MODE" }),
+      setEditMode: (factor: Factor) =>
+        dispatch({ type: "SET_EDIT_MODE", factor }),
+      setCreateMode: () => dispatch({ type: "SET_CREATE_MODE" }),
+      setViewingMode: () => dispatch({ type: "SET_VIEWING_MODE" }),
       clearEditor: () => dispatch({ type: "CLEAR_EDITOR" }),
       reset: () => dispatch({ type: "RESET" }),
       addUnitToNumerator: (unit: Unit) =>
