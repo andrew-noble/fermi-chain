@@ -1,6 +1,5 @@
 interface InlineUnitProps {
   units: { name: string; exponent: number }[];
-  className?: string;
 }
 
 //this component renders a single level of units (numerator or denominator), separated by dots
