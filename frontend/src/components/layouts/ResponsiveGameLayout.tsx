@@ -46,7 +46,7 @@ export default function ResponsiveGameLayout({
           {/* Top Row */}
           <div className="p-3 border-b border-gray-800">
             <h2 className="text-base md:text-lg font-semibold mb-2">Units</h2>
-            {unitSelection}
+            <div className="flex flex-wrap gap-2">{unitSelection}</div>
           </div>
 
           {/* Middle Row */}
@@ -54,7 +54,7 @@ export default function ResponsiveGameLayout({
             <h2 className="text-base md:text-lg font-semibold mb-2">
               Fermi Chain
             </h2>
-            {fermiChain}
+            <div className="flex flex-wrap gap-2">{fermiChain}</div>
           </div>
 
           {/* Bottom Row */}
@@ -62,7 +62,7 @@ export default function ResponsiveGameLayout({
             <h2 className="text-base md:text-lg font-semibold mb-2">
               Your Answer
             </h2>
-            {feedback}
+            <div className="flex flex-wrap gap-2">{feedback}</div>
           </div>
           <div className="mt-2">{resultsSection}</div>
         </>
