@@ -56,10 +56,9 @@ export default function FactorDisplay({
             oom={data.numeratorOom}
             className="text-xl md:text-2xl lg:text-3xl"
           />
-          <InlineUnit
-            units={numerators}
-            className="text-xl md:text-2xl lg:text-3xl"
-          />
+          <div className="text-xl md:text-2xl lg:text-3xl whitespace-nowrap">
+            <InlineUnit units={numerators} />
+          </div>
         </div>
       </div>
 
@@ -84,10 +83,9 @@ export default function FactorDisplay({
             oom={data.denominatorOom}
             className="text-xl md:text-2xl lg:text-3xl"
           />
-          <InlineUnit
-            units={denominators}
-            className="text-xl md:text-2xl lg:text-3xl"
-          />
+          <div className="text-xl md:text-2xl lg:text-3xl whitespace-nowrap">
+            <InlineUnit units={denominators} />
+          </div>
         </div>
       </div>
 

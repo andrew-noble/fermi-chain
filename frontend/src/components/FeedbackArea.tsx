@@ -45,19 +45,19 @@ export default function FeedbackArea({ show, hook }: FeedbackAreaProps) {
       <span className="text-primary font-semibold">
         {formatNumberWithCommas(liveOom)}
       </span>
-      <InlineUnit
-        units={numerators}
-        className={`${correctUnitsStyling(isCorrectUnits)}`}
-      />
-      {denominators.length > 0 && (
-        <>
-          <p> / </p>
-          <InlineUnit
-            units={denominators}
-            className={`${correctUnitsStyling(isCorrectUnits)}`}
-          />
-        </>
-      )}
+      <div
+        className={`flex gap-1 whitespace-nowrap ${correctUnitsStyling(
+          isCorrectUnits
+        )}`}
+      >
+        <InlineUnit units={numerators} />
+        {denominators.length > 0 && (
+          <>
+            <span className="text-gray-400"> / </span>
+            <InlineUnit units={denominators} />
+          </>
+        )}
+      </div>
     </>
   );
 }

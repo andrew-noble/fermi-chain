@@ -11,7 +11,7 @@ export default function SubmitResetButtonGroup({
   onSubmit,
 }: SubmitResetButtonGroupProps) {
   return (
-    <div className="flex gap-2">
+    <>
       <Button
         className="bg-primary hover:bg-primary/80"
         disabled={hook.state.factors.length === 0}
@@ -33,6 +33,6 @@ export default function SubmitResetButtonGroup({
       >
         Start Over
       </Button>
-    </div>
+    </>
   );
 }
