@@ -13,7 +13,7 @@
       "count": 1,
       "unitMetadata": {
         "id": "golf-ball",
-        "name": "golf ball",
+        "name": "golf balls",
         "namePlural": "golf balls",
         "dimension": "Quantity"
       }
@@ -22,7 +22,7 @@
   "usefulUnitList": [
     {
       "id": "golf-ball",
-      "name": "golf ball",
+      "name": "golf balls",
       "namePlural": "golf balls",
       "dimension": "Quantity"
     },

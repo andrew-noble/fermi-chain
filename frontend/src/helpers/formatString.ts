@@ -23,23 +23,38 @@ const playerFeedback: Record<number, string> = {
   3: "Wild Guess 😳",
 };
 
-const getUnitString = (units: UnitInventory) => {
+export const getUnitString = (units: UnitInventory): string => {
   const { numerators, denominators } = getUnitStrings(units);
+
   const numUnitString = numerators
-    .map((num) => num.name + superscriptMap[num.exponent])
-    .join("-");
+    .map(
+      (unit) =>
+        `${unit.name}${unit.exponent > 1 ? superscriptMap[unit.exponent] : ""}`
+    )
+    .join("·");
+
   const denUnitString = denominators
-    .map((den) => den.name + superscriptMap[den.exponent])
-    .join("-");
-  return [numUnitString, denUnitString].join("/");
+    .map(
+      (unit) =>
+        `${unit.name}${unit.exponent > 1 ? superscriptMap[unit.exponent] : ""}`
+    )
+    .join("·");
+
+  return denUnitString ? `${numUnitString}/${denUnitString}` : numUnitString;
 };
 
 const getOomString = (oom: Oom) => {
   const oomExp = superscriptMap[oom.exponent];
-  return `10${oomExp}`;
+  if (oom.exponent === 0) {
+    return "1";
+  } else if (oom.exponent === 1) {
+    return "10";
+  } else {
+    return `10${oomExp}`;
+  }
 };
 
-const getFullChainString = (factors: Factor[]) => {
+export const getFullChainString = (factors: Factor[]) => {
   return factors
     .map((factor) => {
       const oom = collapseOom(factor.numeratorOom, factor.denominatorOom);
@@ -50,7 +65,7 @@ const getFullChainString = (factors: Factor[]) => {
     .join(" × ");
 };
 
-export default function getResultsString(hook: Hook) {
+export const getSharableString = (hook: Hook) => {
   const factorChainString = getFullChainString(hook.state.factors);
 
   return `Fermi Chain #${hook.state.question.id}
@@ -67,4 +82,21 @@ export default function getResultsString(hook: Hook) {
   
   ${playerFeedback[hook.derivedState.oomDelta]}
   `;
-}
+};
+
+export const getResultsStrings = (hook: Hook) => {
+  const fullPlayerAnswer = `${formatNumberWithCommas(
+    hook.derivedState.chainOom.value
+  )} ${getUnitString(hook.derivedState.chainUnits)}`;
+
+  const fullActualAnswer = `${formatNumberWithCommas(
+    hook.state.question.targetOom.value
+  )} ${getUnitString(hook.state.question.targetUnits)}`;
+
+  return {
+    playerChain: getFullChainString(hook.state.factors),
+    playerResult: fullPlayerAnswer,
+    actualResult: fullActualAnswer,
+    playerFeedback: playerFeedback[hook.derivedState.oomDelta],
+  };
+};

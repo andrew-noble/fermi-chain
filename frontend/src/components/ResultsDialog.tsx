@@ -6,10 +6,9 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Share } from "lucide-react";
-import { formatNumber } from "@/helpers/formatNumber";
 import { Hook } from "@/types";
 import { useState } from "react";
-import getResultsString from "@/helpers/formatString";
+import { getSharableString, getResultsStrings } from "@/helpers/formatString";
 
 interface ResultsDialogProps {
   open: boolean;
@@ -24,9 +23,8 @@ export default function ResultsDialog({
 }: ResultsDialogProps) {
   const [copied, setCopied] = useState(false);
 
-  const shareText = `I solved a Fermi problem! My answer: ${formatNumber(
-    hook.derivedState.chainOom.value
-  )}`;
+  const shareText = getSharableString(hook);
+  const results = getResultsStrings(hook);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -36,7 +34,11 @@ export default function ResultsDialog({
         </DialogHeader>
 
         <div className="space-y-4">
-          <pre className="text-lg">{getResultsString(hook)}</pre>
+          <p>Your Fermi Chain:</p>
+          <p>{results.playerChain}</p>
+          <p>Result: {results.playerResult}</p>
+          <p>Actual: {results.actualResult}</p>
+          <p>{results.playerFeedback}</p>
 
           <Button
             onClick={() => {

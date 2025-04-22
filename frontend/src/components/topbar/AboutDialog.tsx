@@ -20,9 +20,8 @@ export default function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
         </DialogHeader>
         <div className="space-y-4">
           <p>
-            Fermi Chain is a brain teaser that challenges your ability to make
-            real-world (if outlandish) estimates using reasonable assumptions
-            and mathematical reasoning.
+            Fermi Chain is a brain teaser that challenges you ability to
+            estimate in orders of magnitude.
           </p>
           <p>
             It's named after the physicist Enrico Fermi, who was known for his
@@ -35,7 +34,7 @@ export default function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
             >
               back-of-the-envelope calculations
             </a>
-            . A version of this reasoning technique is the origin of the famous{" "}
+            . This reasoning technique is the origin of the famous{" "}
             <a
               href="https://en.wikipedia.org/wiki/Fermi_paradox"
               target="_blank"
@@ -44,30 +43,19 @@ export default function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
             >
               Fermi Paradox
             </a>
-            , which predicts that we should have received alien signals by now
-            👽.
+            , which predicts that aliens ought to exist 👽.
           </p>
           <hr className="border-gray-200 dark:border-gray-700" />
           <p>
-            I got some great feedback and interest on this idea. As of April 11,
-            2025, I am currently building a much-improved v2.{" "}
-          </p>
-          <p>
-            In the meantime, this chain cycles through 4 different questions.
-          </p>
-          <hr className="border-gray-200 dark:border-gray-700" />
-          <p>
-            Built by Andrew Noble. If you have feedback or ideas, I'd love to
-            hear it in the anonymous form on my{" "}
+            Built by{" "}
             <a
               href="https://www.andrewnoble.me"
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary hover:text-primary/80 hover:underline font-medium"
             >
-              website
+              Andrew Noble
             </a>
-            .
           </p>
           <Button onClick={() => onOpenChange(false)}>Close</Button>
         </div>
