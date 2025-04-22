@@ -22,22 +22,22 @@ export default function ResponsiveGameLayout({
           <div className="border-b border-gray-800 p-2">{resultsSection}</div>
           <div className="border-b border-gray-800 p-2">
             <h2 className="font-semibold mb-2">Your Answer</h2>
-            <div className="overflow-x-auto">
-              <div className="flex space-x-4">{feedback}</div>
+            <div className="overflow-x-auto snap-x snap-mandatory">
+              <div className="flex gap-4">{feedback}</div>
             </div>
           </div>
 
           <div className="border-b border-gray-800 p-2">
             <h2 className="font-semibold mb-2">Units</h2>
-            <div className="overflow-x-auto">
-              <div className="flex space-x-4">{unitSelection}</div>
+            <div className="overflow-x-auto snap-x snap-mandatory">
+              <div className="flex gap-4">{unitSelection}</div>
             </div>
           </div>
 
           <div className="border-b border-gray-800 p-2">
             <h2 className="font-semibold mb-2">Fermi Chain</h2>
-            <div className="overflow-x-auto">
-              <div className="flex space-x-4">{fermiChain}</div>
+            <div className="overflow-x-auto snap-x snap-mandatory">
+              <div className="flex gap-4">{fermiChain}</div>
             </div>
           </div>
         </>

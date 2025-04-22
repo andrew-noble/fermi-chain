@@ -42,28 +42,22 @@ export default function FeedbackArea({ show, hook }: FeedbackAreaProps) {
 
   return (
     <>
-      <div className="flex items-center gap-4 min-w-max">
-        <div className="flex items-center gap-2">
-          <span className="text-primary font-semibold">
-            {formatNumberWithCommas(liveOom)}
-          </span>
-          <div className="flex gap-1">
-            <InlineUnit
-              units={numerators}
-              className={`${correctUnitsStyling(isCorrectUnits)}`}
-            />
-            {denominators.length > 0 && (
-              <>
-                <p> / </p>
-                <InlineUnit
-                  units={denominators}
-                  className={`${correctUnitsStyling(isCorrectUnits)}`}
-                />
-              </>
-            )}
-          </div>
-        </div>
-      </div>
+      <span className="text-primary font-semibold">
+        {formatNumberWithCommas(liveOom)}
+      </span>
+      <InlineUnit
+        units={numerators}
+        className={`${correctUnitsStyling(isCorrectUnits)}`}
+      />
+      {denominators.length > 0 && (
+        <>
+          <p> / </p>
+          <InlineUnit
+            units={denominators}
+            className={`${correctUnitsStyling(isCorrectUnits)}`}
+          />
+        </>
+      )}
     </>
   );
 }
