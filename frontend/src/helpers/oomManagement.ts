@@ -12,6 +12,12 @@ export const getClosestOom = (num: number): Oom => {
   return ooms.find((oom) => oom.exponent === exp) || getOomById("1e0"); // fallback to OOMS[0] if not found
 };
 
+//collapses a single numerator and denominator
+export const collapseOom = (num: Oom, den: Oom): Oom => {
+  return getClosestOom(num.value / den.value);
+};
+
+//resolves a whole list of N and D pairs
 export const resolveOoms = (numerators: Oom[], denominators: Oom[]): Oom => {
   const numProduct = numerators.reduce((acc, oom) => acc * oom.value, 1);
   const denomProduct = denominators.reduce((acc, oom) => acc * oom.value, 1);

@@ -150,6 +150,8 @@ export default function useFermiReducer(): Hook {
   const chainUnits: UnitInventory = resolveUnits(
     state.factors.map((f) => f.units)
   );
+  const oomDelta: number =
+    chainOom.exponent - state.question.targetOom.exponent;
 
   return {
     state,
@@ -178,6 +180,7 @@ export default function useFermiReducer(): Hook {
     derivedState: {
       chainOom,
       chainUnits,
+      oomDelta,
     },
   };
 }

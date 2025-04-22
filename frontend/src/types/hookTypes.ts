@@ -40,6 +40,7 @@ export interface Hook {
   derivedState: {
     chainOom: Oom;
     chainUnits: UnitInventory;
+    oomDelta: number;
   };
 }
 

@@ -9,6 +9,7 @@ import { Share } from "lucide-react";
 import { formatNumber } from "@/helpers/formatNumber";
 import { Hook } from "@/types";
 import { useState } from "react";
+import getResultsString from "@/helpers/formatString";
 
 interface ResultsDialogProps {
   open: boolean;
@@ -37,9 +38,7 @@ export default function ResultsDialog({
         </DialogHeader>
 
         <div className="flex flex-col gap-4">
-          <div className="text-lg">
-            Your answer: {formatNumber(hook.derivedState.chainOom.value)}
-          </div>
+          <pre className="text-lg">{getResultsString(hook)}</pre>
 
           <Button
             onClick={() => {
