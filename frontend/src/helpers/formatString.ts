@@ -36,8 +36,8 @@ const oomFeedback = (oomDelta: number) => {
 
 const unitsFeedback = (unitsMatch: boolean) => {
   return unitsMatch
-    ? { text: "Correct Units", color: "text-green-500" }
-    : { text: "Incorrect Units", color: "text-red-500" };
+    ? { text: "Correct Units ✅", color: "text-green-500" }
+    : { text: "Incorrect Units ❌", color: "text-red-500" };
 };
 
 export const getUnitString = (units: UnitInventory): string => {
