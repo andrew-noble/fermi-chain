@@ -33,8 +33,8 @@ export default function FactorLayout({
   return (
     <div
       className={clsx(
-        "flex flex-col items-center p-2 rounded-lg shadow-sm h-min-[270px]",
-        isEditing && "bg-primary/15"
+        "flex flex-col items-center p-2 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 h-min-[270px]",
+        isEditing && "ring-2 ring-primary/50"
       )}
     >
       <FactorRow

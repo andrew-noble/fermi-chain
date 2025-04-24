@@ -26,7 +26,7 @@ export default function FeedbackArea({ hook }: FeedbackAreaProps) {
 
   const correctUnitsStyling = (isCorrect: boolean) => {
     if (isCorrect) return "text-green-500";
-    else return "text-yellow-500";
+    else return "text-amber-500";
   };
 
   // //later, when user can do more granular than just oom, this do more lifting
@@ -44,7 +44,7 @@ export default function FeedbackArea({ hook }: FeedbackAreaProps) {
       </span>
 
       <div
-        className={`flex gap-1 whitespace-nowrap ${correctUnitsStyling(
+        className={`flex gap-1 whitespace-nowrap font-bold ${correctUnitsStyling(
           isCorrectUnits
         )}`}
       >

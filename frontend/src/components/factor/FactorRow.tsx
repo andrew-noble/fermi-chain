@@ -20,7 +20,16 @@ export default function FactorRow({
   onUpdateOom,
 }: FactorRowProps) {
   return (
-    <div className="flex items-center gap-1 w-full flex-1">
+    <div
+      className={clsx(
+        "flex gap-1 w-full flex-1",
+        editing
+          ? "items-center"
+          : label === "numerator"
+          ? "items-end"
+          : "items-start"
+      )}
+    >
       {editing && (
         <OomSelector
           title={label}

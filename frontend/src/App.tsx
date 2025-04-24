@@ -14,11 +14,11 @@ import PhantomFactorDisplay from "./components/factor/PhantomFactorDisplay";
 
 function App() {
   const hook = useFermiReducer();
-  const toggleTheme = useTheme();
+  useTheme(); // This will initialize dark mode by default
 
   return (
     <RootLayout
-      topbar={<TopBar onToggleTheme={toggleTheme} />}
+      topbar={<TopBar />}
       hero={
         <p className="text-2xl md:text-3xl lg:text-4xl text-primary font-bold">
           {hook.state.question.prompt}

@@ -34,8 +34,8 @@ export default function ResponsiveGameLayout({
           {showFeedback && (
             <div className="border-b border-gray-800 p-2">
               <h2 className="font-semibold mb-2">Your Answer</h2>
-              <div className="overflow-x-auto snap-x snap-mandatory">
-                <div className="flex gap-2">{feedback}</div>
+              <div className="overflow-x-auto snap-x snap-mandatory flex gap-2 p-2">
+                {feedback}
               </div>
             </div>
           )}
@@ -46,8 +46,8 @@ export default function ResponsiveGameLayout({
                 id="unit-selection-tooltip"
                 content="Add units to numerator (×) or denominator (÷) here"
               >
-                <div className="overflow-x-auto snap-x snap-mandatory">
-                  <div className="flex gap-2">{unitSelection}</div>
+                <div className="overflow-x-auto snap-x snap-mandatory flex gap-2 p-2">
+                  {unitSelection}
                 </div>
               </TutorialTooltip>
             </div>
@@ -55,8 +55,8 @@ export default function ResponsiveGameLayout({
           {showFermiChain && (
             <div className="border-b border-gray-800 p-2">
               <h2 className="font-semibold mb-2">Fermi Chain</h2>
-              <div className="overflow-x-auto snap-x snap-mandatory">
-                <div className="flex gap-2">{fermiChain}</div>
+              <div className="overflow-x-auto snap-x snap-mandatory flex gap-2 p-2">
+                {fermiChain}
               </div>
             </div>
           )}

@@ -16,7 +16,7 @@ export default function ResultsSection({
 
   return (
     <div className={className}>
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-center justify-center">
         <SubmitResetButtonGroup
           hook={hook}
           onSubmit={() => {
