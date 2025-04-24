@@ -35,8 +35,14 @@ export default function ResultsDialog({
 
         <div className="space-y-6">
           <div className="space-y-2 text-center">
-            <p className="text-lg font-semibold">{results.oomFeedback}</p>
-            <p className="text-lg font-semibold">{results.unitsFeedback}</p>
+            <p className={`text-lg font-semibold ${results.oomFeedbackColor}`}>
+              {results.oomFeedback}
+            </p>
+            <p
+              className={`text-lg font-semibold ${results.unitsFeedbackColor}`}
+            >
+              {results.unitsFeedback}
+            </p>
           </div>
 
           <div className="space-y-2">

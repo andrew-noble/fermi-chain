@@ -18,18 +18,26 @@ const superscriptMap: Record<number, string> = {
 
 const oomFeedback = (oomDelta: number) => {
   if (oomDelta === 0) {
-    return "Correct order of magnitude! 🎯";
+    return { text: "Correct order of magnitude! 🎯", color: "text-green-500" };
   } else if (oomDelta === 1) {
-    return "One order of magnitude off! 🔥";
+    return { text: "One order of magnitude off! 🔥", color: "text-yellow-500" };
   } else if (oomDelta === 2) {
-    return "Not quite (2 orders of magnitude off)! 🤔";
+    return {
+      text: "Not quite (2 orders of magnitude off)! 🤔",
+      color: "text-yellow-500",
+    };
   } else {
-    return "Wild Guess (3+ orders of magnitude off) 😳";
+    return {
+      text: "Wild Guess (3+ orders of magnitude off) 😳",
+      color: "text-red-500",
+    };
   }
 };
 
 const unitsFeedback = (unitsMatch: boolean) => {
-  return unitsMatch ? "Correct Units" : "Incorrect Units";
+  return unitsMatch
+    ? { text: "Correct Units", color: "text-green-500" }
+    : { text: "Incorrect Units", color: "text-red-500" };
 };
 
 export const getUnitString = (units: UnitInventory): string => {
@@ -89,7 +97,7 @@ export const getSharableString = (hook: Hook) => {
     hook.state.question.targetOom.value
   )} ${getUnitString(hook.state.question.targetUnits)}
   
-  ${oomFeedback(hook.derivedState.oomDelta)}
+  ${oomFeedback(hook.derivedState.oomDelta).text}
   `;
 };
 
@@ -102,13 +110,18 @@ export const getResultsStrings = (hook: Hook) => {
     hook.state.question.targetAnswer
   )} ${getUnitString(hook.state.question.targetUnits)}`;
 
+  const oomFeedbackResult = oomFeedback(hook.derivedState.oomDelta);
+  const unitsFeedbackResult = unitsFeedback(
+    isSameUnits(hook.derivedState.chainUnits, hook.state.question.targetUnits)
+  );
+
   return {
     playerChain: getFullChainString(hook.state.factors),
     playerResult: fullPlayerAnswer,
     actualResult: fullActualAnswer,
-    oomFeedback: oomFeedback(hook.derivedState.oomDelta),
-    unitsFeedback: unitsFeedback(
-      isSameUnits(hook.derivedState.chainUnits, hook.state.question.targetUnits)
-    ),
+    oomFeedback: oomFeedbackResult.text,
+    oomFeedbackColor: oomFeedbackResult.color,
+    unitsFeedback: unitsFeedbackResult.text,
+    unitsFeedbackColor: unitsFeedbackResult.color,
   };
 };
