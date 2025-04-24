@@ -4,18 +4,14 @@ import SubmitResetButtonGroup from "@/components/SubmitResetButtonGroup";
 import ResultsDialog from "@/components/ResultsDialog";
 
 interface ResultsSectionProps {
-  show: boolean;
   hook: Hook;
   className?: string;
 }
 
 export default function ResultsSection({
-  show,
   hook,
   className = "",
 }: ResultsSectionProps) {
-  if (!show) return null;
-
   const [isResultsDialogOpen, setIsResultsDialogOpen] = useState(false);
 
   return (

@@ -61,15 +61,6 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
     return null;
   };
 
-  if (mode === "INIT") {
-    return (
-      <PhantomFactorDisplay
-        isInit={true}
-        onClick={() => hook.actions.setCreateMode()}
-      />
-    );
-  }
-
   return (
     <>
       {renderFactors()}

@@ -6,13 +6,10 @@ import InlineUnit from "@/components/InlineUnit";
 import { formatNumberWithCommas } from "@/helpers/formatNumber";
 
 interface FeedbackAreaProps {
-  show: boolean;
   hook: Hook;
 }
 
-export default function FeedbackArea({ show, hook }: FeedbackAreaProps) {
-  if (!show) return null;
-
+export default function FeedbackArea({ hook }: FeedbackAreaProps) {
   const chainUnits = hook.derivedState.chainUnits;
   const editorUnits = hook.state.editorState.units;
   const liveUnits = resolveUnits([chainUnits, editorUnits]);
@@ -45,6 +42,7 @@ export default function FeedbackArea({ show, hook }: FeedbackAreaProps) {
       <span className="text-primary font-semibold">
         {formatNumberWithCommas(liveOom)}
       </span>
+
       <div
         className={`flex gap-1 whitespace-nowrap ${correctUnitsStyling(
           isCorrectUnits

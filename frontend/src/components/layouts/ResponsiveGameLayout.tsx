@@ -1,5 +1,5 @@
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { TutorialTooltip } from "@/components/TutorialTooltip";
+import { TutorialTooltip } from "../TutorialTooltip";
 
 interface Props {
   unitSelection: React.ReactNode;
@@ -30,9 +30,14 @@ export default function ResponsiveGameLayout({
 
           <div className="border-b border-gray-800 p-2">
             <h2 className="font-semibold mb-2">Units</h2>
-            <div className="overflow-x-auto snap-x snap-mandatory">
-              <div className="flex gap-2">{unitSelection}</div>
-            </div>
+            <TutorialTooltip
+              id="unit-selection-tooltip"
+              content="Add units to numerator (×) or denominator (÷) here"
+            >
+              <div className="overflow-x-auto snap-x snap-mandatory">
+                <div className="flex gap-2">{unitSelection}</div>
+              </div>
+            </TutorialTooltip>
           </div>
 
           <div className="border-b border-gray-800 p-2">
@@ -47,7 +52,12 @@ export default function ResponsiveGameLayout({
           {/* Top Row */}
           <div className="p-3 border-b border-gray-800">
             <h2 className="text-base md:text-lg font-semibold mb-2">Units</h2>
-            <div className="flex flex-wrap gap-2">{unitSelection}</div>
+            <TutorialTooltip
+              id="unit-selection-tooltip"
+              content="Add units to numerator (×) or denominator (÷) here"
+            >
+              <div className="flex flex-wrap gap-2">{unitSelection}</div>
+            </TutorialTooltip>
           </div>
 
           {/* Middle Row */}

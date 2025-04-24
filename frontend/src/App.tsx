@@ -10,10 +10,23 @@ import useTheme from "@/hooks/useTheme";
 import TopBar from "./components/topbar/TopBar";
 import useFermiReducer from "./hooks/useFermiReducer";
 import ResultsSection from "./components/ResultsSection";
+import PhantomFactorDisplay from "./components/factor/PhantomFactorDisplay";
+
+function SectionWrapper({
+  show,
+  children,
+}: {
+  show: boolean;
+  children: React.ReactNode;
+}) {
+  if (!show) return null;
+  return <>{children}</>;
+}
+
 function App() {
   const hook = useFermiReducer();
   const toggleTheme = useTheme();
-
+  const showContent = hook.state.mode !== "INIT";
   return (
     <RootLayout
       topbar={<TopBar onToggleTheme={toggleTheme} />}
@@ -23,23 +36,35 @@ function App() {
         </p>
       }
     >
-      <ResponsiveGameLayout
-        unitSelection={
-          <UnitSelectionArea
-            show={hook.state.mode !== "INIT"}
-            units={hook.state.question.usefulUnitList}
-            onAddNumerator={hook.actions.addUnitToNumerator}
-            onAddDenominator={hook.actions.addUnitToDenominator}
-          />
-        }
-        fermiChain={<FermiChainArea hook={hook} />}
-        feedback={
-          <FeedbackArea show={hook.state.mode !== "INIT"} hook={hook} />
-        }
-        resultsSection={
-          <ResultsSection show={hook.state.mode !== "INIT"} hook={hook} />
-        }
-      />
+      {showContent ? (
+        <ResponsiveGameLayout
+          unitSelection={
+            <SectionWrapper show={showContent}>
+              <UnitSelectionArea
+                units={hook.state.question.usefulUnitList}
+                onAddNumerator={hook.actions.addUnitToNumerator}
+                onAddDenominator={hook.actions.addUnitToDenominator}
+              />
+            </SectionWrapper>
+          }
+          fermiChain={<FermiChainArea hook={hook} />}
+          feedback={
+            <SectionWrapper show={showContent}>
+              <FeedbackArea hook={hook} />
+            </SectionWrapper>
+          }
+          resultsSection={
+            <SectionWrapper show={showContent}>
+              <ResultsSection hook={hook} />
+            </SectionWrapper>
+          }
+        />
+      ) : (
+        <PhantomFactorDisplay
+          isInit={true}
+          onClick={() => hook.actions.setCreateMode()}
+        />
+      )}
     </RootLayout>
   );
 }
