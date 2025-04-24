@@ -10,15 +10,6 @@ interface FermiChainAreaProps {
 export default function FermiChainArea({ hook }: FermiChainAreaProps) {
   const { mode, factors, editingFactor, editorState } = hook.state;
 
-  const handleSubmit = () => {
-    if (mode === "EDITING") {
-      hook.actions.updateFactor();
-    } else if (mode === "CREATING" || mode === "INTRO") {
-      hook.actions.createFactor();
-    }
-    hook.actions.setViewingMode();
-  };
-
   const renderFactors = () => {
     return factors.map((factor) => (
       <Fragment key={factor.id}>
@@ -27,7 +18,7 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
           isEditing={mode === "EDITING" && editingFactor?.id === factor.id}
           onStartEdit={() => hook.actions.setEditMode(factor)}
           onRemove={() => hook.actions.deleteFactor(factor.id)}
-          onSubmit={handleSubmit}
+          onSubmit={hook.actions.submitFactor}
           onClear={() => {
             hook.actions.clearEditor();
             hook.actions.setViewingMode();
@@ -50,7 +41,7 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
           isEditing={true}
           updateNumeratorOom={hook.actions.updateNumeratorOom}
           updateDenominatorOom={hook.actions.updateDenominatorOom}
-          onSubmit={handleSubmit}
+          onSubmit={hook.actions.submitFactor}
           onClear={() => {
             hook.actions.clearEditor();
             hook.actions.setViewingMode();

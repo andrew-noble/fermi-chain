@@ -198,6 +198,15 @@ export default function useFermiReducer(): Hook {
       updateDenominatorOom: (oom: Oom) =>
         dispatch({ type: "UPDATE_EDITOR_DENOMINATOR_OOM", oom }),
       setIntroMode: () => dispatch({ type: "SET_INTRO_MODE" }),
+      //combo action that just strings together others
+      submitFactor: () => {
+        if (state.mode === "EDITING") {
+          dispatch({ type: "UPDATE_FACTOR" });
+        } else if (state.mode === "CREATING" || state.mode === "INTRO") {
+          dispatch({ type: "CREATE_FACTOR" });
+        }
+        dispatch({ type: "SET_VIEWING_MODE" });
+      },
     },
     derivedState: {
       chainOom,

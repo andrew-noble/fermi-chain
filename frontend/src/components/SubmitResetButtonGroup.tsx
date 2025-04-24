@@ -15,12 +15,7 @@ export default function SubmitResetButtonGroup({
       <Button
         className="bg-primary hover:bg-primary/80"
         disabled={hook.state.factors.length === 0}
-        onClick={() => {
-          hook.state.mode === "EDITING"
-            ? hook.actions.updateFactor()
-            : hook.actions.createFactor();
-          onSubmit();
-        }}
+        onClick={onSubmit}
       >
         Submit
       </Button>

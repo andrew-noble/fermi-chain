@@ -19,7 +19,10 @@ export default function ResultsSection({
       <div className="flex gap-2">
         <SubmitResetButtonGroup
           hook={hook}
-          onSubmit={() => setIsResultsDialogOpen(true)}
+          onSubmit={() => {
+            hook.actions.submitFactor();
+            setIsResultsDialogOpen(true);
+          }}
         />
       </div>
       <ResultsDialog

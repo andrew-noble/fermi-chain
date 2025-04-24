@@ -38,6 +38,7 @@ export interface Hook {
     removeUnitFromDenominator: (unit: Unit) => void;
     updateNumeratorOom: (oom: Oom) => void;
     updateDenominatorOom: (oom: Oom) => void;
+    submitFactor: () => void;
   };
   derivedState: {
     chainOom: Oom;
