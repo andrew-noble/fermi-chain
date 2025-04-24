@@ -6,6 +6,10 @@ interface Props {
   fermiChain: React.ReactNode;
   feedback: React.ReactNode;
   resultsSection: React.ReactNode;
+  showUnits?: boolean;
+  showFermiChain?: boolean;
+  showFeedback?: boolean;
+  showResults?: boolean;
 }
 
 export default function ResponsiveGameLayout({
@@ -13,6 +17,10 @@ export default function ResponsiveGameLayout({
   fermiChain,
   feedback,
   resultsSection,
+  showUnits = true,
+  showFermiChain = true,
+  showFeedback = true,
+  showResults = true,
 }: Props) {
   const isMobile = useIsMobile();
 
@@ -20,62 +28,74 @@ export default function ResponsiveGameLayout({
     <div className="flex flex-col gap-2">
       {isMobile ? (
         <>
-          <div className="border-b border-gray-800 p-2">{resultsSection}</div>
-          <div className="border-b border-gray-800 p-2">
-            <h2 className="font-semibold mb-2">Your Answer</h2>
-            <div className="overflow-x-auto snap-x snap-mandatory">
-              <div className="flex gap-2">{feedback}</div>
-            </div>
-          </div>
-
-          <div className="border-b border-gray-800 p-2">
-            <h2 className="font-semibold mb-2">Units</h2>
-            <TutorialTooltip
-              id="unit-selection-tooltip"
-              content="Add units to numerator (×) or denominator (÷) here"
-            >
+          {showResults && (
+            <div className="border-b border-gray-800 p-2">{resultsSection}</div>
+          )}
+          {showFeedback && (
+            <div className="border-b border-gray-800 p-2">
+              <h2 className="font-semibold mb-2">Your Answer</h2>
               <div className="overflow-x-auto snap-x snap-mandatory">
-                <div className="flex gap-2">{unitSelection}</div>
+                <div className="flex gap-2">{feedback}</div>
               </div>
-            </TutorialTooltip>
-          </div>
-
-          <div className="border-b border-gray-800 p-2">
-            <h2 className="font-semibold mb-2">Fermi Chain</h2>
-            <div className="overflow-x-auto snap-x snap-mandatory">
-              <div className="flex gap-2">{fermiChain}</div>
             </div>
-          </div>
+          )}
+          {showUnits && (
+            <div className="border-b border-gray-800 p-2">
+              <h2 className="font-semibold mb-2">Units</h2>
+              <TutorialTooltip
+                id="unit-selection-tooltip"
+                content="Add units to numerator (×) or denominator (÷) here"
+              >
+                <div className="overflow-x-auto snap-x snap-mandatory">
+                  <div className="flex gap-2">{unitSelection}</div>
+                </div>
+              </TutorialTooltip>
+            </div>
+          )}
+          {showFermiChain && (
+            <div className="border-b border-gray-800 p-2">
+              <h2 className="font-semibold mb-2">Fermi Chain</h2>
+              <div className="overflow-x-auto snap-x snap-mandatory">
+                <div className="flex gap-2">{fermiChain}</div>
+              </div>
+            </div>
+          )}
         </>
       ) : (
         <>
           {/* Top Row */}
-          <div className="p-3 border-b border-gray-800">
-            <h2 className="text-base md:text-lg font-semibold mb-2">Units</h2>
-            <TutorialTooltip
-              id="unit-selection-tooltip"
-              content="Add units to numerator (×) or denominator (÷) here"
-            >
-              <div className="flex flex-wrap gap-2">{unitSelection}</div>
-            </TutorialTooltip>
-          </div>
+          {showUnits && (
+            <div className="p-3 border-b border-gray-800">
+              <h2 className="text-base md:text-lg font-semibold mb-2">Units</h2>
+              <TutorialTooltip
+                id="unit-selection-tooltip"
+                content="Add units to numerator (×) or denominator (÷) here"
+              >
+                <div className="flex flex-wrap gap-2">{unitSelection}</div>
+              </TutorialTooltip>
+            </div>
+          )}
 
           {/* Middle Row */}
-          <div className="flex-1 p-3 border-b border-gray-800">
-            <h2 className="text-base md:text-lg font-semibold mb-2">
-              Fermi Chain
-            </h2>
-            <div className="flex flex-wrap gap-2">{fermiChain}</div>
-          </div>
+          {showFermiChain && (
+            <div className="flex-1 p-3 border-b border-gray-800">
+              <h2 className="text-base md:text-lg font-semibold mb-2">
+                Fermi Chain
+              </h2>
+              <div className="flex flex-wrap gap-2">{fermiChain}</div>
+            </div>
+          )}
 
           {/* Bottom Row */}
-          <div className="border-b border-gray-800 p-2">
-            <h2 className="text-base md:text-lg font-semibold mb-2">
-              Your Answer
-            </h2>
-            <div className="flex flex-wrap gap-2">{feedback}</div>
-          </div>
-          <div className="mt-2">{resultsSection}</div>
+          {showFeedback && (
+            <div className="border-b border-gray-800 p-2">
+              <h2 className="text-base md:text-lg font-semibold mb-2">
+                Your Answer
+              </h2>
+              <div className="flex flex-wrap gap-2">{feedback}</div>
+            </div>
+          )}
+          {showResults && <div className="mt-2">{resultsSection}</div>}
         </>
       )}
     </div>

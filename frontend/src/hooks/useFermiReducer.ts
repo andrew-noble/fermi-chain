@@ -21,7 +21,7 @@ const initialState: State = {
 };
 
 const isEditorActive = (mode: State["mode"]) =>
-  mode === "CREATING" || mode === "EDITING";
+  mode === "CREATING" || mode === "EDITING" || mode === "INTRO";
 
 // Reducer function
 const fermiReducer = (state: State, action: Action): State => {
@@ -105,6 +105,7 @@ const fermiReducer = (state: State, action: Action): State => {
         editingFactor: null,
         editorState: initialState.editorState,
       };
+
     case "UPDATE_EDITOR_UNITS":
       if (!isEditorActive(state.mode)) return state;
       return {
@@ -143,6 +144,14 @@ const fermiReducer = (state: State, action: Action): State => {
       return {
         ...state,
         mode: "VIEWING",
+      };
+
+    case "SET_INTRO_MODE":
+      return {
+        ...state,
+        mode: "INTRO",
+        editingFactor: null,
+        editorState: initialState.editorState,
       };
 
     default:
@@ -188,6 +197,7 @@ export default function useFermiReducer(): Hook {
         dispatch({ type: "UPDATE_EDITOR_NUMERATOR_OOM", oom }),
       updateDenominatorOom: (oom: Oom) =>
         dispatch({ type: "UPDATE_EDITOR_DENOMINATOR_OOM", oom }),
+      setIntroMode: () => dispatch({ type: "SET_INTRO_MODE" }),
     },
     derivedState: {
       chainOom,

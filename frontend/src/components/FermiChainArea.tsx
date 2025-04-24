@@ -13,7 +13,7 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
   const handleSubmit = () => {
     if (mode === "EDITING") {
       hook.actions.updateFactor();
-    } else if (mode === "CREATING") {
+    } else if (mode === "CREATING" || mode === "INTRO") {
       hook.actions.createFactor();
     }
     hook.actions.setViewingMode();
@@ -43,7 +43,7 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
   };
 
   const renderEditor = () => {
-    if (mode === "CREATING" || mode === "EDITING") {
+    if (mode === "CREATING" || mode === "EDITING" || mode === "INTRO") {
       return (
         <FactorLayout
           data={editorState}

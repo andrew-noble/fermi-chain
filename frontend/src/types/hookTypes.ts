@@ -2,7 +2,7 @@ import { Unit, Oom, UnitInventory, Factor } from "./primitives";
 import { Question } from "./primitives";
 
 // Mode type
-export type Mode = "INIT" | "CREATING" | "EDITING" | "VIEWING";
+export type Mode = "INIT" | "INTRO" | "CREATING" | "EDITING" | "VIEWING";
 
 export type EditorState = {
   units: UnitInventory;
@@ -29,6 +29,7 @@ export interface Hook {
     setEditMode: (factor: Factor) => void;
     setCreateMode: () => void;
     setViewingMode: () => void;
+    setIntroMode: () => void;
     clearEditor: () => void;
     reset: () => void;
     addUnitToNumerator: (unit: Unit) => void;
@@ -53,6 +54,7 @@ export type Action =
   | { type: "SET_EDIT_MODE"; factor: Factor }
   | { type: "SET_CREATE_MODE" }
   | { type: "SET_VIEWING_MODE" }
+  | { type: "SET_INTRO_MODE" }
   | { type: "CLEAR_EDITOR" }
   | { type: "RESET" }
   | { type: "UPDATE_EDITOR_UNITS"; unit: Unit; delta: number }

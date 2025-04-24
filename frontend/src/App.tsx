@@ -12,21 +12,10 @@ import useFermiReducer from "./hooks/useFermiReducer";
 import ResultsSection from "./components/ResultsSection";
 import PhantomFactorDisplay from "./components/factor/PhantomFactorDisplay";
 
-function SectionWrapper({
-  show,
-  children,
-}: {
-  show: boolean;
-  children: React.ReactNode;
-}) {
-  if (!show) return null;
-  return <>{children}</>;
-}
-
 function App() {
   const hook = useFermiReducer();
   const toggleTheme = useTheme();
-  const showContent = hook.state.mode !== "INIT";
+
   return (
     <RootLayout
       topbar={<TopBar onToggleTheme={toggleTheme} />}
@@ -36,33 +25,27 @@ function App() {
         </p>
       }
     >
-      {showContent ? (
-        <ResponsiveGameLayout
-          unitSelection={
-            <SectionWrapper show={showContent}>
-              <UnitSelectionArea
-                units={hook.state.question.usefulUnitList}
-                onAddNumerator={hook.actions.addUnitToNumerator}
-                onAddDenominator={hook.actions.addUnitToDenominator}
-              />
-            </SectionWrapper>
-          }
-          fermiChain={<FermiChainArea hook={hook} />}
-          feedback={
-            <SectionWrapper show={showContent}>
-              <FeedbackArea hook={hook} />
-            </SectionWrapper>
-          }
-          resultsSection={
-            <SectionWrapper show={showContent}>
-              <ResultsSection hook={hook} />
-            </SectionWrapper>
-          }
-        />
-      ) : (
+      {hook.state.mode === "INIT" ? (
         <PhantomFactorDisplay
           isInit={true}
-          onClick={() => hook.actions.setCreateMode()}
+          onClick={() => hook.actions.setIntroMode()}
+        />
+      ) : (
+        <ResponsiveGameLayout
+          unitSelection={
+            <UnitSelectionArea
+              units={hook.state.question.usefulUnitList}
+              onAddNumerator={hook.actions.addUnitToNumerator}
+              onAddDenominator={hook.actions.addUnitToDenominator}
+            />
+          }
+          fermiChain={<FermiChainArea hook={hook} />}
+          feedback={<FeedbackArea hook={hook} />}
+          resultsSection={<ResultsSection hook={hook} />}
+          showUnits={true}
+          showFermiChain={true}
+          showFeedback={hook.state.mode !== "INTRO"}
+          showResults={hook.state.mode !== "INTRO"}
         />
       )}
     </RootLayout>
