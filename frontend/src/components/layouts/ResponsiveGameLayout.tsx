@@ -1,4 +1,5 @@
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { TutorialTooltip } from "@/components/TutorialTooltip";
 
 interface Props {
   unitSelection: React.ReactNode;

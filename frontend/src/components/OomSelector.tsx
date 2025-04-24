@@ -1,7 +1,6 @@
 import { Oom } from "@/types";
 import { ooms } from "@/data/ooms";
 import { Button } from "@/components/ui/button";
-import { ChevronUp, ChevronDown } from "lucide-react";
 
 interface OomSelectorProps {
   onUpdateOom: (oom: Oom) => void;
@@ -32,7 +31,7 @@ export default function OomSelector({
         onClick={() => onUpdateOom(getHigherOom(currentOom))}
         title={`Increase ${title} order of magnitude`}
       >
-        <ChevronUp className="h-4 w-4" />
+        <span className="text-lg font-medium">+</span>
       </Button>
       <Button
         variant="outline"
@@ -40,7 +39,7 @@ export default function OomSelector({
         onClick={() => onUpdateOom(getLowerOom(currentOom))}
         title={`Decrease ${title} order of magnitude`}
       >
-        <ChevronDown className="h-4 w-4" />
+        <span className="text-lg font-medium">-</span>
       </Button>
     </div>
   );

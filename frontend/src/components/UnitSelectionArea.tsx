@@ -1,19 +1,19 @@
 import UnitSelector from "@/components/UnitSelector";
 import { Unit } from "@/types";
 
-interface UnitSelectionPanelProps {
+interface UnitSelectionAreaProps {
   show: boolean;
   units: Unit[];
   onAddNumerator: (unit: Unit) => void;
   onAddDenominator: (unit: Unit) => void;
 }
 
-export default function UnitSelectionPanel({
+export default function UnitSelectionArea({
   show,
   units,
   onAddNumerator,
   onAddDenominator,
-}: UnitSelectionPanelProps) {
+}: UnitSelectionAreaProps) {
   if (!show) return null;
 
   return units.map((unit) => (

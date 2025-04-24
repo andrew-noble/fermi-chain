@@ -33,12 +33,32 @@ export default function ResultsDialog({
           <DialogTitle>Results</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4">
-          <p>Your Fermi Chain:</p>
-          <p>{results.playerChain}</p>
-          <p>Result: {results.playerResult}</p>
-          <p>Actual: {results.actualResult}</p>
-          <p>{results.playerFeedback}</p>
+        <div className="space-y-6">
+          <div className="space-y-2 text-center">
+            <p className="text-lg font-semibold">{results.oomFeedback}</p>
+            <p className="text-lg font-semibold">{results.unitsFeedback}</p>
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="text-sm font-medium text-muted-foreground">
+              Your Fermi Chain:
+            </h3>
+            <p className="text-lg">{results.playerChain}</p>
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="text-sm font-medium text-muted-foreground">
+              Result:
+            </h3>
+            <p className="text-lg">{results.playerResult}</p>
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="text-sm font-medium text-muted-foreground">
+              Actual:
+            </h3>
+            <p className="text-lg">{results.actualResult}</p>
+          </div>
 
           <Button
             onClick={() => {
@@ -47,7 +67,7 @@ export default function ResultsDialog({
               setTimeout(() => setCopied(false), 1500);
             }}
             variant={copied ? "outline" : "default"}
-            className="flex items-center gap-2"
+            className="w-full flex items-center justify-center gap-2"
           >
             <Share className="h-4 w-4" />
             {copied ? "Copied to clipboard!" : "Share Results"}

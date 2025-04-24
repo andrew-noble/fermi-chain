@@ -1,6 +1,6 @@
 import { Factor, Hook, Oom, UnitInventory } from "@/types";
 import { collapseOom } from "./oomManagement";
-import { getUnitStrings } from "./unitManagement";
+import { getUnitStrings, isSameUnits } from "./unitManagement";
 import { formatNumberWithCommas } from "./formatNumber";
 
 const superscriptMap: Record<number, string> = {
@@ -16,11 +16,20 @@ const superscriptMap: Record<number, string> = {
   9: "⁹",
 };
 
-const playerFeedback: Record<number, string> = {
-  0: "Perfect! �",
-  1: "Pretty close! 🔥",
-  2: "Not quite! 🤔",
-  3: "Wild Guess 😳",
+const oomFeedback = (oomDelta: number) => {
+  if (oomDelta === 0) {
+    return "Correct order of magnitude! 🎯";
+  } else if (oomDelta === 1) {
+    return "One order of magnitude off! 🔥";
+  } else if (oomDelta === 2) {
+    return "Not quite (2 orders of magnitude off)! 🤔";
+  } else {
+    return "Wild Guess (3+ orders of magnitude off) 😳";
+  }
+};
+
+const unitsFeedback = (unitsMatch: boolean) => {
+  return unitsMatch ? "Correct Units" : "Incorrect Units";
 };
 
 export const getUnitString = (units: UnitInventory): string => {
@@ -80,7 +89,7 @@ export const getSharableString = (hook: Hook) => {
     hook.state.question.targetOom.value
   )} ${getUnitString(hook.state.question.targetUnits)}
   
-  ${playerFeedback[hook.derivedState.oomDelta]}
+  ${oomFeedback(hook.derivedState.oomDelta)}
   `;
 };
 
@@ -90,13 +99,16 @@ export const getResultsStrings = (hook: Hook) => {
   )} ${getUnitString(hook.derivedState.chainUnits)}`;
 
   const fullActualAnswer = `${formatNumberWithCommas(
-    hook.state.question.targetOom.value
+    hook.state.question.targetAnswer
   )} ${getUnitString(hook.state.question.targetUnits)}`;
 
   return {
     playerChain: getFullChainString(hook.state.factors),
     playerResult: fullPlayerAnswer,
     actualResult: fullActualAnswer,
-    playerFeedback: playerFeedback[hook.derivedState.oomDelta],
+    oomFeedback: oomFeedback(hook.derivedState.oomDelta),
+    unitsFeedback: unitsFeedback(
+      isSameUnits(hook.derivedState.chainUnits, hook.state.question.targetUnits)
+    ),
   };
 };
