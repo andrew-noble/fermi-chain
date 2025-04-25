@@ -9,7 +9,7 @@ import useTheme from "@/hooks/useTheme";
 
 import TopBar from "./components/topbar/TopBar";
 import useFermiReducer from "./hooks/useFermiReducer";
-import ResultsSection from "./components/ResultsSection";
+import GameButtonArea from "./components/GameButtonArea";
 import PhantomFactorDisplay from "./components/factor/PhantomFactorDisplay";
 
 function App() {
@@ -41,7 +41,7 @@ function App() {
           }
           fermiChain={<FermiChainArea hook={hook} />}
           feedback={<FeedbackArea hook={hook} />}
-          resultsSection={<ResultsSection hook={hook} />}
+          gameButtonArea={<GameButtonArea hook={hook} />}
           showUnits={true}
           showFermiChain={true}
           showFeedback={hook.state.mode !== "INTRO"}
