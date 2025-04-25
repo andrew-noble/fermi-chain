@@ -19,7 +19,7 @@ export interface Oom {
 export interface Value {
   mantissa: number;
   oom: Oom;
-  getFullValue: () => number;
+  fullValue: number;
 }
 
 type UnitId = string;

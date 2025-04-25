@@ -1,8 +1,10 @@
 import { Value } from "@/types";
+import { cn } from "@/lib/utils";
 
 interface SciNotationDisplayProps {
   value: Value;
   className?: string;
+  showParentheses?: boolean;
 }
 
 /**
@@ -15,6 +17,7 @@ interface SciNotationDisplayProps {
 export default function SciNotationDisplay({
   value,
   className = "",
+  showParentheses = false,
 }: SciNotationDisplayProps) {
   /**
    * Formats a mantissa by removing trailing zeros after the decimal point.
@@ -34,25 +37,32 @@ export default function SciNotationDisplay({
   };
 
   return (
-    <span className={className}>
+    <span className={cn("inline-flex items-center", className)}>
+      {showParentheses && "("}
       {value.mantissa === 1 ? (
         // If mantissa is 1, we can simplify the display
         value.oom.exponent === 0 ? (
           // If exponent is 0, just show 1
           "1"
         ) : (
-          // Otherwise show 10^n
-          <>
+          // Otherwise show 10^n (but no exponent shown if it's 1)
+          <span>
             10<sup>{value.oom.exponent === 1 ? "" : value.oom.exponent}</sup>
-          </>
+          </span>
         )
       ) : (
-        // For other mantissas, show full scientific notation
+        // For other mantissas
         <>
-          {formatMantissa(value.mantissa)} × 10
-          <sup>{value.oom.exponent === 1 ? "" : value.oom.exponent}</sup>
+          {formatMantissa(value.mantissa)}
+          {value.oom.exponent !== 0 && (
+            <span>
+              {" × 10"}
+              <sup>{value.oom.exponent === 1 ? "" : value.oom.exponent}</sup>
+            </span>
+          )}
         </>
       )}
+      {showParentheses && ")"}
     </span>
   );
 }

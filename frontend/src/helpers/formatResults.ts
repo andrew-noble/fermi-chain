@@ -32,7 +32,7 @@ const unitsFeedback = (unitsMatch: boolean) => {
 export const getUserFermiChainString = (hook: Hook) => {
   const string = hook.state.factors.map((factor) => {
     const { inline } = getUnitStrings(factor.unit);
-    const v = formatNumberWithCommas(factor.numeratorValue.getFullValue());
+    const v = formatNumberWithCommas(factor.numeratorValue.fullValue);
     return `(${v} ${inline})`;
   });
 
@@ -41,8 +41,7 @@ export const getUserFermiChainString = (hook: Hook) => {
 
 export const getSharableResultsString = (hook: Hook) => {
   const { targetAnswer, targetUnits, id: questionId } = hook.state.question;
-  const { userValue, userUnit } = hook.derivedState;
-  const { oomDelta } = hook.derivedState;
+  const { liveValue, liveUnits, liveOomDelta } = hook.derivedState;
 
   const userChainString = getUserFermiChainString(hook);
 
@@ -50,28 +49,27 @@ export const getSharableResultsString = (hook: Hook) => {
 
   Your Fermi Chain: ${userChainString}
 
-  Result: ${formatNumberWithCommas(userValue.getFullValue())} ${getUnitStrings(
-    userUnit
+  Result: ${formatNumberWithCommas(liveValue.fullValue)} ${getUnitStrings(
+    liveUnits
   )}
 
   Actual: ${formatNumberWithCommas(targetAnswer)} ${getUnitStrings(targetUnits)}
   
-  ${oomFeedback(oomDelta).text}
-  ${unitsFeedback(isSameUnits(userUnit, targetUnits)).text}
+  ${oomFeedback(liveOomDelta).text}
+  ${unitsFeedback(isSameUnits(liveUnits, targetUnits)).text}
   `;
 };
 
 export const getResultsStrings = (hook: Hook) => {
   const { targetAnswer, targetUnits } = hook.state.question;
-  const { userValue, userUnit } = hook.derivedState;
-  const { oomDelta } = hook.derivedState;
+  const { liveValue, liveUnits, liveOomDelta } = hook.derivedState;
 
   return {
-    oomFeedback: oomFeedback(oomDelta),
-    unitsFeedback: unitsFeedback(isSameUnits(userUnit, targetUnits)),
+    oomFeedback: oomFeedback(liveOomDelta),
+    unitsFeedback: unitsFeedback(isSameUnits(liveUnits, targetUnits)),
     playerChain: getUserFermiChainString(hook),
-    playerResult: formatNumberWithCommas(userValue.getFullValue()),
-    playerUnits: getUnitStrings(userUnit),
+    playerResult: formatNumberWithCommas(liveValue.fullValue),
+    playerUnits: getUnitStrings(liveUnits),
     actualResult: formatNumberWithCommas(targetAnswer),
     actualUnits: getUnitStrings(targetUnits),
   };

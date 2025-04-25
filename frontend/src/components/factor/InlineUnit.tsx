@@ -15,7 +15,7 @@ export default function InlineUnit({ unit, className }: InlineUnitProps) {
       {units.map((u, index) => (
         <span key={u.unitMetadata.id}>
           <span className={className}>
-            {u.unitMetadata.name}
+            {u.unitMetadata.name || ""}
             {Math.abs(u.count) > 1 && (
               <sup className="ml-0.5">{Math.abs(u.count)}</sup>
             )}

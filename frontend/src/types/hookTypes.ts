@@ -43,9 +43,9 @@ export interface Hook {
     submitFactor: () => void;
   };
   derivedState: {
-    userValue: Value;
-    userUnit: UnitInventory;
-    oomDelta: number;
+    liveValue: Value;
+    liveUnits: UnitInventory;
+    liveOomDelta: number;
   };
 }
 

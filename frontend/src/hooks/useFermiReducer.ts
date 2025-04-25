@@ -11,7 +11,11 @@ import {
   Oom,
 } from "@/types";
 import { resolveUnits } from "@/helpers/unitManagement";
-import { createValue, resolveValues } from "@/helpers/valueManagement";
+import {
+  createValue,
+  resolveValues,
+  multiplyValues,
+} from "@/helpers/valueManagement";
 import { updateUnitCount } from "@/helpers/unitManagement";
 import { v4 as uuidv4 } from "uuid";
 
@@ -134,10 +138,9 @@ const fermiReducer = (state: State, action: Action): State => {
         ...state,
         editorState: {
           ...state.editorState,
-          numeratorValue: {
-            ...state.editorState.numeratorValue,
-            mantissa: action.mantissa,
-          },
+          numeratorValue: createValue(
+            action.mantissa * state.editorState.numeratorValue.oom.value
+          ),
         },
       };
 
@@ -147,10 +150,9 @@ const fermiReducer = (state: State, action: Action): State => {
         ...state,
         editorState: {
           ...state.editorState,
-          denominatorValue: {
-            ...state.editorState.denominatorValue,
-            mantissa: action.mantissa,
-          },
+          denominatorValue: createValue(
+            action.mantissa * state.editorState.denominatorValue.oom.value
+          ),
         },
       };
 
@@ -160,10 +162,9 @@ const fermiReducer = (state: State, action: Action): State => {
         ...state,
         editorState: {
           ...state.editorState,
-          numeratorValue: {
-            ...state.editorState.numeratorValue,
-            oom: action.oom,
-          },
+          numeratorValue: createValue(
+            state.editorState.numeratorValue.mantissa * action.oom.value
+          ),
         },
       };
 
@@ -173,10 +174,9 @@ const fermiReducer = (state: State, action: Action): State => {
         ...state,
         editorState: {
           ...state.editorState,
-          denominatorValue: {
-            ...state.editorState.denominatorValue,
-            oom: action.oom,
-          },
+          denominatorValue: createValue(
+            state.editorState.denominatorValue.mantissa * action.oom.value
+          ),
         },
       };
 
@@ -204,14 +204,21 @@ export default function useFermiReducer(): Hook {
   const [state, dispatch] = useReducer(fermiReducer, initialState);
 
   // Calculate derived state
-  const numerators: Value[] = state.factors.map((f) => f.numeratorValue);
-  const denominators: Value[] = state.factors.map((f) => f.denominatorValue);
-  const userValue: Value = resolveValues(numerators, denominators);
-  const userUnit: UnitInventory = resolveUnits(
-    state.factors.map((f) => f.unit)
-  );
-  const oomDelta: number =
-    userValue.oom.exponent - state.question.targetOom.exponent;
+  const n: Value = multiplyValues(state.factors.map((f) => f.numeratorValue));
+  const d: Value = multiplyValues(state.factors.map((f) => f.denominatorValue));
+  const n_editor: Value = state.editorState.numeratorValue;
+  const d_editor: Value = state.editorState.denominatorValue;
+
+  // Only include editor values if we're in an active editor mode
+  const liveValue: Value = isEditorActive(state.mode)
+    ? resolveValues([n, n_editor], [d, d_editor])
+    : resolveValues(n, d);
+  const liveUnits: UnitInventory = resolveUnits([
+    ...state.factors.map((f) => f.unit),
+    state.editorState.unit,
+  ]);
+  const liveOomDelta: number =
+    liveValue.oom.exponent - state.question.targetOom.exponent;
 
   return {
     state,
@@ -252,9 +259,9 @@ export default function useFermiReducer(): Hook {
       },
     },
     derivedState: {
-      userValue,
-      userUnit,
-      oomDelta,
+      liveValue,
+      liveUnits,
+      liveOomDelta,
     },
   };
 }

@@ -12,7 +12,7 @@ export const createValue = (rawValue: number): Value => {
     return {
       mantissa: 0,
       oom: ooms.find((oom) => oom.exponent === 0) || getOomById("1e0"),
-      getFullValue: () => 0,
+      fullValue: 0,
     };
   }
 
@@ -39,8 +39,13 @@ export const createValue = (rawValue: number): Value => {
   return {
     mantissa: currentMantissa,
     oom,
-    getFullValue: () => currentMantissa * oom.value,
+    fullValue: currentMantissa * oom.value,
   };
+};
+
+export const multiplyValues = (values: Value[]): Value => {
+  const product = values.reduce((acc, val) => acc * val.fullValue, 1);
+  return createValue(product);
 };
 
 // Resolve values - works with either single values or arrays
@@ -52,10 +57,7 @@ export const resolveValues = (
   const numArray = Array.isArray(numerators) ? numerators : [numerators];
   const denArray = Array.isArray(denominators) ? denominators : [denominators];
 
-  const numProduct = numArray.reduce((acc, val) => acc * val.getFullValue(), 1);
-  const denomProduct = denArray.reduce(
-    (acc, val) => acc * val.getFullValue(),
-    1
-  );
+  const numProduct = numArray.reduce((acc, val) => acc * val.fullValue, 1);
+  const denomProduct = denArray.reduce((acc, val) => acc * val.fullValue, 1);
   return createValue(numProduct / denomProduct);
 };

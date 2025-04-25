@@ -2,49 +2,35 @@ import { Hook } from "@/types";
 import SciNotationDisplay from "@/components/SciNotationDisplay";
 import InlineUnit from "@/components/factor/InlineUnit";
 
-import { resolveUnits, isSameUnits } from "@/helpers/unitManagement";
-import {
-  getUnitStrings,
-  formatNumberWithCommas,
-} from "@/helpers/string-formatting";
-import { resolveValues } from "@/helpers/valueManagement";
+import { isSameUnits, splitUnitInventory } from "@/helpers/unitManagement";
+import { formatNumberWithCommas } from "@/helpers/string-formatting";
 
 interface FeedbackAreaProps {
   hook: Hook;
 }
 
 export default function FeedbackArea({ hook }: FeedbackAreaProps) {
-  const { editorState, question } = hook.state;
-  const { userValue, userUnit } = hook.derivedState;
-
-  //collapse the committed value and whatever is in the editor
-  const liveValue = resolveValues(
-    [userValue, editorState.numeratorValue],
-    editorState.denominatorValue
-  );
-  const liveUnits = resolveUnits([userUnit, editorState.unit]);
+  const { liveValue, liveUnits } = hook.derivedState;
+  const { question } = hook.state;
 
   const isCorrectUnits = isSameUnits(liveUnits, question.targetUnits);
   const unitStyle = isCorrectUnits ? "text-green-500" : "text-amber-500";
-
-  console.log(liveValue);
-
-  const { numerators, denominators } = getUnitStrings(liveUnits);
+  const [numerators, denominators] = splitUnitInventory(liveUnits);
 
   return (
     <>
       <div className="flex items-center gap-2">
         <span className="text-primary font-semibold">
-          {formatNumberWithCommas(liveValue.getFullValue())}
+          {formatNumberWithCommas(liveValue.fullValue)}
         </span>
         <span className="text-gray-500 text-sm">
-          (<SciNotationDisplay value={liveValue} />)
+          <SciNotationDisplay value={liveValue} showParentheses />
         </span>
       </div>
 
       <div className={`flex gap-1 whitespace-nowrap font-bold ${unitStyle}`}>
         <InlineUnit unit={numerators} />
-        {denominators.length > 0 && (
+        {denominators && (
           <>
             <span className="text-gray-400">/</span>
             <InlineUnit unit={denominators} />
