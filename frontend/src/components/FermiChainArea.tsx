@@ -35,8 +35,8 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
     ));
   };
 
-  const renderEditor = () => {
-    if (mode === "CREATING" || mode === "EDITING" || mode === "INTRO") {
+  const renderEditorAtEnd = () => {
+    if (mode === "CREATING" || mode === "INTRO") {
       return (
         <FactorLayout
           data={editorState}
@@ -59,7 +59,7 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
   return (
     <>
       {renderFactors()}
-      {renderEditor()}
+      {renderEditorAtEnd()}
       {mode === "VIEWING" && (
         <PhantomFactorDisplay
           isInit={false}
