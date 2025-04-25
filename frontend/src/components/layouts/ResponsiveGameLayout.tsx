@@ -1,5 +1,4 @@
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { TutorialTooltip } from "../TutorialTooltip";
 
 interface Props {
   unitSelection: React.ReactNode;
@@ -42,14 +41,9 @@ export default function ResponsiveGameLayout({
           {showUnits && (
             <div className="border-b border-gray-800 p-2">
               <h2 className="font-semibold mb-2">Units</h2>
-              <TutorialTooltip
-                id="unit-selection-tooltip"
-                content="Add units to numerator (×) or denominator (÷) here"
-              >
-                <div className="overflow-x-auto snap-x snap-mandatory flex gap-2 p-2">
-                  {unitSelection}
-                </div>
-              </TutorialTooltip>
+              <div className="overflow-x-auto snap-x snap-mandatory flex gap-2 p-2">
+                {unitSelection}
+              </div>
             </div>
           )}
           {showFermiChain && (
@@ -67,12 +61,7 @@ export default function ResponsiveGameLayout({
           {showUnits && (
             <div className="p-3 border-b border-gray-800">
               <h2 className="text-base md:text-lg font-semibold mb-2">Units</h2>
-              <TutorialTooltip
-                id="unit-selection-tooltip"
-                content="Add units to numerator (×) or denominator (÷) here"
-              >
-                <div className="flex flex-wrap gap-2">{unitSelection}</div>
-              </TutorialTooltip>
+              <div className="flex flex-wrap gap-2">{unitSelection}</div>
             </div>
           )}
 

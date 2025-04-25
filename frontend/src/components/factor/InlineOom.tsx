@@ -1,6 +1,7 @@
 import { ooms } from "@/data/ooms";
 import { Oom } from "@/types";
 import { Button } from "@/components/ui/button";
+import { TutorialOverlay } from "../TutorialOverlay";
 
 interface InlineOomProps {
   oom: Oom;
@@ -37,16 +38,21 @@ export default function InlineOom({
     return ooms[Math.max(currentIndex - 1, 0)];
   };
 
-  //for mobile, a touch popover, for desktop, a hover tooltip
   return (
     <div className={`flex flex-col gap-2 w-[3.5rem] text-center ${className}`}>
-      <Button
-        variant="outline"
-        className="w-[3.5rem] h-8"
-        onClick={() => onUpdateOom(getHigherOom(oom))}
+      <TutorialOverlay
+        id="oom"
+        content="Adjust the order of magnitude"
+        position="right"
       >
-        <span className="text-lg font-medium">+</span>
-      </Button>
+        <Button
+          variant="outline"
+          className="w-[3.5rem] h-8"
+          onClick={() => onUpdateOom(getHigherOom(oom))}
+        >
+          <span className="text-lg font-medium">+</span>
+        </Button>
+      </TutorialOverlay>
       <p>{getDisplayVersion(oom)}</p>
       <Button
         variant="outline"

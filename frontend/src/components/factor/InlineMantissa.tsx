@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Telescope, Pencil } from "lucide-react";
 import MultiplicationSign from "@/components/MultiplicationSign";
+import { TutorialOverlay } from "../TutorialOverlay";
 
 interface InlineMantissaProps {
   mantissa: number;
@@ -65,7 +66,11 @@ export default function InlineMantissa({
 
   if (closed) {
     return (
-      <>
+      <TutorialOverlay
+        id="first-mantissa-tutorial"
+        content="Add a precision to the mantissa"
+        position="bottom"
+      >
         <Button
           variant="ghost"
           size="sm"
@@ -77,7 +82,7 @@ export default function InlineMantissa({
         >
           <Telescope className="h-3 w-3" />
         </Button>
-      </>
+      </TutorialOverlay>
     );
   }
 
