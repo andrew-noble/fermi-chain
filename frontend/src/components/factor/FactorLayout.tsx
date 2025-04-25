@@ -102,7 +102,7 @@ export default function FactorLayout({
         <InlineUnit unit={numerators} className={textStyles} />
       </div>
       <div className="col-span-3 border-t border-gray-200 dark:border-gray-800 my-1" />
-      <div>
+      <div className="flex gap-1">
         <SciNotationDisplay
           value={data.denominatorValue}
           className={textStyles}
