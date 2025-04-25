@@ -6,8 +6,13 @@ export const getClosestOom = (num: number): Oom => {
   return ooms.find((oom) => oom.exponent === exp) || getOomById("1e0");
 };
 
-// New Value creation and manipulation helpers
-export const createValue = (rawValue: number): Value => {
+//this function is a little sus with its math, but its only called in here, watch out
+const createValueFromNum = (rawValue: number): Value => {
+  // Handle special cases
+  if (!Number.isFinite(rawValue)) {
+    throw new Error("Cannot create Value from non-finite number");
+  }
+
   if (rawValue === 0) {
     return {
       mantissa: 0,
@@ -16,36 +21,37 @@ export const createValue = (rawValue: number): Value => {
     };
   }
 
-  let currentExponent = Math.log10(rawValue);
-  let currentMantissa = rawValue / Math.pow(10, currentExponent);
-
-  // Normalize mantissa to be between 1.000 and 9.999
-  while (currentMantissa >= 10) {
-    currentMantissa /= 10;
-    currentExponent += 1;
-  }
-  while (currentMantissa < 1 && currentMantissa !== 0) {
-    currentMantissa *= 10;
-    currentExponent -= 1;
-  }
-
-  // Round to 3 decimal places
-  currentMantissa = parseFloat(currentMantissa.toFixed(3));
+  // Convert to scientific notation string to avoid floating point issues
+  const scientificStr = rawValue.toExponential(3);
+  const [mantissaStr, exponentStr] = scientificStr.split("e");
+  const mantissa = parseFloat(mantissaStr);
+  const exponent = parseInt(exponentStr);
 
   // Find the OOM directly using the exponent
   const oom =
-    ooms.find((oom) => oom.exponent === currentExponent) || getOomById("1e0");
+    ooms.find((oom) => oom.exponent === exponent) || getOomById("1e0");
 
   return {
-    mantissa: currentMantissa,
+    mantissa,
     oom,
-    fullValue: currentMantissa * oom.value,
+    fullValue: mantissa * oom.value,
+  };
+};
+
+export const createValueFromMantissaAndOom = (
+  mantissa: number,
+  oom: Oom
+): Value => {
+  return {
+    mantissa,
+    oom,
+    fullValue: mantissa * oom.value,
   };
 };
 
 export const multiplyValues = (values: Value[]): Value => {
   const product = values.reduce((acc, val) => acc * val.fullValue, 1);
-  return createValue(product);
+  return createValueFromNum(product);
 };
 
 // Resolve values - works with either single values or arrays
@@ -59,5 +65,5 @@ export const resolveValues = (
 
   const numProduct = numArray.reduce((acc, val) => acc * val.fullValue, 1);
   const denomProduct = denArray.reduce((acc, val) => acc * val.fullValue, 1);
-  return createValue(numProduct / denomProduct);
+  return createValueFromNum(numProduct / denomProduct);
 };

@@ -12,12 +12,13 @@ import {
 } from "@/types";
 import { resolveUnits } from "@/helpers/unitManagement";
 import {
-  createValue,
   resolveValues,
   multiplyValues,
+  createValueFromMantissaAndOom,
 } from "@/helpers/valueManagement";
 import { updateUnitCount } from "@/helpers/unitManagement";
 import { v4 as uuidv4 } from "uuid";
+import { getOomById } from "@/data/ooms";
 
 // Initial state
 const initialState: State = {
@@ -27,8 +28,8 @@ const initialState: State = {
   editingFactor: null,
   editorState: {
     unit: {} as UnitInventory,
-    numeratorValue: createValue(1),
-    denominatorValue: createValue(1),
+    numeratorValue: createValueFromMantissaAndOom(1, getOomById("1e0")),
+    denominatorValue: createValueFromMantissaAndOom(1, getOomById("1e0")),
   },
 };
 
@@ -138,8 +139,9 @@ const fermiReducer = (state: State, action: Action): State => {
         ...state,
         editorState: {
           ...state.editorState,
-          numeratorValue: createValue(
-            action.mantissa * state.editorState.numeratorValue.oom.value
+          numeratorValue: createValueFromMantissaAndOom(
+            action.mantissa,
+            state.editorState.numeratorValue.oom
           ),
         },
       };
@@ -150,8 +152,9 @@ const fermiReducer = (state: State, action: Action): State => {
         ...state,
         editorState: {
           ...state.editorState,
-          denominatorValue: createValue(
-            action.mantissa * state.editorState.denominatorValue.oom.value
+          denominatorValue: createValueFromMantissaAndOom(
+            action.mantissa,
+            state.editorState.denominatorValue.oom
           ),
         },
       };
@@ -162,8 +165,9 @@ const fermiReducer = (state: State, action: Action): State => {
         ...state,
         editorState: {
           ...state.editorState,
-          numeratorValue: createValue(
-            state.editorState.numeratorValue.mantissa * action.oom.value
+          numeratorValue: createValueFromMantissaAndOom(
+            state.editorState.numeratorValue.mantissa,
+            action.oom
           ),
         },
       };
@@ -174,8 +178,9 @@ const fermiReducer = (state: State, action: Action): State => {
         ...state,
         editorState: {
           ...state.editorState,
-          denominatorValue: createValue(
-            state.editorState.denominatorValue.mantissa * action.oom.value
+          denominatorValue: createValueFromMantissaAndOom(
+            state.editorState.denominatorValue.mantissa,
+            action.oom
           ),
         },
       };
