@@ -14,7 +14,11 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
     return factors.map((factor) => (
       <Fragment key={factor.id}>
         <FactorLayout
-          data={factor}
+          data={
+            mode === "EDITING" && editingFactor?.id === factor.id
+              ? editorState
+              : factor
+          }
           isEditing={mode === "EDITING" && editingFactor?.id === factor.id}
           onStartEdit={() => hook.actions.setEditMode(factor)}
           onRemove={() => hook.actions.deleteFactor(factor.id)}
@@ -66,6 +70,7 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
           onClick={() => hook.actions.setCreateMode()}
         />
       )}
+      <p>{hook.state.mode}</p>
     </>
   );
 }
