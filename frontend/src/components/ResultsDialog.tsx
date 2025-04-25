@@ -8,7 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Share } from "lucide-react";
 import { Hook } from "@/types";
 import { useState } from "react";
-import { getSharableString, getResultsStrings } from "@/helpers/formatString";
+import {
+  getSharableResultsString,
+  getResultsStrings,
+} from "@/helpers/formatResults";
 
 interface ResultsDialogProps {
   open: boolean;
@@ -23,7 +26,7 @@ export default function ResultsDialog({
 }: ResultsDialogProps) {
   const [copied, setCopied] = useState(false);
 
-  const shareText = getSharableString(hook);
+  const shareText = getSharableResultsString(hook);
   const results = getResultsStrings(hook);
 
   return (
@@ -35,13 +38,13 @@ export default function ResultsDialog({
 
         <div className="space-y-6">
           <div className="space-y-2 text-center">
-            <p className={`text-lg font-semibold ${results.oomFeedbackColor}`}>
-              {results.oomFeedback}
+            <p className={`text-lg font-semibold ${results.oomFeedback.color}`}>
+              {results.oomFeedback.text}
             </p>
             <p
-              className={`text-lg font-semibold ${results.unitsFeedbackColor}`}
+              className={`text-lg font-semibold ${results.unitsFeedback.color}`}
             >
-              {results.unitsFeedback}
+              {results.unitsFeedback.text}
             </p>
           </div>
 

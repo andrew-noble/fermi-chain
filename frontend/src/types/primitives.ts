@@ -39,7 +39,7 @@ export type UnitInventory = {
 
 // Base Types
 export interface BaseFactor {
-  units: UnitInventory;
+  unit: UnitInventory;
   numeratorValue: Value;
   denominatorValue: Value;
 }

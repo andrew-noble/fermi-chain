@@ -1,9 +1,11 @@
-import FactorRow from "@/components/factor/FactorRow";
 import FactorButtonGroup from "@/components/factor/FactorButtonGroup";
-import clsx from "clsx";
 import { EditorState, Oom } from "@/types";
 import { Factor } from "@/types";
-import { getUnitStrings } from "@/helpers/unitManagement";
+import InlineMantissa from "@/components/factor/InlineMantissa";
+import InlineOom from "@/components/factor/InlineOom";
+import InlineUnit from "@/components/factor/InlineUnit";
+import SciNotationDisplay from "@/components/SciNotationDisplay";
+import { splitUnitInventory } from "@/helpers/unitManagement";
 
 interface FactorLayoutProps {
   data: Factor | EditorState;
@@ -30,36 +32,83 @@ export default function FactorLayout({
   onSubmit,
   onClear,
 }: FactorLayoutProps) {
-  const { numerators, denominators } = getUnitStrings(data.units);
-  const isValid = Object.keys(data.units).length > 0;
+  const [numerators, denominators] = splitUnitInventory(data.unit);
+  const isValid = data.unit && Object.keys(data.unit).length > 0;
 
-  return (
-    <div
-      className={clsx(
-        "flex flex-col items-center p-2 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 h-min-[270px]",
-        isEditing && "ring-2 ring-primary/50"
-      )}
-    >
-      <FactorRow
-        label="numerator"
-        value={data.numeratorValue}
-        units={numerators}
-        editing={isEditing}
-        onUpdateMantissa={updateNumeratorMantissa}
-        onUpdateOom={updateNumeratorOom}
-      />
+  const textStyles = isEditing ? "text-base" : "text-lg md:text-xl lg:text-2xl";
 
-      <div className="w-full border-t border-gray-200 dark:border-gray-800 my-1" />
+  return isEditing ? (
+    <div className="grid grid-cols-[minmax(7rem, auto)_minmax(5rem, auto)_minmax(6rem, auto)] ring-2 ring-primary/50 p-2 rounded-md">
+      {/* Numerator Row */}
+      <div className="col-start-1 flex items-center justify-center">
+        <InlineMantissa
+          mantissa={data.numeratorValue.mantissa}
+          onUpdateMantissa={updateNumeratorMantissa}
+          className={textStyles}
+        />
+      </div>
+      <div className="col-start-2 flex items-center justify-center">
+        <InlineOom
+          oom={data.numeratorValue.oom}
+          onUpdateOom={updateNumeratorOom}
+          className={textStyles}
+        />
+      </div>
+      <div className="col-start-3 flex items-center justify-center">
+        <InlineUnit unit={numerators} className={textStyles} />
+      </div>
 
-      <FactorRow
-        label="denominator"
-        value={data.denominatorValue}
-        units={denominators}
-        editing={isEditing}
-        onUpdateMantissa={updateDenominatorMantissa}
-        onUpdateOom={updateDenominatorOom}
-      />
+      {/* Divider Row */}
+      <div className="col-span-3 border-t border-gray-200 dark:border-gray-800 my-1" />
 
+      {/* Denominator Row */}
+      <div className="col-start-1 flex items-center justify-center">
+        <InlineMantissa
+          mantissa={data.denominatorValue.mantissa}
+          onUpdateMantissa={updateDenominatorMantissa}
+          className={textStyles}
+        />
+      </div>
+      <div className="col-start-2 flex items-center justify-center">
+        <InlineOom
+          oom={data.denominatorValue.oom}
+          onUpdateOom={updateDenominatorOom}
+          className={textStyles}
+        />
+      </div>
+      <div className="col-start-3 flex items-center justify-center">
+        <InlineUnit unit={denominators} className={textStyles} />
+      </div>
+
+      {/* Button Row */}
+      <div className="col-span-3 flex items-center justify-center">
+        <FactorButtonGroup
+          editing={isEditing}
+          isValid={isValid}
+          onStartEdit={onStartEdit}
+          onRemove={onRemove}
+          onSubmit={onSubmit}
+          onClear={onClear}
+        />
+      </div>
+    </div>
+  ) : (
+    <div className="flex flex-col gap-2">
+      <div className="flex gap-1">
+        <SciNotationDisplay
+          value={data.numeratorValue}
+          className={textStyles}
+        />
+        <InlineUnit unit={numerators} className={textStyles} />
+      </div>
+      <div className="col-span-3 border-t border-gray-200 dark:border-gray-800 my-1" />
+      <div>
+        <SciNotationDisplay
+          value={data.denominatorValue}
+          className={textStyles}
+        />
+        <InlineUnit unit={denominators} className={textStyles} />
+      </div>
       <FactorButtonGroup
         editing={isEditing}
         isValid={isValid}

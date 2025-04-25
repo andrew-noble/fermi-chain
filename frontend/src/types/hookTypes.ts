@@ -5,7 +5,7 @@ import { Question } from "./primitives";
 export type Mode = "INIT" | "INTRO" | "CREATING" | "EDITING" | "VIEWING";
 
 export type EditorState = {
-  units: UnitInventory;
+  unit: UnitInventory;
   numeratorValue: Value;
   denominatorValue: Value;
 };
@@ -43,8 +43,8 @@ export interface Hook {
     submitFactor: () => void;
   };
   derivedState: {
-    chainValue: Value;
-    chainUnits: UnitInventory;
+    userValue: Value;
+    userUnit: UnitInventory;
     oomDelta: number;
   };
 }

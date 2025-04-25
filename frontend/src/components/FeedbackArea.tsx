@@ -1,50 +1,33 @@
-import { Hook, Value } from "@/types";
-import { resolveUnits, isSameUnits } from "@/helpers/unitManagement";
-import { getUnitStrings } from "@/helpers/unitManagement";
-import InlineUnit from "@/components/factor/InlineUnit";
-import { formatNumberWithCommas } from "@/helpers/formatNumber";
-import { collapseValue } from "@/helpers/valueManagement";
+import { Hook } from "@/types";
 import SciNotationDisplay from "@/components/SciNotationDisplay";
+import InlineUnit from "@/components/factor/InlineUnit";
+
+import { resolveUnits, isSameUnits } from "@/helpers/unitManagement";
+import {
+  getUnitStrings,
+  formatNumberWithCommas,
+} from "@/helpers/string-formatting";
+import { resolveValues } from "@/helpers/valueManagement";
 
 interface FeedbackAreaProps {
   hook: Hook;
 }
 
 export default function FeedbackArea({ hook }: FeedbackAreaProps) {
-  const chainUnits = hook.derivedState.chainUnits;
-  const editorUnits = hook.state.editorState.units;
-  const liveUnits = resolveUnits([chainUnits, editorUnits]);
+  const { editorState, question } = hook.state;
+  const { userValue, userUnit } = hook.derivedState;
 
-  const chainValue = hook.derivedState.chainValue;
-  const editorNumerator = hook.state.editorState.numeratorValue;
-  const editorDenominator = hook.state.editorState.denominatorValue;
-
-  // Create a proper Value object for the numerator
-  const numeratorValue: Value = {
-    mantissa: chainValue.mantissa * editorNumerator.mantissa,
-    oom: chainValue.oom,
-    getFullValue: () =>
-      chainValue.getFullValue() * editorNumerator.getFullValue(),
-  };
-
-  // Use collapseValue to properly handle mantissa normalization
-  const liveValue = collapseValue(numeratorValue, editorDenominator);
-
-  const isCorrectUnits = isSameUnits(
-    liveUnits,
-    hook.state.question.targetUnits
+  //collapse the committed value and whatever is in the editor
+  const liveValue = resolveValues(
+    [userValue, editorState.numeratorValue],
+    editorState.denominatorValue
   );
+  const liveUnits = resolveUnits([userUnit, editorState.unit]);
 
-  const correctUnitsStyling = (isCorrect: boolean) => {
-    if (isCorrect) return "text-green-500";
-    else return "text-amber-500";
-  };
+  const isCorrectUnits = isSameUnits(liveUnits, question.targetUnits);
+  const unitStyle = isCorrectUnits ? "text-green-500" : "text-amber-500";
 
-  // //later, when user can do more granular than just oom, this do more lifting
-  // const isCorrectOom = isSameOom(
-  //   chain.derivedState.chainOom.value,
-  //   chain.state.question.targetOom.value
-  // );
+  console.log(liveValue);
 
   const { numerators, denominators } = getUnitStrings(liveUnits);
 
@@ -59,16 +42,12 @@ export default function FeedbackArea({ hook }: FeedbackAreaProps) {
         </span>
       </div>
 
-      <div
-        className={`flex gap-1 whitespace-nowrap font-bold ${correctUnitsStyling(
-          isCorrectUnits
-        )}`}
-      >
-        <InlineUnit units={numerators} />
+      <div className={`flex gap-1 whitespace-nowrap font-bold ${unitStyle}`}>
+        <InlineUnit unit={numerators} />
         {denominators.length > 0 && (
           <>
-            <span className="text-gray-400"> / </span>
-            <InlineUnit units={denominators} />
+            <span className="text-gray-400">/</span>
+            <InlineUnit unit={denominators} />
           </>
         )}
       </div>

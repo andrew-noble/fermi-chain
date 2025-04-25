@@ -1,41 +1,23 @@
 import { Oom, Value } from "@/types";
 import { ooms, getOomById } from "@/data/ooms";
 
-export const isSameOom = (a: number, b: number): boolean => {
-  const aOom = Math.floor(Math.log10(a));
-  const bOom = Math.floor(Math.log10(b));
-  return aOom == bOom;
-};
-
 export const getClosestOom = (num: number): Oom => {
   const exp = Math.floor(Math.log10(num));
-  return ooms.find((oom) => oom.exponent === exp) || getOomById("1e0"); // fallback to OOMS[0] if not found
-};
-
-//collapses a single numerator and denominator
-export const collapseOom = (num: Oom, den: Oom): Oom => {
-  return getClosestOom(num.value / den.value);
-};
-
-//resolves a whole list of N and D pairs
-export const resolveOoms = (numerators: Oom[], denominators: Oom[]): Oom => {
-  const numProduct = numerators.reduce((acc, oom) => acc * oom.value, 1);
-  const denomProduct = denominators.reduce((acc, oom) => acc * oom.value, 1);
-  return getClosestOom(numProduct / denomProduct);
+  return ooms.find((oom) => oom.exponent === exp) || getOomById("1e0");
 };
 
 // New Value creation and manipulation helpers
-export const createValue = (fullValue: number): Value => {
-  if (fullValue === 0) {
+export const createValue = (rawValue: number): Value => {
+  if (rawValue === 0) {
     return {
       mantissa: 0,
-      oom: getClosestOom(1),
+      oom: ooms.find((oom) => oom.exponent === 0) || getOomById("1e0"),
       getFullValue: () => 0,
     };
   }
 
-  let currentExponent = Math.floor(Math.log10(Math.abs(fullValue)));
-  let currentMantissa = Math.abs(fullValue) / Math.pow(10, currentExponent);
+  let currentExponent = Math.log10(rawValue);
+  let currentMantissa = rawValue / Math.pow(10, currentExponent);
 
   // Normalize mantissa to be between 1.000 and 9.999
   while (currentMantissa >= 10) {
@@ -47,15 +29,12 @@ export const createValue = (fullValue: number): Value => {
     currentExponent -= 1;
   }
 
-  // Round to 3 decimal places (4 significant digits)
-  currentMantissa = Math.round(currentMantissa * 1000) / 1000;
+  // Round to 3 decimal places
+  currentMantissa = parseFloat(currentMantissa.toFixed(3));
 
-  // Handle negative values
-  if (fullValue < 0) {
-    currentMantissa = -currentMantissa;
-  }
-
-  const oom = getClosestOom(Math.pow(10, currentExponent));
+  // Find the OOM directly using the exponent
+  const oom =
+    ooms.find((oom) => oom.exponent === currentExponent) || getOomById("1e0");
 
   return {
     mantissa: currentMantissa,
@@ -64,41 +43,19 @@ export const createValue = (fullValue: number): Value => {
   };
 };
 
-// Helper to get the full value from a Value object
-export const getFullValue = (value: Value): number => {
-  return value.mantissa * value.oom.value;
-};
-
-// Collapse a single numerator and denominator pair
-export const collapseValue = (num: Value, den: Value): Value => {
-  const fullValue = getFullValue(num) / getFullValue(den);
-  return createValue(fullValue);
-};
-
-// Resolve a whole list of N and D pairs
+// Resolve values - works with either single values or arrays
 export const resolveValues = (
-  numerators: Value[],
-  denominators: Value[]
+  numerators: Value | Value[],
+  denominators: Value | Value[]
 ): Value => {
-  const numProduct = numerators.reduce(
-    (acc, val) => acc * getFullValue(val),
-    1
-  );
-  const denomProduct = denominators.reduce(
-    (acc, val) => acc * getFullValue(val),
+  // Convert single values to arrays
+  const numArray = Array.isArray(numerators) ? numerators : [numerators];
+  const denArray = Array.isArray(denominators) ? denominators : [denominators];
+
+  const numProduct = numArray.reduce((acc, val) => acc * val.getFullValue(), 1);
+  const denomProduct = denArray.reduce(
+    (acc, val) => acc * val.getFullValue(),
     1
   );
   return createValue(numProduct / denomProduct);
-};
-
-// Helper to format a value for display
-export const formatValue = (value: Value): string => {
-  const mantissa = value.mantissa.toFixed(3);
-  if (value.oom.exponent === 0) {
-    return mantissa;
-  } else if (value.oom.exponent === 1) {
-    return `${mantissa} × 10`;
-  } else {
-    return `${mantissa} × 10${value.oom.exponent}`;
-  }
 };

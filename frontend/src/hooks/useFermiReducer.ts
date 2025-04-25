@@ -22,7 +22,7 @@ const initialState: State = {
   mode: "INIT",
   editingFactor: null,
   editorState: {
-    units: {} as UnitInventory,
+    unit: {} as UnitInventory,
     numeratorValue: createValue(1),
     denominatorValue: createValue(1),
   },
@@ -37,7 +37,7 @@ const fermiReducer = (state: State, action: Action): State => {
     case "CREATE_FACTOR": {
       const newFactor: Factor = {
         id: uuidv4(),
-        units: state.editorState.units,
+        unit: state.editorState.unit,
         numeratorValue: state.editorState.numeratorValue,
         denominatorValue: state.editorState.denominatorValue,
       };
@@ -55,7 +55,7 @@ const fermiReducer = (state: State, action: Action): State => {
 
       const updatedFactor: Factor = {
         ...state.editingFactor,
-        units: state.editorState.units,
+        unit: state.editorState.unit,
         numeratorValue: state.editorState.numeratorValue,
         denominatorValue: state.editorState.denominatorValue,
       };
@@ -83,7 +83,7 @@ const fermiReducer = (state: State, action: Action): State => {
         mode: "EDITING",
         editingFactor: action.factor,
         editorState: {
-          units: action.factor.units,
+          unit: action.factor.unit,
           numeratorValue: action.factor.numeratorValue,
           denominatorValue: action.factor.denominatorValue,
         },
@@ -120,8 +120,8 @@ const fermiReducer = (state: State, action: Action): State => {
         ...state,
         editorState: {
           ...state.editorState,
-          units: updateUnitCount(
-            state.editorState.units,
+          unit: updateUnitCount(
+            state.editorState.unit,
             action.unit,
             action.delta
           ),
@@ -206,12 +206,12 @@ export default function useFermiReducer(): Hook {
   // Calculate derived state
   const numerators: Value[] = state.factors.map((f) => f.numeratorValue);
   const denominators: Value[] = state.factors.map((f) => f.denominatorValue);
-  const chainValue: Value = resolveValues(numerators, denominators);
-  const chainUnits: UnitInventory = resolveUnits(
-    state.factors.map((f) => f.units)
+  const userValue: Value = resolveValues(numerators, denominators);
+  const userUnit: UnitInventory = resolveUnits(
+    state.factors.map((f) => f.unit)
   );
   const oomDelta: number =
-    chainValue.oom.exponent - state.question.targetOom.exponent;
+    userValue.oom.exponent - state.question.targetOom.exponent;
 
   return {
     state,
@@ -252,8 +252,8 @@ export default function useFermiReducer(): Hook {
       },
     },
     derivedState: {
-      chainValue,
-      chainUnits,
+      userValue,
+      userUnit,
       oomDelta,
     },
   };

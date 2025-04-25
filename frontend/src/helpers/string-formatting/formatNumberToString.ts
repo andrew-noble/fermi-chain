@@ -12,7 +12,7 @@
  * @param num The number to format
  * @returns A formatted string representation of the number
  */
-export const formatNumber = (num: number): string => {
+export const formatAbbreviatedNumber = (num: number): string => {
   // Handle zero case
   if (num === 0) return "0";
 

@@ -60,28 +60,21 @@ export const isSameUnits = (
   return JSON.stringify(inv1) === JSON.stringify(inv2);
 };
 
-export interface UnitString {
-  name: string;
-  exponent: number;
-}
+export const splitUnitInventory = (
+  inv?: UnitInventory
+): [UnitInventory, UnitInventory] => {
+  const numerators: UnitInventory = {};
+  const denominators: UnitInventory = {};
 
-export interface UnitStrings {
-  numerators: UnitString[];
-  denominators: UnitString[];
-}
+  if (!inv) return [numerators, denominators];
 
-export const getUnitStrings = (inv: UnitInventory): UnitStrings => {
-  const allUnits = Object.entries(inv)
-    .filter(([_, unitCount]) => unitCount.count !== 0)
-    .map(([_, unitCount]) => ({
-      name: unitCount.unitMetadata.name,
-      exponent: unitCount.count,
-    }));
+  Object.entries(inv).forEach(([id, { count, unitMetadata }]) => {
+    if (count > 0) {
+      numerators[id] = { count, unitMetadata };
+    } else if (count < 0) {
+      denominators[id] = { count: Math.abs(count), unitMetadata };
+    }
+  });
 
-  return {
-    numerators: allUnits.filter((unit) => unit.exponent > 0),
-    denominators: allUnits
-      .filter((unit) => unit.exponent < 0)
-      .map((unit) => ({ ...unit, exponent: Math.abs(unit.exponent) })),
-  };
+  return [numerators, denominators];
 };

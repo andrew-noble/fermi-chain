@@ -1,23 +1,26 @@
-import clsx from "clsx";
+import { UnitInventory } from "@/types";
 
 interface InlineUnitProps {
-  units: { name: string; exponent: number }[];
+  unit: UnitInventory;
   className?: string;
 }
 
 //this component renders a single level of units (numerator or denominator), separated by dots
-export default function InlineUnit({ units, className }: InlineUnitProps) {
+export default function InlineUnit({ unit, className }: InlineUnitProps) {
+  const units = Object.values(unit);
+  if (units.length === 0) return null;
+
   return (
     <>
-      {units.map((unit, index) => (
-        <span key={index}>
-          <span className={clsx("whitespace-nowrap", className)}>
-            {unit.name}
-            {unit.exponent > 1 && <sup className="ml-0.5">{unit.exponent}</sup>}
+      {units.map((u, index) => (
+        <span key={u.unitMetadata.id}>
+          <span className={className}>
+            {u.unitMetadata.name}
+            {Math.abs(u.count) > 1 && (
+              <sup className="ml-0.5">{Math.abs(u.count)}</sup>
+            )}
+            {index < units.length - 1 && <span className="mx-0.5">·</span>}
           </span>
-          {index < units.length - 1 && (
-            <span className="mx-1 text-gray-400">·</span>
-          )}
         </span>
       ))}
     </>

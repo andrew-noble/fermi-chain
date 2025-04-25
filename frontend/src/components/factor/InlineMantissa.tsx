@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Telescope } from "lucide-react";
+import { Telescope, Pencil } from "lucide-react";
 import MultiplicationSign from "@/components/MultiplicationSign";
 
 interface InlineMantissaProps {
@@ -17,7 +17,7 @@ export default function InlineMantissa({
 }: InlineMantissaProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(mantissa.toString());
-  const formRef = useRef<HTMLFormElement>(null);
+  const formRef = useRef<HTMLInputElement>(null);
 
   //this effect makes it so clicking out of the mantissa form submits it
   useEffect(() => {
@@ -36,7 +36,16 @@ export default function InlineMantissa({
     };
   }, [isEditing]);
 
-  const handleSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
+  // Handle input changes - only allow digits and one decimal point
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Only allow digits and at most one decimal point
+    if (/^[0-9]*\.?[0-9]*$/.test(value)) {
+      setInputValue(value);
+    }
+  };
+
+  const handleSubmit = (e?: React.FormEvent<HTMLInputElement>) => {
     if (e) {
       e.preventDefault();
     }
@@ -52,44 +61,55 @@ export default function InlineMantissa({
     }
   };
 
-  if (mantissa === 1 && !isEditing) {
+  const closed = mantissa === 1 && !isEditing;
+
+  if (closed) {
     return (
-      <Button
-        variant="ghost"
-        size="sm"
-        className="h-6 px-1 opacity-30 hover:opacity-100 transition-opacity"
-        onClick={() => {
-          setIsEditing(true);
-          setInputValue("1.0");
-        }}
-      >
-        <Telescope className="h-3 w-3" />
-      </Button>
+      <>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-6 px-1 opacity-30 hover:opacity-100 transition-opacity"
+          onClick={() => {
+            setIsEditing(true);
+            setInputValue("1.0");
+          }}
+        >
+          <Telescope className="h-3 w-3" />
+        </Button>
+      </>
     );
   }
 
   return isEditing ? (
-    <form ref={formRef} onSubmit={handleSubmit} className="inline-block">
+    <div className="flex items-center gap-1">
       <Input
+        ref={formRef}
         type="text"
         inputMode="decimal"
         value={inputValue}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setInputValue(e.target.value)
-        }
-        className={`w-[5.5rem] text-center mr-2 ${className}`}
+        onChange={handleInputChange}
+        onBlur={handleSubmit}
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === "Enter") {
+            handleSubmit();
+          }
+        }}
+        className={`w-[5.5rem] text-center ${className}`}
         autoFocus
       />
-    </form>
+      <MultiplicationSign className={className} />
+    </div>
   ) : (
-    <>
-      <span
-        className={`inline-block w-[5.5rem] text-center mr-2 ${className} cursor-pointer`}
+    <div className="flex items-center gap-1">
+      <div
+        className={`inline-flex items-center justify-center gap-1 px-1 py-0.5 rounded border border-gray-800 hover:border-gray-600 transition-colors cursor-pointer ${className}`}
         onClick={() => setIsEditing(true)}
       >
-        {mantissa.toString()}
-      </span>
-      <MultiplicationSign className="text-2xl md:text-3xl lg:text-4xl" />
-    </>
+        <Pencil className="h-3 w-3 text-gray-400" />
+        <span>{mantissa.toString()}</span>
+      </div>
+      <MultiplicationSign className={className} />
+    </div>
   );
 }

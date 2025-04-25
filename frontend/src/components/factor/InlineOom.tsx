@@ -1,23 +1,18 @@
+import { ooms } from "@/data/ooms";
 import { Oom } from "@/types";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover";
-import { useIsMobile } from "@/hooks/useIsMobile";
+import { Button } from "@/components/ui/button";
+
 interface InlineOomProps {
   oom: Oom;
   className?: string;
+  onUpdateOom: (oom: Oom) => void;
 }
 
-export default function InlineOom({ oom, className }: InlineOomProps) {
-  const isMobile = useIsMobile();
-
+export default function InlineOom({
+  oom,
+  className,
+  onUpdateOom,
+}: InlineOomProps) {
   const getDisplayVersion = (oom: Oom) => {
     if (oom.exponent === 0) {
       return "1";
@@ -32,32 +27,34 @@ export default function InlineOom({ oom, className }: InlineOomProps) {
     }
   };
 
-  const fullValue = oom.nameShortScale || oom.value.toString();
+  const getHigherOom = (currentOom: Oom): Oom => {
+    const currentIndex = ooms.findIndex((oom) => oom.id === currentOom.id);
+    return ooms[Math.min(currentIndex + 1, ooms.length - 1)];
+  };
+
+  const getLowerOom = (currentOom: Oom): Oom => {
+    const currentIndex = ooms.findIndex((oom) => oom.id === currentOom.id);
+    return ooms[Math.max(currentIndex - 1, 0)];
+  };
 
   //for mobile, a touch popover, for desktop, a hover tooltip
-  return isMobile ? (
-    <Popover>
-      <PopoverTrigger asChild>
-        <span
-          className={`inline-block w-[3.5rem] text-center mr-2 ${className}`}
-        >
-          {getDisplayVersion(oom)}
-        </span>
-      </PopoverTrigger>
-      <PopoverContent className="w-fit">
-        <p>{fullValue}</p>
-      </PopoverContent>
-    </Popover>
-  ) : (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <span className={`inline-block w-[3.5rem] text-center ${className}`}>
-          {getDisplayVersion(oom)}
-        </span>
-      </TooltipTrigger>
-      <TooltipContent>
-        <p>{fullValue}</p>
-      </TooltipContent>
-    </Tooltip>
+  return (
+    <div className={`flex flex-col gap-2 w-[3.5rem] text-center ${className}`}>
+      <Button
+        variant="outline"
+        className="w-[3.5rem] h-8"
+        onClick={() => onUpdateOom(getHigherOom(oom))}
+      >
+        <span className="text-lg font-medium">+</span>
+      </Button>
+      <p>{getDisplayVersion(oom)}</p>
+      <Button
+        variant="outline"
+        className="w-[3.5rem] h-8"
+        onClick={() => onUpdateOom(getLowerOom(oom))}
+      >
+        <span className="text-lg font-medium">-</span>
+      </Button>
+    </div>
   );
 }

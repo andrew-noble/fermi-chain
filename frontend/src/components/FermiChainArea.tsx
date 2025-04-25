@@ -70,7 +70,6 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
           onClick={() => hook.actions.setCreateMode()}
         />
       )}
-      <p>{hook.state.mode}</p>
     </>
   );
 }
