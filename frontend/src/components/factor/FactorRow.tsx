@@ -1,22 +1,26 @@
-import { Oom } from "@/types";
+import { Value, Oom } from "@/types";
 import InlineUnit from "@/components/InlineUnit";
 import OomSelector from "@/components/OomSelector";
 import InlineOom from "@/components/InlineOom";
 import clsx from "clsx";
+import InlineMantissa from "../InlineMantissa";
+import SciNotationDisplay from "../SciNotationDisplay";
 
 interface FactorRowProps {
   label: "numerator" | "denominator";
-  oom: Oom;
+  value: Value;
   units: { name: string; exponent: number }[];
   editing: boolean;
-  onUpdateOom?: (oom: Oom) => void;
+  onUpdateMantissa: (mantissa: number) => void;
+  onUpdateOom: (oom: Oom) => void;
 }
 
 export default function FactorRow({
   label,
-  oom,
+  value,
   units,
   editing,
+  onUpdateMantissa,
   onUpdateOom,
 }: FactorRowProps) {
   return (
@@ -30,14 +34,6 @@ export default function FactorRow({
           : "items-start"
       )}
     >
-      {editing && (
-        <OomSelector
-          title={label}
-          currentOom={oom}
-          onUpdateOom={onUpdateOom!}
-        />
-      )}
-
       <div
         className={clsx(
           "flex gap-1 flex-1",
@@ -48,9 +44,33 @@ export default function FactorRow({
             : "items-start"
         )}
       >
-        <InlineOom oom={oom} className="text-lg md:text-xl lg:text-2xl" />
+        {editing ? (
+          <>
+            <InlineMantissa
+              mantissa={value.mantissa}
+              className="text-lg md:text-xl lg:text-2xl"
+              onUpdateMantissa={onUpdateMantissa}
+            />
+            <InlineOom
+              oom={value.oom}
+              className="text-lg md:text-xl lg:text-2xl"
+            />
+          </>
+        ) : (
+          <SciNotationDisplay
+            value={value}
+            className="text-lg md:text-xl lg:text-2xl"
+          />
+        )}
         <InlineUnit units={units} className="text-lg md:text-xl lg:text-2xl" />
       </div>
+      {editing && (
+        <OomSelector
+          title={label}
+          currentOom={value.oom}
+          onUpdateOom={onUpdateOom}
+        />
+      )}
     </div>
   );
 }

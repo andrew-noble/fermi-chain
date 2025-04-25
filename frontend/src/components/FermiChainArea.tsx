@@ -23,6 +23,8 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
             hook.actions.clearEditor();
             hook.actions.setViewingMode();
           }}
+          updateNumeratorMantissa={hook.actions.updateNumeratorMantissa}
+          updateDenominatorMantissa={hook.actions.updateDenominatorMantissa}
           updateNumeratorOom={hook.actions.updateNumeratorOom}
           updateDenominatorOom={hook.actions.updateDenominatorOom}
         />
@@ -39,6 +41,8 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
         <FactorLayout
           data={editorState}
           isEditing={true}
+          updateNumeratorMantissa={hook.actions.updateNumeratorMantissa}
+          updateDenominatorMantissa={hook.actions.updateDenominatorMantissa}
           updateNumeratorOom={hook.actions.updateNumeratorOom}
           updateDenominatorOom={hook.actions.updateDenominatorOom}
           onSubmit={hook.actions.submitFactor}

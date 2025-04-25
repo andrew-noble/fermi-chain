@@ -1,7 +1,7 @@
 import { Factor, Hook, Oom, UnitInventory } from "@/types";
-import { collapseOom } from "./oomManagement";
 import { getUnitStrings, isSameUnits } from "./unitManagement";
 import { formatNumberWithCommas } from "./formatNumber";
+import { collapseOom } from "./valueManagement";
 
 const superscriptMap: Record<number, string> = {
   0: "⁰",
@@ -74,7 +74,10 @@ const getOomString = (oom: Oom) => {
 export const getFullChainString = (factors: Factor[]) => {
   return factors
     .map((factor) => {
-      const oom = collapseOom(factor.numeratorOom, factor.denominatorOom);
+      const oom = collapseOom(
+        factor.numeratorValue.oom,
+        factor.denominatorValue.oom
+      );
       const oomString = getOomString(oom);
       const units = getUnitString(factor.units);
       return `${oomString} ${units}`;
@@ -90,11 +93,11 @@ export const getSharableString = (hook: Hook) => {
   Your Fermi Chain: ${factorChainString}
 
   Result: ${formatNumberWithCommas(
-    hook.derivedState.chainOom.value
+    hook.derivedState.chainValue.mantissa
   )} ${getUnitString(hook.derivedState.chainUnits)}
 
   Actual: ${formatNumberWithCommas(
-    hook.state.question.targetOom.value
+    hook.state.question.targetAnswer
   )} ${getUnitString(hook.state.question.targetUnits)}
   
   ${oomFeedback(hook.derivedState.oomDelta).text}
@@ -103,7 +106,7 @@ export const getSharableString = (hook: Hook) => {
 
 export const getResultsStrings = (hook: Hook) => {
   const fullPlayerAnswer = `${formatNumberWithCommas(
-    hook.derivedState.chainOom.value
+    hook.derivedState.chainValue.mantissa
   )} ${getUnitString(hook.derivedState.chainUnits)}`;
 
   const fullActualAnswer = `${formatNumberWithCommas(

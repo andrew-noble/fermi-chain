@@ -1,9 +1,17 @@
 import { useReducer } from "react";
 import question from "@/data/question.json";
-import { Factor, Oom, UnitInventory, Unit, State, Action, Hook } from "@/types";
+import {
+  Factor,
+  Value,
+  UnitInventory,
+  Unit,
+  State,
+  Action,
+  Hook,
+  Oom,
+} from "@/types";
 import { resolveUnits } from "@/helpers/unitManagement";
-import { resolveOoms } from "@/helpers/oomManagement";
-import { getOomById } from "@/data/ooms";
+import { createValue, resolveValues } from "@/helpers/valueManagement";
 import { updateUnitCount } from "@/helpers/unitManagement";
 import { v4 as uuidv4 } from "uuid";
 
@@ -15,8 +23,8 @@ const initialState: State = {
   editingFactor: null,
   editorState: {
     units: {} as UnitInventory,
-    numeratorOom: getOomById("1e0"),
-    denominatorOom: getOomById("1e0"),
+    numeratorValue: createValue(1),
+    denominatorValue: createValue(1),
   },
 };
 
@@ -30,8 +38,8 @@ const fermiReducer = (state: State, action: Action): State => {
       const newFactor: Factor = {
         id: uuidv4(),
         units: state.editorState.units,
-        numeratorOom: state.editorState.numeratorOom,
-        denominatorOom: state.editorState.denominatorOom,
+        numeratorValue: state.editorState.numeratorValue,
+        denominatorValue: state.editorState.denominatorValue,
       };
       return {
         ...state,
@@ -48,8 +56,8 @@ const fermiReducer = (state: State, action: Action): State => {
       const updatedFactor: Factor = {
         ...state.editingFactor,
         units: state.editorState.units,
-        numeratorOom: state.editorState.numeratorOom,
-        denominatorOom: state.editorState.denominatorOom,
+        numeratorValue: state.editorState.numeratorValue,
+        denominatorValue: state.editorState.denominatorValue,
       };
 
       return {
@@ -76,8 +84,8 @@ const fermiReducer = (state: State, action: Action): State => {
         editingFactor: action.factor,
         editorState: {
           units: action.factor.units,
-          numeratorOom: action.factor.numeratorOom,
-          denominatorOom: action.factor.denominatorOom,
+          numeratorValue: action.factor.numeratorValue,
+          denominatorValue: action.factor.denominatorValue,
         },
       };
 
@@ -120,23 +128,55 @@ const fermiReducer = (state: State, action: Action): State => {
         },
       };
 
-    case "UPDATE_EDITOR_NUMERATOR_OOM":
+    case "UPDATE_NUMERATOR_MANTISSA":
       if (!isEditorActive(state.mode)) return state;
       return {
         ...state,
         editorState: {
           ...state.editorState,
-          numeratorOom: action.oom,
+          numeratorValue: {
+            ...state.editorState.numeratorValue,
+            mantissa: action.mantissa,
+          },
         },
       };
 
-    case "UPDATE_EDITOR_DENOMINATOR_OOM":
+    case "UPDATE_DENOMINATOR_MANTISSA":
       if (!isEditorActive(state.mode)) return state;
       return {
         ...state,
         editorState: {
           ...state.editorState,
-          denominatorOom: action.oom,
+          denominatorValue: {
+            ...state.editorState.denominatorValue,
+            mantissa: action.mantissa,
+          },
+        },
+      };
+
+    case "UPDATE_NUMERATOR_OOM":
+      if (!isEditorActive(state.mode)) return state;
+      return {
+        ...state,
+        editorState: {
+          ...state.editorState,
+          numeratorValue: {
+            ...state.editorState.numeratorValue,
+            oom: action.oom,
+          },
+        },
+      };
+
+    case "UPDATE_DENOMINATOR_OOM":
+      if (!isEditorActive(state.mode)) return state;
+      return {
+        ...state,
+        editorState: {
+          ...state.editorState,
+          denominatorValue: {
+            ...state.editorState.denominatorValue,
+            oom: action.oom,
+          },
         },
       };
 
@@ -164,14 +204,14 @@ export default function useFermiReducer(): Hook {
   const [state, dispatch] = useReducer(fermiReducer, initialState);
 
   // Calculate derived state
-  const numerators: Oom[] = state.factors.map((f) => f.numeratorOom);
-  const denominators: Oom[] = state.factors.map((f) => f.denominatorOom);
-  const chainOom: Oom = resolveOoms(numerators, denominators);
+  const numerators: Value[] = state.factors.map((f) => f.numeratorValue);
+  const denominators: Value[] = state.factors.map((f) => f.denominatorValue);
+  const chainValue: Value = resolveValues(numerators, denominators);
   const chainUnits: UnitInventory = resolveUnits(
     state.factors.map((f) => f.units)
   );
   const oomDelta: number =
-    chainOom.exponent - state.question.targetOom.exponent;
+    chainValue.oom.exponent - state.question.targetOom.exponent;
 
   return {
     state,
@@ -193,12 +233,15 @@ export default function useFermiReducer(): Hook {
         dispatch({ type: "UPDATE_EDITOR_UNITS", unit, delta: -1 }),
       removeUnitFromDenominator: (unit: Unit) =>
         dispatch({ type: "UPDATE_EDITOR_UNITS", unit, delta: 1 }),
+      updateNumeratorMantissa: (mantissa: number) =>
+        dispatch({ type: "UPDATE_NUMERATOR_MANTISSA", mantissa }),
+      updateDenominatorMantissa: (mantissa: number) =>
+        dispatch({ type: "UPDATE_DENOMINATOR_MANTISSA", mantissa }),
       updateNumeratorOom: (oom: Oom) =>
-        dispatch({ type: "UPDATE_EDITOR_NUMERATOR_OOM", oom }),
+        dispatch({ type: "UPDATE_NUMERATOR_OOM", oom }),
       updateDenominatorOom: (oom: Oom) =>
-        dispatch({ type: "UPDATE_EDITOR_DENOMINATOR_OOM", oom }),
+        dispatch({ type: "UPDATE_DENOMINATOR_OOM", oom }),
       setIntroMode: () => dispatch({ type: "SET_INTRO_MODE" }),
-      //combo action that just strings together others
       submitFactor: () => {
         if (state.mode === "EDITING") {
           dispatch({ type: "UPDATE_FACTOR" });
@@ -209,7 +252,7 @@ export default function useFermiReducer(): Hook {
       },
     },
     derivedState: {
-      chainOom,
+      chainValue,
       chainUnits,
       oomDelta,
     },

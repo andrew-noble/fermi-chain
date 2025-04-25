@@ -1,16 +1,17 @@
 import FactorRow from "@/components/factor/FactorRow";
 import FactorButtonGroup from "@/components/factor/FactorButtonGroup";
 import clsx from "clsx";
-import { EditorState } from "@/types";
+import { EditorState, Oom } from "@/types";
 import { Factor } from "@/types";
-import { Oom } from "@/types";
 import { getUnitStrings } from "@/helpers/unitManagement";
 
 interface FactorLayoutProps {
   data: Factor | EditorState;
   isEditing: boolean;
-  updateNumeratorOom?: (oom: Oom) => void;
-  updateDenominatorOom?: (oom: Oom) => void;
+  updateNumeratorMantissa: (mantissa: number) => void;
+  updateDenominatorMantissa: (mantissa: number) => void;
+  updateNumeratorOom: (oom: Oom) => void;
+  updateDenominatorOom: (oom: Oom) => void;
   onStartEdit?: () => void;
   onRemove?: () => void;
   onSubmit?: () => void;
@@ -20,6 +21,8 @@ interface FactorLayoutProps {
 export default function FactorLayout({
   data,
   isEditing,
+  updateNumeratorMantissa,
+  updateDenominatorMantissa,
   updateNumeratorOom,
   updateDenominatorOom,
   onStartEdit,
@@ -39,9 +42,10 @@ export default function FactorLayout({
     >
       <FactorRow
         label="numerator"
-        oom={data.numeratorOom}
+        value={data.numeratorValue}
         units={numerators}
         editing={isEditing}
+        onUpdateMantissa={updateNumeratorMantissa}
         onUpdateOom={updateNumeratorOom}
       />
 
@@ -49,9 +53,10 @@ export default function FactorLayout({
 
       <FactorRow
         label="denominator"
-        oom={data.denominatorOom}
+        value={data.denominatorValue}
         units={denominators}
         editing={isEditing}
+        onUpdateMantissa={updateDenominatorMantissa}
         onUpdateOom={updateDenominatorOom}
       />
 

@@ -16,6 +16,12 @@ export interface Oom {
   nameShortScale?: string; //"million, billion, thousand"
 }
 
+export interface Value {
+  mantissa: number;
+  oom: Oom;
+  getFullValue: () => number;
+}
+
 type UnitId = string;
 
 // Common Structures
@@ -34,8 +40,8 @@ export type UnitInventory = {
 // Base Types
 export interface BaseFactor {
   units: UnitInventory;
-  numeratorOom: Oom;
-  denominatorOom: Oom;
+  numeratorValue: Value;
+  denominatorValue: Value;
 }
 
 export interface Question {
