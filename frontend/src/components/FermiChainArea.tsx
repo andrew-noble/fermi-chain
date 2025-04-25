@@ -29,7 +29,7 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
           updateDenominatorOom={hook.actions.updateDenominatorOom}
         />
         <div className="h-[306px] pt-[calc(92px)]">
-          <MultiplicationSign className="text-2xl md:text-3xl lg:text-4xl" />
+          <MultiplicationSign className="text-2xl md:text-3xl lg:text-4xl text-grey-500" />
         </div>
       </Fragment>
     ));

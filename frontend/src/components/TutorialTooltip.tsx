@@ -19,6 +19,7 @@ export function TutorialTooltip({
 }: TutorialTooltipProps) {
   const [show, setShow] = useState(false);
 
+  //just once per session
   useEffect(() => {
     if (!sessionStorage.getItem(id)) {
       setShow(true);

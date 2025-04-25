@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { TutorialTooltip } from "./TutorialTooltip";
+import { Telescope } from "lucide-react";
+import MultiplicationSign from "@/components/MultiplicationSign";
 
 interface InlineMantissaProps {
   mantissa: number;
@@ -19,6 +19,7 @@ export default function InlineMantissa({
   const [inputValue, setInputValue] = useState(mantissa.toString());
   const formRef = useRef<HTMLFormElement>(null);
 
+  //this effect makes it so clicking out of the mantissa form submits it
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (formRef.current && !formRef.current.contains(event.target as Node)) {
@@ -53,27 +54,17 @@ export default function InlineMantissa({
 
   if (mantissa === 1 && !isEditing) {
     return (
-      <div className="group relative">
-        <span className="opacity-0 group-hover:opacity-100 transition-opacity">
-          <TutorialTooltip
-            id="add-mantissa"
-            content="Click to add a specific mantissa value"
-          >
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-6 px-1 absolute -left-6 top-1/2 -translate-y-1/2"
-              onClick={() => {
-                setIsEditing(true);
-                setInputValue("1.5");
-              }}
-            >
-              <Plus className="h-3 w-3" />
-            </Button>
-          </TutorialTooltip>
-        </span>
-        <span className="text-gray-400">×</span>
-      </div>
+      <Button
+        variant="ghost"
+        size="sm"
+        className="h-6 px-1 opacity-30 hover:opacity-100 transition-opacity"
+        onClick={() => {
+          setIsEditing(true);
+          setInputValue("1.0");
+        }}
+      >
+        <Telescope className="h-3 w-3" />
+      </Button>
     );
   }
 
@@ -91,11 +82,14 @@ export default function InlineMantissa({
       />
     </form>
   ) : (
-    <span
-      className={`inline-block w-[5.5rem] text-center mr-2 ${className} cursor-pointer`}
-      onClick={() => setIsEditing(true)}
-    >
-      {mantissa.toString()}
-    </span>
+    <>
+      <span
+        className={`inline-block w-[5.5rem] text-center mr-2 ${className} cursor-pointer`}
+        onClick={() => setIsEditing(true)}
+      >
+        {mantissa.toString()}
+      </span>
+      <MultiplicationSign className="text-2xl md:text-3xl lg:text-4xl" />
+    </>
   );
 }

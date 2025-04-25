@@ -44,16 +44,14 @@ export default function InlineOom({ oom, className }: InlineOomProps) {
           {getDisplayVersion(oom)}
         </span>
       </PopoverTrigger>
-      <PopoverContent className="w-fit p-2">
+      <PopoverContent className="w-fit">
         <p>{fullValue}</p>
       </PopoverContent>
     </Popover>
   ) : (
     <Tooltip>
       <TooltipTrigger asChild>
-        <span
-          className={`inline-block w-[3.5rem] text-center mr-2 ${className}`}
-        >
+        <span className={`inline-block w-[3.5rem] text-center ${className}`}>
           {getDisplayVersion(oom)}
         </span>
       </TooltipTrigger>

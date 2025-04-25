@@ -1,7 +1,7 @@
 import { Hook, Value } from "@/types";
 import { resolveUnits, isSameUnits } from "@/helpers/unitManagement";
 import { getUnitStrings } from "@/helpers/unitManagement";
-import InlineUnit from "@/components/InlineUnit";
+import InlineUnit from "@/components/factor/InlineUnit";
 import { formatNumberWithCommas } from "@/helpers/formatNumber";
 import { collapseValue } from "@/helpers/valueManagement";
 import SciNotationDisplay from "@/components/SciNotationDisplay";

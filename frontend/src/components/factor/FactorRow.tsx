@@ -1,9 +1,9 @@
 import { Value, Oom } from "@/types";
-import InlineUnit from "@/components/InlineUnit";
-import OomSelector from "@/components/OomSelector";
-import InlineOom from "@/components/InlineOom";
+import InlineUnit from "@/components/factor/InlineUnit";
+import OomSelector from "@/components/factor/OomSelector";
+import InlineOom from "@/components/factor/InlineOom";
 import clsx from "clsx";
-import InlineMantissa from "../InlineMantissa";
+import InlineMantissa from "./InlineMantissa";
 import SciNotationDisplay from "../SciNotationDisplay";
 
 interface FactorRowProps {
