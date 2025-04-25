@@ -3,15 +3,15 @@ import { useState } from "react";
 import SubmitResetButtonGroup from "@/components/SubmitResetButtonGroup";
 import ResultsDialog from "@/components/ResultsDialog";
 
-interface ResultsSectionProps {
+interface GameButtonAreaProps {
   hook: Hook;
   className?: string;
 }
 
-export default function ResultsSection({
+export default function GameButtonArea({
   hook,
   className = "",
-}: ResultsSectionProps) {
+}: GameButtonAreaProps) {
   const [isResultsDialogOpen, setIsResultsDialogOpen] = useState(false);
 
   return (

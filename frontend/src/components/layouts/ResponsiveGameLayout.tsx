@@ -5,7 +5,7 @@ interface Props {
   unitSelection: React.ReactNode;
   fermiChain: React.ReactNode;
   feedback: React.ReactNode;
-  resultsSection: React.ReactNode;
+  gameButtonArea: React.ReactNode;
   showUnits?: boolean;
   showFermiChain?: boolean;
   showFeedback?: boolean;
@@ -16,7 +16,7 @@ export default function ResponsiveGameLayout({
   unitSelection,
   fermiChain,
   feedback,
-  resultsSection,
+  gameButtonArea,
   showUnits = true,
   showFermiChain = true,
   showFeedback = true,
@@ -29,7 +29,7 @@ export default function ResponsiveGameLayout({
       {isMobile ? (
         <>
           {showResults && (
-            <div className="border-b border-gray-800 p-2">{resultsSection}</div>
+            <div className="border-b border-gray-800 p-2">{gameButtonArea}</div>
           )}
           {showFeedback && (
             <div className="border-b border-gray-800 p-2">
@@ -95,7 +95,7 @@ export default function ResponsiveGameLayout({
               <div className="flex flex-wrap gap-2">{feedback}</div>
             </div>
           )}
-          {showResults && <div className="mt-2">{resultsSection}</div>}
+          {showResults && <div className="mt-2">{gameButtonArea}</div>}
         </>
       )}
     </div>
