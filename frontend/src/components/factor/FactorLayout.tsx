@@ -50,7 +50,6 @@ export default function FactorLayout({
           <InlineMantissa
             mantissa={data.numeratorValue.mantissa}
             onUpdateMantissa={updateNumeratorMantissa}
-            onUpdateOom={updateNumeratorOom} //needed if entered mantissa overflows
             className={textStyles}
           />
         </div>
@@ -73,7 +72,6 @@ export default function FactorLayout({
           <InlineMantissa
             mantissa={data.denominatorValue.mantissa}
             onUpdateMantissa={updateDenominatorMantissa}
-            onUpdateOom={updateDenominatorOom}
             className={textStyles}
           />
         </div>

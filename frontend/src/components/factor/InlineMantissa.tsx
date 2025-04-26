@@ -3,7 +3,6 @@ import { Input } from "@/components/ui/input";
 import { Pencil } from "lucide-react";
 import MultiplicationSign from "@/components/MultiplicationSign";
 import { TutorialOverlay } from "../TutorialOverlay";
-import { createValueFromNum } from "@/helpers/valueManagement";
 
 interface InlineMantissaProps {
   mantissa: number;
@@ -16,7 +15,6 @@ export default function InlineMantissa({
   mantissa,
   className,
   onUpdateMantissa,
-  onUpdateOom,
 }: InlineMantissaProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(mantissa.toString());
@@ -42,8 +40,8 @@ export default function InlineMantissa({
   // Handle input changes - only allow digits and one decimal point
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    // Only allow digits and at most one decimal point
-    if (/^[0-9]*\.?[0-9]*$/.test(value)) {
+    // Allow up to 4 digits total with optional decimal
+    if (/^\d{0,4}(\.\d{0,4})?$/.test(value)) {
       setInputValue(value);
     }
   };
@@ -59,13 +57,7 @@ export default function InlineMantissa({
 
       // Only validate that it's a valid number
       if (!isNaN(newValue) && newValue !== 0) {
-        // Convert to scientific notation to get proper mantissa and OOM
-        const value = createValueFromNum(newValue);
-        onUpdateMantissa(value.mantissa);
-        // If we have an OOM callback, update that too
-        if (onUpdateOom) {
-          onUpdateOom(value.oomId);
-        }
+        onUpdateMantissa(newValue);
         setIsEditing(false);
       } else {
         setInputValue(mantissa.toString());
@@ -85,6 +77,7 @@ export default function InlineMantissa({
           ref={formRef}
           type="text"
           inputMode="decimal"
+          maxLength={5} //max mantissa length, 4 numbers and a decimal
           value={inputValue}
           onChange={handleInputChange}
           onBlur={handleSubmit}
