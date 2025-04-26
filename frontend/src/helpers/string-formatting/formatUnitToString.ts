@@ -1,5 +1,6 @@
 import { UnitInventory } from "@/types";
 import { superscriptMap } from "./superscript";
+import { UNITS } from "@/data/units";
 
 export interface UnitString {
   name: string;
@@ -14,13 +15,13 @@ export interface UnitStrings {
 
 export const getUnitStrings = (inv: UnitInventory): UnitStrings => {
   const allUnits = Object.entries(inv)
-    .filter(([_, unitCount]) => unitCount.count !== 0)
-    .map(([_, unitCount]) => {
-      const exponent = unitCount.count;
+    .filter(([_, unitData]) => unitData?.power !== 0)
+    .map(([unitId, unitData]) => {
+      const exponent = unitData?.power ?? 0;
       // Don't show exponent 1 in display
       const displayExponent = Math.abs(exponent) === 1 ? 0 : Math.abs(exponent);
       return {
-        name: unitCount.unitMetadata.name,
+        name: UNITS[unitId].displayName,
         exponent: exponent > 0 ? displayExponent : -displayExponent,
       };
     });

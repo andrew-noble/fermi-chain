@@ -1,21 +1,20 @@
 import UnitSelector from "@/components/UnitSelector";
-import { Unit } from "@/types";
 
 interface UnitSelectionAreaProps {
-  units: Unit[];
-  onAddNumerator: (unit: Unit) => void;
-  onAddDenominator: (unit: Unit) => void;
+  unitIds: string[];
+  onAddNumerator: (unitId: string) => void;
+  onAddDenominator: (unitId: string) => void;
 }
 
 export default function UnitSelectionArea({
-  units,
+  unitIds,
   onAddNumerator,
   onAddDenominator,
 }: UnitSelectionAreaProps) {
-  return units.map((unit) => (
+  return unitIds.map((unitId) => (
     <UnitSelector
-      key={unit.id}
-      unit={unit}
+      key={unitId}
+      unitId={unitId}
       onAddNumerator={onAddNumerator}
       onAddDenominator={onAddDenominator}
     />

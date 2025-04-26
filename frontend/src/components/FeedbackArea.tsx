@@ -13,7 +13,7 @@ export default function FeedbackArea({ hook }: FeedbackAreaProps) {
   const { liveValue, liveUnits } = hook.derivedState;
   const { question } = hook.state;
 
-  const isCorrectUnits = isSameUnits(liveUnits, question.targetUnits);
+  const isCorrectUnits = isSameUnits(liveUnits, question.targetUnit);
   const unitStyle = isCorrectUnits ? "text-green-500" : "text-amber-500";
   const [numerators, denominators] = splitUnitInventory(liveUnits);
 

@@ -1,6 +1,6 @@
 import { Value } from "@/types";
 import { cn } from "@/lib/utils";
-
+import { getOomById } from "@/data/ooms";
 interface SciNotationDisplayProps {
   value: Value;
   className?: string;
@@ -36,28 +36,30 @@ export default function SciNotationDisplay({
     return str;
   };
 
+  const oom = getOomById(value.oomId);
+
   return (
     <span className={cn("inline-flex items-center", className)}>
       {showParentheses && "("}
       {value.mantissa === 1 ? (
         // If mantissa is 1, we can simplify the display
-        value.oom.exponent === 0 ? (
+        oom.exponent === 0 ? (
           // If exponent is 0, don't show anything
           ""
         ) : (
           // Otherwise show 10^n (but no exponent shown if it's 1)
           <span>
-            10<sup>{value.oom.exponent === 1 ? "" : value.oom.exponent}</sup>
+            10<sup>{oom.exponent === 1 ? "" : oom.exponent}</sup>
           </span>
         )
       ) : (
         // For other mantissas
         <>
           {formatMantissa(value.mantissa)}
-          {value.oom.exponent !== 0 && (
+          {oom.exponent !== 0 && (
             <span>
               {" × 10"}
-              <sup>{value.oom.exponent === 1 ? "" : value.oom.exponent}</sup>
+              <sup>{oom.exponent === 1 ? "" : oom.exponent}</sup>
             </span>
           )}
         </>

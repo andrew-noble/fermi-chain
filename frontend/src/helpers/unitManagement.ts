@@ -1,32 +1,27 @@
-import { UnitInventory, Unit } from "@/types";
+import { UnitInventory } from "@/types/composites";
 
 //strips unit counts of 0 out of a UnitInventory
 export const removeZeroUnits = (inv: UnitInventory): UnitInventory =>
-  Object.entries(inv).reduce<UnitInventory>(
-    (acc, [id, { count, unitMetadata }]) => {
-      if (count != 0) {
-        acc[id] = { count, unitMetadata };
-      }
-      return acc;
-    },
-    {}
-  );
+  Object.entries(inv).reduce<UnitInventory>((acc, [id, unitData]) => {
+    const power = unitData?.power ?? 0;
+    if (power !== 0) {
+      acc[id] = { power };
+    }
+    return acc;
+  }, {});
 
 //increases or decreases a specific unit inside a UnitInventory and strips out zeroes
 export const updateUnitCount = (
   units: UnitInventory,
-  unitMetadata: Unit,
+  unitId: string,
   delta: number // +1 for increment, -1 for decrement
 ): UnitInventory => {
-  //if not present, init count
-  const newCount = (units[unitMetadata.id]?.count || 0) + delta;
+  const currentPower = units[unitId]?.power ?? 0;
+  const newPower = currentPower + delta;
 
   const newInv = {
     ...units,
-    [unitMetadata.id]: {
-      unitMetadata: unitMetadata,
-      count: newCount,
-    },
+    [unitId]: { power: newPower },
   };
 
   return removeZeroUnits(newInv);
@@ -38,16 +33,11 @@ export const resolveUnits = (inventories: UnitInventory[]): UnitInventory => {
 
   //unpack each factor's unitInventory into a master unitInventory
   inventories.forEach((inv) => {
-    const units = Object.entries(inv);
-    for (const [unitId, unitCount] of units) {
-      if (!newInv[unitId]) {
-        //init if this unit hasn't been seen yet
-        newInv[unitId] = { ...unitCount };
-      } else {
-        //otherwise, record its count
-        newInv[unitId].count += inv[unitId].count;
-      }
-    }
+    Object.entries(inv).forEach(([unitId, unitData]) => {
+      const currentPower = newInv[unitId]?.power ?? 0;
+      const addPower = unitData?.power ?? 0;
+      newInv[unitId] = { power: currentPower + addPower };
+    });
   });
 
   return removeZeroUnits(newInv);
@@ -68,11 +58,12 @@ export const splitUnitInventory = (
 
   if (!inv) return [numerators, denominators];
 
-  Object.entries(inv).forEach(([id, { count, unitMetadata }]) => {
-    if (count > 0) {
-      numerators[id] = { count, unitMetadata };
-    } else if (count < 0) {
-      denominators[id] = { count: Math.abs(count), unitMetadata };
+  Object.entries(inv).forEach(([id, unitData]) => {
+    const power = unitData?.power ?? 0;
+    if (power > 0) {
+      numerators[id] = { power };
+    } else if (power < 0) {
+      denominators[id] = { power: Math.abs(power) };
     }
   });
 

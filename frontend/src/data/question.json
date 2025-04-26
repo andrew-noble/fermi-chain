@@ -1,42 +1,119 @@
 {
   "id": "0",
-  "prompt": "How many golf balls can fit in a school bus?",
-  "targetAnswer": 32735232,
-  "targetOom": {
-    "id": "1e7",
-    "nameShortScale": "tens-of-millions",
-    "value": 10000000,
-    "exponent": 7
+  "prompt": "How many times does a heart beat in a lifetime?",
+  "targetValue": {
+    "mantissa": 3.364,
+    "oomId": "1e9",
+    "fullValue": 3364000000
   },
-  "targetUnits": {
-    "golf-ball": {
-      "count": 1,
-      "unitMetadata": {
-        "id": "golf-ball",
-        "name": "golf balls",
-        "namePlural": "golf balls",
-        "dimension": "Quantity"
+  "targetUnit": {
+    "heart-beat": {
+      "power": 1
+    }
+  },
+  "targetChain": [
+    {
+      "label": "average heart rate",
+      "unit": {
+        "heart-beat": {
+          "power": 1
+        },
+        "minute": {
+          "power": -1
+        }
+      },
+      "numeratorValue": {
+        "mantissa": 80,
+        "oomId": "1e0",
+        "fullValue": 80
+      },
+      "denominatorValue": {
+        "mantissa": 1,
+        "oomId": "1e0",
+        "fullValue": 1
+      }
+    },
+    {
+      "label": "conversion from minutes to hours",
+      "unit": {
+        "minute": {
+          "power": 1
+        },
+        "hour": {
+          "power": -1
+        }
+      },
+      "numeratorValue": {
+        "mantissa": 60,
+        "oomId": "1e0",
+        "fullValue": 1
+      },
+      "denominatorValue": {
+        "mantissa": 1,
+        "oomId": "1e0",
+        "fullValue": 1
+      }
+    },
+    {
+      "label": "conversion from hours to days",
+      "unit": {
+        "hour": {
+          "power": 1
+        },
+        "day": {
+          "power": -1
+        }
+      },
+      "numeratorValue": {
+        "mantissa": 24,
+        "oomId": "1e0",
+        "fullValue": 24
+      },
+      "denominatorValue": {
+        "mantissa": 1,
+        "oomId": "1e0",
+        "fullValue": 1
+      }
+    },
+    {
+      "label": "conversion from days to years",
+      "unit": {
+        "day": {
+          "power": 1
+        },
+        "year": {
+          "power": -1
+        }
+      },
+      "numeratorValue": {
+        "mantissa": 365,
+        "oomId": "1e0",
+        "fullValue": 365
+      },
+      "denominatorValue": {
+        "mantissa": 1,
+        "oomId": "1e0",
+        "fullValue": 1
+      }
+    },
+    {
+      "label": "average lifespan",
+      "unit": {
+        "year": {
+          "power": 1
+        }
+      },
+      "numeratorValue": {
+        "mantissa": 80,
+        "oomId": "1e0",
+        "fullValue": 80
+      },
+      "denominatorValue": {
+        "mantissa": 1,
+        "oomId": "1e0",
+        "fullValue": 1
       }
     }
-  },
-  "usefulUnitList": [
-    {
-      "id": "golf-ball",
-      "name": "golf balls",
-      "namePlural": "golf balls",
-      "dimension": "Quantity"
-    },
-    {
-      "id": "inch",
-      "name": "inch",
-      "namePlural": "inches",
-      "dimension": "Length"
-    },
-    {
-      "id": "foot",
-      "name": "foot",
-      "namePlural": "feet",
-      "dimension": "Length"
-    }
-  ]
+  ],
+  "UnitList": ["heart-beat", "minute", "hour", "day", "year"]
 }

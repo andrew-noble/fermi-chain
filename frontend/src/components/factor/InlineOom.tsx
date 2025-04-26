@@ -1,20 +1,20 @@
-import { ooms } from "@/data/ooms";
-import { Oom } from "@/types";
+import { ooms, getOomById } from "@/data/ooms";
 import { Button } from "@/components/ui/button";
 import { TutorialOverlay } from "../TutorialOverlay";
 
 interface InlineOomProps {
-  oom: Oom;
+  oomId: string;
   className?: string;
-  onUpdateOom: (oom: Oom) => void;
+  onUpdateOom: (oomId: string) => void;
 }
 
 export default function InlineOom({
-  oom,
+  oomId,
   className,
   onUpdateOom,
 }: InlineOomProps) {
-  const getDisplayVersion = (oom: Oom) => {
+  const getDisplayVersion = (oomId: string) => {
+    const oom = getOomById(oomId);
     if (oom.exponent === 0) {
       return "1";
     } else if (oom.exponent === 1) {
@@ -28,14 +28,14 @@ export default function InlineOom({
     }
   };
 
-  const getHigherOom = (currentOom: Oom): Oom => {
-    const currentIndex = ooms.findIndex((oom) => oom.id === currentOom.id);
-    return ooms[Math.min(currentIndex + 1, ooms.length - 1)];
+  const getHigherOom = (currentOomId: string): string => {
+    const currentIndex = ooms.findIndex((oom) => oom.id === currentOomId);
+    return ooms[Math.min(currentIndex + 1, ooms.length - 1)].id;
   };
 
-  const getLowerOom = (currentOom: Oom): Oom => {
-    const currentIndex = ooms.findIndex((oom) => oom.id === currentOom.id);
-    return ooms[Math.max(currentIndex - 1, 0)];
+  const getLowerOom = (currentOomId: string): string => {
+    const currentIndex = ooms.findIndex((oom) => oom.id === currentOomId);
+    return ooms[Math.max(currentIndex - 1, 0)].id;
   };
 
   return (
@@ -48,16 +48,16 @@ export default function InlineOom({
         <Button
           variant="outline"
           className="w-[3.5rem] h-8"
-          onClick={() => onUpdateOom(getHigherOom(oom))}
+          onClick={() => onUpdateOom(getHigherOom(oomId))}
         >
           <span className="text-lg font-medium">+</span>
         </Button>
       </TutorialOverlay>
-      <p>{getDisplayVersion(oom)}</p>
+      <p>{getDisplayVersion(oomId)}</p>
       <Button
         variant="outline"
         className="w-[3.5rem] h-8"
-        onClick={() => onUpdateOom(getLowerOom(oom))}
+        onClick={() => onUpdateOom(getLowerOom(oomId))}
       >
         <span className="text-lg font-medium">-</span>
       </Button>

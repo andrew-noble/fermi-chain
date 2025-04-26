@@ -1,5 +1,5 @@
 import FactorButtonGroup from "@/components/factor/FactorButtonGroup";
-import { EditorState, Oom } from "@/types";
+import { EditorState } from "@/types";
 import { Factor } from "@/types";
 import InlineMantissa from "@/components/factor/InlineMantissa";
 import InlineOom from "@/components/factor/InlineOom";
@@ -7,14 +7,15 @@ import InlineUnit from "@/components/factor/InlineUnit";
 import { splitUnitInventory } from "@/helpers/unitManagement";
 import FactorDisplay from "./FactorDisplay";
 import MultiplicationSign from "../MultiplicationSign";
+
 interface FactorLayoutProps {
   data: Factor | EditorState;
   isEditing: boolean;
   showMultiplicationSign: boolean;
   updateNumeratorMantissa: (mantissa: number) => void;
   updateDenominatorMantissa: (mantissa: number) => void;
-  updateNumeratorOom: (oom: Oom) => void;
-  updateDenominatorOom: (oom: Oom) => void;
+  updateNumeratorOom: (oomId: string) => void;
+  updateDenominatorOom: (oomId: string) => void;
   onStartEdit?: () => void;
   onRemove?: () => void;
   onSubmit?: () => void;
@@ -55,7 +56,7 @@ export default function FactorLayout({
         </div>
         <div className="col-start-2 flex items-center justify-center">
           <InlineOom
-            oom={data.numeratorValue.oom}
+            oomId={data.numeratorValue.oomId}
             onUpdateOom={updateNumeratorOom}
             className={textStyles}
           />
@@ -78,7 +79,7 @@ export default function FactorLayout({
         </div>
         <div className="col-start-2 flex items-center justify-center">
           <InlineOom
-            oom={data.denominatorValue.oom}
+            oomId={data.denominatorValue.oomId}
             onUpdateOom={updateDenominatorOom}
             className={textStyles}
           />

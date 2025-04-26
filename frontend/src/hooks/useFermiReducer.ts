@@ -1,15 +1,6 @@
 import { useReducer } from "react";
 import question from "@/data/question.json";
-import {
-  Factor,
-  Value,
-  UnitInventory,
-  Unit,
-  State,
-  Action,
-  Hook,
-  Oom,
-} from "@/types";
+import { Factor, Value, UnitInventory, State, Action, Hook } from "@/types";
 import { resolveUnits } from "@/helpers/unitManagement";
 import {
   resolveValues,
@@ -29,8 +20,8 @@ const initialState: State = {
   editingFactorIndex: null,
   editorState: {
     unit: {} as UnitInventory,
-    numeratorValue: createValueFromMantissaAndOom(1, getOomById("1e0")),
-    denominatorValue: createValueFromMantissaAndOom(1, getOomById("1e0")),
+    numeratorValue: createValueFromMantissaAndOom(1, "1e0"),
+    denominatorValue: createValueFromMantissaAndOom(1, "1e0"),
   },
 };
 
@@ -39,6 +30,7 @@ const isEditorActive = (mode: State["mode"]) =>
 
 // Reducer function
 const fermiReducer = (state: State, action: Action): State => {
+  console.log("Fermi Action:", action.type, action);
   switch (action.type) {
     case "CREATE_FACTOR": {
       const newFactor: Factor = {
@@ -147,7 +139,7 @@ const fermiReducer = (state: State, action: Action): State => {
           ...state.editorState,
           unit: updateUnitCount(
             state.editorState.unit,
-            action.unit,
+            action.unitId,
             action.delta
           ),
         },
@@ -161,7 +153,7 @@ const fermiReducer = (state: State, action: Action): State => {
           ...state.editorState,
           numeratorValue: createValueFromMantissaAndOom(
             action.mantissa,
-            state.editorState.numeratorValue.oom
+            state.editorState.numeratorValue.oomId
           ),
         },
       };
@@ -174,7 +166,7 @@ const fermiReducer = (state: State, action: Action): State => {
           ...state.editorState,
           denominatorValue: createValueFromMantissaAndOom(
             action.mantissa,
-            state.editorState.denominatorValue.oom
+            state.editorState.denominatorValue.oomId
           ),
         },
       };
@@ -187,7 +179,7 @@ const fermiReducer = (state: State, action: Action): State => {
           ...state.editorState,
           numeratorValue: createValueFromMantissaAndOom(
             state.editorState.numeratorValue.mantissa,
-            action.oom
+            action.oomId
           ),
         },
       };
@@ -200,7 +192,7 @@ const fermiReducer = (state: State, action: Action): State => {
           ...state.editorState,
           denominatorValue: createValueFromMantissaAndOom(
             state.editorState.denominatorValue.mantissa,
-            action.oom
+            action.oomId
           ),
         },
       };
@@ -244,7 +236,8 @@ export default function useFermiReducer(): Hook {
     ...(isEditorActive(state.mode) ? [state.editorState.unit] : []),
   ]);
   const liveOomDelta: number =
-    liveValue.oom.exponent - state.question.targetOom.exponent;
+    getOomById(liveValue.oomId).exponent -
+    getOomById(state.question.targetValue.oomId).exponent;
 
   return {
     state,
@@ -258,22 +251,22 @@ export default function useFermiReducer(): Hook {
       setViewingMode: () => dispatch({ type: "SET_VIEWING_MODE" }),
       clearEditor: () => dispatch({ type: "CLEAR_EDITOR" }),
       reset: () => dispatch({ type: "RESET" }),
-      addUnitToNumerator: (unit: Unit) =>
-        dispatch({ type: "UPDATE_EDITOR_UNITS", unit, delta: 1 }),
-      removeUnitFromNumerator: (unit: Unit) =>
-        dispatch({ type: "UPDATE_EDITOR_UNITS", unit, delta: -1 }),
-      addUnitToDenominator: (unit: Unit) =>
-        dispatch({ type: "UPDATE_EDITOR_UNITS", unit, delta: -1 }),
-      removeUnitFromDenominator: (unit: Unit) =>
-        dispatch({ type: "UPDATE_EDITOR_UNITS", unit, delta: 1 }),
+      addUnitToNumerator: (unitId: string) =>
+        dispatch({ type: "UPDATE_EDITOR_UNITS", unitId, delta: 1 }),
+      removeUnitFromNumerator: (unitId: string) =>
+        dispatch({ type: "UPDATE_EDITOR_UNITS", unitId, delta: -1 }),
+      addUnitToDenominator: (unitId: string) =>
+        dispatch({ type: "UPDATE_EDITOR_UNITS", unitId, delta: -1 }),
+      removeUnitFromDenominator: (unitId: string) =>
+        dispatch({ type: "UPDATE_EDITOR_UNITS", unitId, delta: 1 }),
       updateNumeratorMantissa: (mantissa: number) =>
         dispatch({ type: "UPDATE_NUMERATOR_MANTISSA", mantissa }),
       updateDenominatorMantissa: (mantissa: number) =>
         dispatch({ type: "UPDATE_DENOMINATOR_MANTISSA", mantissa }),
-      updateNumeratorOom: (oom: Oom) =>
-        dispatch({ type: "UPDATE_NUMERATOR_OOM", oom }),
-      updateDenominatorOom: (oom: Oom) =>
-        dispatch({ type: "UPDATE_DENOMINATOR_OOM", oom }),
+      updateNumeratorOom: (oomId: string) =>
+        dispatch({ type: "UPDATE_NUMERATOR_OOM", oomId }),
+      updateDenominatorOom: (oomId: string) =>
+        dispatch({ type: "UPDATE_DENOMINATOR_OOM", oomId }),
       setIntroMode: () => dispatch({ type: "SET_INTRO_MODE" }),
       submitFactor: () => {
         if (state.mode === "EDITING") {

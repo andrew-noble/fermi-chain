@@ -5,7 +5,7 @@ import {
 } from "@/helpers/string-formatting";
 import { isSameUnits } from "@/helpers/unitManagement";
 
-const oomFeedback = (oomDelta: number) => {
+export const oomFeedback = (oomDelta: number) => {
   if (oomDelta === 0) {
     return { text: "Correct order of magnitude! 🎯", color: "text-green-500" };
   } else if (oomDelta === 1) {
@@ -23,7 +23,7 @@ const oomFeedback = (oomDelta: number) => {
   }
 };
 
-const unitsFeedback = (unitsMatch: boolean) => {
+export const unitsFeedback = (unitsMatch: boolean) => {
   return unitsMatch
     ? { text: "Correct Units ✅", color: "text-green-500" }
     : { text: "Incorrect Units ❌", color: "text-red-500" };
@@ -40,7 +40,7 @@ export const getUserFermiChainString = (hook: Hook) => {
 };
 
 export const getSharableResultsString = (hook: Hook) => {
-  const { targetAnswer, targetUnits, id: questionId } = hook.state.question;
+  const { targetValue, targetUnit, id: questionId } = hook.state.question;
   const { liveValue, liveUnits, liveOomDelta } = hook.derivedState;
 
   const userChainString = getUserFermiChainString(hook);
@@ -53,24 +53,11 @@ export const getSharableResultsString = (hook: Hook) => {
     liveUnits
   )}
 
-  Actual: ${formatNumberWithCommas(targetAnswer)} ${getUnitStrings(targetUnits)}
-  
+  Actual: ${formatNumberWithCommas(targetValue.fullValue)} ${getUnitStrings(
+    targetUnit
+  )}
+
   ${oomFeedback(liveOomDelta).text}
-  ${unitsFeedback(isSameUnits(liveUnits, targetUnits)).text}
+  ${unitsFeedback(isSameUnits(liveUnits, targetUnit)).text}
   `;
-};
-
-export const getResultsStrings = (hook: Hook) => {
-  const { targetAnswer, targetUnits } = hook.state.question;
-  const { liveValue, liveUnits, liveOomDelta } = hook.derivedState;
-
-  return {
-    oomFeedback: oomFeedback(liveOomDelta),
-    unitsFeedback: unitsFeedback(isSameUnits(liveUnits, targetUnits)),
-    playerChain: getUserFermiChainString(hook),
-    playerResult: formatNumberWithCommas(liveValue.fullValue),
-    playerUnits: getUnitStrings(liveUnits),
-    actualResult: formatNumberWithCommas(targetAnswer),
-    actualUnits: getUnitStrings(targetUnits),
-  };
 };

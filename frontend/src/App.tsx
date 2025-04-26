@@ -34,7 +34,7 @@ function App() {
         <ResponsiveGameLayout
           unitSelection={
             <UnitSelectionArea
-              units={hook.state.question.usefulUnitList}
+              unitIds={hook.state.question.UnitList}
               onAddNumerator={hook.actions.addUnitToNumerator}
               onAddDenominator={hook.actions.addUnitToDenominator}
             />

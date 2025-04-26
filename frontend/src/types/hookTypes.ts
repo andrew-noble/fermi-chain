@@ -1,5 +1,4 @@
-import { Unit, Value, UnitInventory, Factor, Oom } from "./primitives";
-import { Question } from "./primitives";
+import { Value, UnitInventory, Factor, Question } from "./composites";
 
 // Mode type
 export type Mode = "INIT" | "INTRO" | "CREATING" | "EDITING" | "VIEWING";
@@ -33,14 +32,14 @@ export interface Hook {
     setIntroMode: () => void;
     clearEditor: () => void;
     reset: () => void;
-    addUnitToNumerator: (unit: Unit) => void;
-    removeUnitFromNumerator: (unit: Unit) => void;
-    addUnitToDenominator: (unit: Unit) => void;
-    removeUnitFromDenominator: (unit: Unit) => void;
+    addUnitToNumerator: (unitId: string) => void;
+    removeUnitFromNumerator: (unitId: string) => void;
+    addUnitToDenominator: (unitId: string) => void;
+    removeUnitFromDenominator: (unitId: string) => void;
     updateNumeratorMantissa: (mantissa: number) => void;
     updateDenominatorMantissa: (mantissa: number) => void;
-    updateNumeratorOom: (oom: Oom) => void;
-    updateDenominatorOom: (oom: Oom) => void;
+    updateNumeratorOom: (oomId: string) => void;
+    updateDenominatorOom: (oomId: string) => void;
     submitFactor: () => void;
   };
   derivedState: {
@@ -61,8 +60,8 @@ export type Action =
   | { type: "SET_INTRO_MODE" }
   | { type: "CLEAR_EDITOR" }
   | { type: "RESET" }
-  | { type: "UPDATE_EDITOR_UNITS"; unit: Unit; delta: number }
+  | { type: "UPDATE_EDITOR_UNITS"; unitId: string; delta: number }
   | { type: "UPDATE_NUMERATOR_MANTISSA"; mantissa: number }
   | { type: "UPDATE_DENOMINATOR_MANTISSA"; mantissa: number }
-  | { type: "UPDATE_NUMERATOR_OOM"; oom: Oom }
-  | { type: "UPDATE_DENOMINATOR_OOM"; oom: Oom };
+  | { type: "UPDATE_NUMERATOR_OOM"; oomId: string }
+  | { type: "UPDATE_DENOMINATOR_OOM"; oomId: string };

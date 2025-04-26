@@ -5,13 +5,12 @@ import { Telescope, Pencil } from "lucide-react";
 import MultiplicationSign from "@/components/MultiplicationSign";
 import { TutorialOverlay } from "../TutorialOverlay";
 import { createValueFromNum } from "@/helpers/valueManagement";
-import { Oom } from "@/types";
 
 interface InlineMantissaProps {
   mantissa: number;
   className?: string;
   onUpdateMantissa: (newMantissa: number) => void;
-  onUpdateOom?: (newOom: Oom) => void; // Optional callback for OOM updates
+  onUpdateOom?: (newOomId: string) => void; // Optional callback for OOM updates
 }
 
 export default function InlineMantissa({
@@ -66,7 +65,7 @@ export default function InlineMantissa({
         onUpdateMantissa(value.mantissa);
         // If we have an OOM callback, update that too
         if (onUpdateOom) {
-          onUpdateOom(value.oom);
+          onUpdateOom(value.oomId);
         }
         setIsEditing(false);
       } else {

@@ -1,9 +1,9 @@
-import { Oom, Value } from "@/types";
+import { Value } from "@/types";
 import { ooms, getOomById } from "@/data/ooms";
 
-export const getClosestOom = (num: number): Oom => {
+export const getClosestOomId = (num: number): string => {
   const exp = Math.floor(Math.log10(num));
-  return ooms.find((oom) => oom.exponent === exp) || getOomById("1e0");
+  return ooms.find((oom) => oom.exponent === exp)?.id || "1e0";
 };
 
 //this function is a little sus with its math, but its only called in here, watch out
@@ -16,7 +16,7 @@ export const createValueFromNum = (rawValue: number): Value => {
   if (rawValue === 0) {
     return {
       mantissa: 0,
-      oom: ooms.find((oom) => oom.exponent === 0) || getOomById("1e0"),
+      oomId: "1e0",
       fullValue: 0,
     };
   }
@@ -28,23 +28,26 @@ export const createValueFromNum = (rawValue: number): Value => {
   const exponent = parseInt(exponentStr);
 
   // Find the OOM directly using the exponent
-  const oom =
-    ooms.find((oom) => oom.exponent === exponent) || getOomById("1e0");
+  const oom = ooms.find((oom) => oom.exponent === exponent);
+  if (!oom) {
+    throw new Error("Cannot find OOM for exponent: " + exponent);
+  }
 
   return {
     mantissa,
-    oom,
+    oomId: oom.id,
     fullValue: mantissa * oom.value,
   };
 };
 
 export const createValueFromMantissaAndOom = (
   mantissa: number,
-  oom: Oom
+  oomId: string
 ): Value => {
+  const oom = getOomById(oomId);
   return {
     mantissa,
-    oom,
+    oomId,
     fullValue: mantissa * oom.value,
   };
 };

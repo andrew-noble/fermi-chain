@@ -10,8 +10,14 @@ import { Hook } from "@/types";
 import { useState } from "react";
 import {
   getSharableResultsString,
-  getResultsStrings,
+  oomFeedback,
+  unitsFeedback,
 } from "@/helpers/formatResults";
+import { isSameUnits } from "@/helpers/unitManagement";
+import { formatNumberWithCommas } from "@/helpers/string-formatting";
+import MultiplicationSign from "./MultiplicationSign";
+import { getUnitStrings } from "@/helpers/string-formatting";
+import FactorDisplay from "./factor/FactorDisplay";
 
 interface ResultsDialogProps {
   open: boolean;
@@ -26,8 +32,14 @@ export default function ResultsDialog({
 }: ResultsDialogProps) {
   const [copied, setCopied] = useState(false);
 
+  const { liveValue, liveUnits, liveOomDelta } = hook.derivedState;
+  const { targetValue, targetUnit } = hook.state.question;
   const shareText = getSharableResultsString(hook);
-  const results = getResultsStrings(hook);
+
+  const unitsFb = unitsFeedback(isSameUnits(liveUnits, targetUnit));
+  const oomFb = oomFeedback(liveOomDelta);
+
+  const textStyles = "text-xl";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -38,35 +50,43 @@ export default function ResultsDialog({
 
         <div className="space-y-6">
           <div className="space-y-2 text-center">
-            <p className={`text-lg font-semibold ${results.oomFeedback.color}`}>
-              {results.oomFeedback.text}
+            <p className={`${textStyles} font-semibold ${oomFb.color}`}>
+              {oomFb.text}
             </p>
-            <p
-              className={`text-lg font-semibold ${results.unitsFeedback.color}`}
-            >
-              {results.unitsFeedback.text}
+            <p className={`${textStyles} font-semibold ${unitsFb.color}`}>
+              {unitsFb.text}
             </p>
           </div>
 
           <div className="space-y-2">
-            <h3 className="text-sm font-medium text-muted-foreground">
-              Your Fermi Chain:
-            </h3>
-            <p className="text-lg">{results.playerChain}</p>
+            <h3 className="text-xl font-semibold">Your Fermi Chain:</h3>
+            <div className="flex flex-wrap gap-2">
+              {hook.state.factors.map((factor, index) => (
+                <div key={factor.id} className="flex items-center gap-2">
+                  <FactorDisplay factor={factor} className={textStyles} />
+                  {index !== hook.state.factors.length - 1 && (
+                    <MultiplicationSign className={textStyles} />
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="space-y-2">
-            <h3 className="text-sm font-medium text-muted-foreground">
-              Result:
-            </h3>
-            <p className="text-lg">{results.playerResult}</p>
+            <span>= </span>
+            <span className={`${textStyles} ${oomFb.color}`}>
+              {formatNumberWithCommas(liveValue.fullValue)}{" "}
+            </span>
+            <span className={`${textStyles} ${unitsFb.color}`}>
+              {getUnitStrings(liveUnits).inline}
+            </span>
           </div>
 
           <div className="space-y-2">
-            <h3 className="text-sm font-medium text-muted-foreground">
-              Actual:
-            </h3>
-            <p className="text-lg">{results.actualResult}</p>
+            <h3 className="text-xl font-semibold">Our Fermi Chain:</h3>
+            <p className={textStyles}>
+              {formatNumberWithCommas(targetValue.fullValue)}
+            </p>
           </div>
 
           <Button
