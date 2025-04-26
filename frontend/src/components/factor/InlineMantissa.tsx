@@ -60,7 +60,8 @@ export default function InlineMantissa({
         onUpdateMantissa(newValue);
         setIsEditing(false);
       } else {
-        setInputValue(mantissa.toString());
+        setInputValue("1");
+        onUpdateMantissa(1);
         setIsEditing(false);
       }
     }, 0);
