@@ -2,7 +2,7 @@ import { Trash2, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface FactorButtonGroupProps {
-  editing: boolean;
+  isInput: boolean;
   isValid: boolean;
   onStartEdit?: () => void;
   onRemove?: () => void;
@@ -11,7 +11,7 @@ interface FactorButtonGroupProps {
 }
 
 export default function FactorButtonGroup({
-  editing,
+  isInput,
   isValid,
   onStartEdit,
   onRemove,
@@ -20,7 +20,7 @@ export default function FactorButtonGroup({
 }: FactorButtonGroupProps) {
   return (
     <div className="flex gap-2 mt-6">
-      {editing ? (
+      {isInput ? (
         <>
           <Button variant="outline" disabled={!isValid} onClick={onSubmit}>
             Save

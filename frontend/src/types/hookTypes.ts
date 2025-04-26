@@ -1,13 +1,16 @@
-import { Value, UnitInventory, Factor, Question } from "./composites";
+import {
+  Value,
+  UnitInventory,
+  Factor,
+  Question,
+  BaseFactor,
+} from "./composites";
 
 // Mode type
-export type Mode = "INIT" | "INTRO" | "CREATING" | "EDITING" | "VIEWING";
+export type Mode = "INIT" | "CREATING" | "EDITING";
 
-export type EditorState = {
-  unit: UnitInventory;
-  numeratorValue: Value;
-  denominatorValue: Value;
-};
+//editor state is just a factor, but this type makes code more readable
+export interface EditorState extends BaseFactor {}
 
 // CombinFactor, e, UnitInventoryd state type
 export interface State {
@@ -28,8 +31,6 @@ export interface Hook {
     deleteFactor: (id: string) => void;
     setEditMode: (factor: Factor) => void;
     setCreateMode: () => void;
-    setViewingMode: () => void;
-    setIntroMode: () => void;
     clearEditor: () => void;
     reset: () => void;
     addUnitToNumerator: (unitId: string) => void;

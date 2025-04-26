@@ -1,74 +1,61 @@
-import { Hook } from "@/types";
-import PhantomFactorDisplay from "@/components/factor/PhantomFactorDisplay";
-import { Fragment } from "react/jsx-runtime";
+import { EditorState, Factor, Hook } from "@/types";
 import FactorLayout from "@/components/factor/FactorLayout";
+
 interface FermiChainAreaProps {
   hook: Hook;
 }
 
 export default function FermiChainArea({ hook }: FermiChainAreaProps) {
-  const { mode, factors, editingFactor, editorState } = hook.state;
+  const { mode, factors, editorState, editingFactorIndex } = hook.state;
+  const {
+    setEditMode,
+    deleteFactor,
+    submitFactor,
+    clearEditor,
+    updateNumeratorMantissa,
+    updateDenominatorMantissa,
+    updateNumeratorOom,
+    updateDenominatorOom,
+  } = hook.actions;
 
-  const renderFactors = () => {
-    return factors.map((factor, index) => (
-      <Fragment key={factor.id}>
-        <FactorLayout
-          data={
-            mode === "EDITING" && editingFactor?.id === factor.id
-              ? editorState
-              : factor
-          }
-          isEditing={mode === "EDITING" && editingFactor?.id === factor.id}
-          onStartEdit={() => hook.actions.setEditMode(factor)}
-          onRemove={() => hook.actions.deleteFactor(factor.id)}
-          showMultiplicationSign={index !== factors.length - 1}
-          onSubmit={hook.actions.submitFactor}
-          onClear={() => {
-            hook.actions.clearEditor();
-            hook.actions.setViewingMode();
-          }}
-          updateNumeratorMantissa={hook.actions.updateNumeratorMantissa}
-          updateDenominatorMantissa={hook.actions.updateDenominatorMantissa}
-          updateNumeratorOom={hook.actions.updateNumeratorOom}
-          updateDenominatorOom={hook.actions.updateDenominatorOom}
-        />
-      </Fragment>
-    ));
-  };
+  let itemList: (Factor | EditorState)[] = [];
 
-  const renderEditorAtEnd = () => {
-    if (mode === "CREATING" || mode === "INTRO") {
-      return (
-        <FactorLayout
-          data={editorState}
-          isEditing={true}
-          showMultiplicationSign={false}
-          updateNumeratorMantissa={hook.actions.updateNumeratorMantissa}
-          updateDenominatorMantissa={hook.actions.updateDenominatorMantissa}
-          updateNumeratorOom={hook.actions.updateNumeratorOom}
-          updateDenominatorOom={hook.actions.updateDenominatorOom}
-          onSubmit={hook.actions.submitFactor}
-          onClear={() => {
-            hook.actions.clearEditor();
-            hook.actions.setViewingMode();
-          }}
-        />
-      );
-    }
-    return null;
-  };
+  if (mode === "EDITING") {
+    itemList = [
+      ...factors.slice(0, editingFactorIndex ?? 0),
+      editorState,
+      ...factors.slice(editingFactorIndex ?? 0),
+    ];
+  } else if (mode === "CREATING") {
+    itemList = [...factors, editorState];
+  }
 
-  return (
-    <>
-      {renderFactors()}
-      {renderEditorAtEnd()}
-      {mode === "VIEWING" && (
-        <PhantomFactorDisplay
-          isInit={false}
-          onClick={() => hook.actions.setCreateMode()}
-        />
-      )}
-      <p>{hook.state.mode}</p>
-    </>
-  );
+  //a wee bit gross but clean logically. always rendering a list of factorLayouts
+  return itemList.map((item, index) => (
+    <FactorLayout
+      key={index}
+      data={item}
+      isInput={
+        (mode === "EDITING" && editingFactorIndex === index) ||
+        (mode === "CREATING" && index === itemList.length - 1)
+      }
+      onStartEdit={
+        editingFactorIndex !== index
+          ? () => setEditMode(item as Factor)
+          : undefined
+      }
+      onRemove={
+        editingFactorIndex !== index
+          ? () => deleteFactor((item as Factor).id)
+          : undefined
+      }
+      onSubmit={() => submitFactor()}
+      onClear={() => clearEditor()}
+      updateNumeratorMantissa={updateNumeratorMantissa}
+      updateDenominatorMantissa={updateDenominatorMantissa}
+      updateNumeratorOom={updateNumeratorOom}
+      updateDenominatorOom={updateDenominatorOom}
+      showMultiplicationSign={index !== itemList.length - 1}
+    />
+  ));
 }

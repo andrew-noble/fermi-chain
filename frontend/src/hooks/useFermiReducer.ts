@@ -26,11 +26,13 @@ const initialState: State = {
 };
 
 const isEditorActive = (mode: State["mode"]) =>
-  mode === "CREATING" || mode === "EDITING" || mode === "INTRO";
+  mode === "CREATING" || mode === "EDITING";
 
 // Reducer function
 const fermiReducer = (state: State, action: Action): State => {
   console.log("Fermi Action:", action.type, action);
+  console.log("Fermi State:", state);
+
   switch (action.type) {
     case "CREATE_FACTOR": {
       const newFactor: Factor = {
@@ -89,6 +91,7 @@ const fermiReducer = (state: State, action: Action): State => {
       const remainingFactors = state.factors.filter(
         (f) => f.id !== action.factor.id
       );
+
       return {
         ...state,
         factors: remainingFactors,
@@ -197,21 +200,6 @@ const fermiReducer = (state: State, action: Action): State => {
         },
       };
 
-    case "SET_VIEWING_MODE":
-      return {
-        ...state,
-        mode: "VIEWING",
-      };
-
-    case "SET_INTRO_MODE":
-      return {
-        ...state,
-        mode: "INTRO",
-        editingFactor: null,
-        editingFactorIndex: null,
-        editorState: initialState.editorState,
-      };
-
     default:
       return state;
   }
@@ -248,7 +236,6 @@ export default function useFermiReducer(): Hook {
       setEditMode: (factor: Factor) =>
         dispatch({ type: "SET_EDIT_MODE", factor }),
       setCreateMode: () => dispatch({ type: "SET_CREATE_MODE" }),
-      setViewingMode: () => dispatch({ type: "SET_VIEWING_MODE" }),
       clearEditor: () => dispatch({ type: "CLEAR_EDITOR" }),
       reset: () => dispatch({ type: "RESET" }),
       addUnitToNumerator: (unitId: string) =>
@@ -267,14 +254,12 @@ export default function useFermiReducer(): Hook {
         dispatch({ type: "UPDATE_NUMERATOR_OOM", oomId }),
       updateDenominatorOom: (oomId: string) =>
         dispatch({ type: "UPDATE_DENOMINATOR_OOM", oomId }),
-      setIntroMode: () => dispatch({ type: "SET_INTRO_MODE" }),
       submitFactor: () => {
         if (state.mode === "EDITING") {
           dispatch({ type: "UPDATE_FACTOR" });
-        } else if (state.mode === "CREATING" || state.mode === "INTRO") {
+        } else if (state.mode === "CREATING") {
           dispatch({ type: "CREATE_FACTOR" });
         }
-        dispatch({ type: "SET_VIEWING_MODE" });
       },
     },
     derivedState: {

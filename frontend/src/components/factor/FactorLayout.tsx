@@ -10,7 +10,7 @@ import MultiplicationSign from "../MultiplicationSign";
 
 interface FactorLayoutProps {
   data: Factor | EditorState;
-  isEditing: boolean;
+  isInput: boolean;
   showMultiplicationSign: boolean;
   updateNumeratorMantissa: (mantissa: number) => void;
   updateDenominatorMantissa: (mantissa: number) => void;
@@ -24,7 +24,7 @@ interface FactorLayoutProps {
 
 export default function FactorLayout({
   data,
-  isEditing,
+  isInput,
   showMultiplicationSign = false,
   updateNumeratorMantissa,
   updateDenominatorMantissa,
@@ -42,7 +42,7 @@ export default function FactorLayout({
 
   const textStyles = "text-lg md:text-xl lg:text-2xl";
 
-  return isEditing ? (
+  return isInput ? (
     <div className="flex">
       <div className="grid grid-cols-[minmax(2rem, auto)_minmax(2rem, auto)_minmax(2rem, auto)] ring-2 ring-primary/50 p-2 rounded-md">
         {/* Numerator Row */}
@@ -91,7 +91,7 @@ export default function FactorLayout({
         {/* Button Row */}
         <div className="col-span-3 flex items-center justify-center">
           <FactorButtonGroup
-            editing={isEditing}
+            isInput={isInput}
             isValid={isValid}
             onStartEdit={onStartEdit}
             onRemove={onRemove}
@@ -110,7 +110,7 @@ export default function FactorLayout({
         className={textStyles}
       />
       <FactorButtonGroup
-        editing={isEditing}
+        isInput={isInput}
         isValid={isValid}
         onStartEdit={onStartEdit}
         onRemove={onRemove}

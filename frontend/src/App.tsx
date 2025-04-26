@@ -28,7 +28,7 @@ function App() {
       {hook.state.mode === "INIT" ? (
         <PhantomFactorDisplay
           isInit={true}
-          onClick={() => hook.actions.setIntroMode()}
+          onClick={() => hook.actions.setCreateMode()}
         />
       ) : (
         <ResponsiveGameLayout
@@ -44,8 +44,8 @@ function App() {
           gameButtonArea={<GameButtonArea hook={hook} />}
           showUnits={true}
           showFermiChain={true}
-          showFeedback={hook.state.mode !== "INTRO"}
-          showResults={hook.state.mode !== "INTRO"}
+          showFeedback={true}
+          showResults={true}
         />
       )}
     </RootLayout>
