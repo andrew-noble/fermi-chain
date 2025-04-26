@@ -32,7 +32,8 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
           updateNumeratorOom={hook.actions.updateNumeratorOom}
           updateDenominatorOom={hook.actions.updateDenominatorOom}
         />
-        <div className="h-[306px] pt-[calc(25px)]">
+        {/* Very hacky multiplication sign alignment */}
+        <div className="h-[306px] pt-[calc(18px)]">
           <MultiplicationSign className="text-2xl md:text-3xl lg:text-4xl text-grey-500" />
         </div>
       </Fragment>
@@ -70,7 +71,6 @@ export default function FermiChainArea({ hook }: FermiChainAreaProps) {
           onClick={() => hook.actions.setCreateMode()}
         />
       )}
-      <p>{hook.state.mode}</p>
     </>
   );
 }

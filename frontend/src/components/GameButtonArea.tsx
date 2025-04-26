@@ -19,7 +19,7 @@ export default function GameButtonArea({
       <SubmitResetButtonGroup
         hook={hook}
         onSubmit={() => {
-          hook.actions.submitFactor();
+          hook.actions.submitFactor(); //make sure whatever is in the editor gets submitted
           setShowResults(true);
         }}
       />
