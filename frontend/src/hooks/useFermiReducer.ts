@@ -26,6 +26,7 @@ const initialState: State = {
   factors: [],
   mode: "INIT",
   editingFactor: null,
+  editingFactorIndex: null,
   editorState: {
     unit: {} as UnitInventory,
     numeratorValue: createValueFromMantissaAndOom(1, getOomById("1e0")),
@@ -51,12 +52,14 @@ const fermiReducer = (state: State, action: Action): State => {
         factors: [...state.factors, newFactor],
         mode: "CREATING",
         editingFactor: null,
+        editingFactorIndex: null,
         editorState: initialState.editorState,
       };
     }
 
     case "UPDATE_FACTOR": {
-      if (!state.editingFactor) return state;
+      if (!state.editingFactor || state.editingFactorIndex === null)
+        return state;
 
       const updatedFactor: Factor = {
         ...state.editingFactor,
@@ -65,13 +68,16 @@ const fermiReducer = (state: State, action: Action): State => {
         denominatorValue: state.editorState.denominatorValue,
       };
 
+      // Insert the updated factor back at its original position
+      const newFactors = [...state.factors];
+      newFactors.splice(state.editingFactorIndex, 0, updatedFactor);
+
       return {
         ...state,
-        factors: state.factors.map((f) =>
-          f.id === state.editingFactor?.id ? updatedFactor : f
-        ),
+        factors: newFactors,
         mode: "CREATING",
         editingFactor: null,
+        editingFactorIndex: null,
         editorState: initialState.editorState,
       };
     }
@@ -82,23 +88,35 @@ const fermiReducer = (state: State, action: Action): State => {
         factors: state.factors.filter((f) => f.id !== action.id),
       };
 
-    case "SET_EDIT_MODE":
+    case "SET_EDIT_MODE": {
+      // Find the index of the factor being edited
+      const editingIndex = state.factors.findIndex(
+        (f) => f.id === action.factor.id
+      );
+      // Remove the factor being edited from the committed state
+      const remainingFactors = state.factors.filter(
+        (f) => f.id !== action.factor.id
+      );
       return {
         ...state,
+        factors: remainingFactors,
         mode: "EDITING",
         editingFactor: action.factor,
+        editingFactorIndex: editingIndex,
         editorState: {
           unit: action.factor.unit,
           numeratorValue: action.factor.numeratorValue,
           denominatorValue: action.factor.denominatorValue,
         },
       };
+    }
 
     case "SET_CREATE_MODE":
       return {
         ...state,
         mode: "CREATING",
         editingFactor: null,
+        editingFactorIndex: null,
         editorState: initialState.editorState,
       };
 
@@ -107,6 +125,7 @@ const fermiReducer = (state: State, action: Action): State => {
         ...state,
         mode: "CREATING",
         editingFactor: null,
+        editingFactorIndex: null,
         editorState: initialState.editorState,
       };
 
@@ -116,6 +135,7 @@ const fermiReducer = (state: State, action: Action): State => {
         factors: [],
         mode: "CREATING",
         editingFactor: null,
+        editingFactorIndex: null,
         editorState: initialState.editorState,
       };
 
@@ -196,6 +216,7 @@ const fermiReducer = (state: State, action: Action): State => {
         ...state,
         mode: "INTRO",
         editingFactor: null,
+        editingFactorIndex: null,
         editorState: initialState.editorState,
       };
 
@@ -214,13 +235,13 @@ export default function useFermiReducer(): Hook {
   const n_editor: Value = state.editorState.numeratorValue;
   const d_editor: Value = state.editorState.denominatorValue;
 
-  // Only include editor values if we're in an active editor mode
+  // Only include editor values if we're in an active editor mode, but don't double-count
   const liveValue: Value = isEditorActive(state.mode)
     ? resolveValues([n, n_editor], [d, d_editor])
     : resolveValues(n, d);
   const liveUnits: UnitInventory = resolveUnits([
     ...state.factors.map((f) => f.unit),
-    state.editorState.unit,
+    ...(isEditorActive(state.mode) ? [state.editorState.unit] : []),
   ]);
   const liveOomDelta: number =
     liveValue.oom.exponent - state.question.targetOom.exponent;

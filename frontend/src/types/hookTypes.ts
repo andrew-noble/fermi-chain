@@ -16,6 +16,7 @@ export interface State {
   factors: Factor[];
   mode: Mode;
   editingFactor: Factor | null; // null means creating new
+  editingFactorIndex: number | null; // tracks position of factor being edited
   editorState: EditorState;
 }
 

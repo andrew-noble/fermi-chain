@@ -7,7 +7,7 @@ export const getClosestOom = (num: number): Oom => {
 };
 
 //this function is a little sus with its math, but its only called in here, watch out
-const createValueFromNum = (rawValue: number): Value => {
+export const createValueFromNum = (rawValue: number): Value => {
   // Handle special cases
   if (!Number.isFinite(rawValue)) {
     throw new Error("Cannot create Value from non-finite number");

@@ -20,7 +20,7 @@ export default function UnitSelector({
         <p className="text-sm font-medium pr-2">{unit.name}</p>
         <div className="flex gap-0.5 shrink-0">
           <TutorialOverlay
-            id="unit-selection-tooltip"
+            id="tutorial-unit-selection"
             content="Add units to numerator (×) or denominator (÷)"
             position="top"
           >

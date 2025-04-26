@@ -5,6 +5,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import {
+  clearTutorialStorage,
+  forceTutorialRerender,
+} from "@/helpers/tutorial";
 
 interface TutorialDialogProps {
   open: boolean;
@@ -15,6 +19,12 @@ export default function TutorialDialog({
   open,
   onOpenChange,
 }: TutorialDialogProps) {
+  const handleResetTutorials = () => {
+    clearTutorialStorage();
+    forceTutorialRerender();
+    onOpenChange(false);
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
@@ -47,7 +57,10 @@ export default function TutorialDialog({
             </p>
           </section>
         </div>
-        <div className="mt-6">
+        <div className="mt-6 flex justify-between">
+          <Button variant="outline" onClick={handleResetTutorials}>
+            Reset Tutorial Overlays
+          </Button>
           <Button onClick={() => onOpenChange(false)}>Close</Button>
         </div>
       </DialogContent>

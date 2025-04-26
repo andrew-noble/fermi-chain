@@ -41,7 +41,7 @@ export default function InlineOom({
   return (
     <div className={`flex flex-col gap-2 w-[3.5rem] text-center ${className}`}>
       <TutorialOverlay
-        id="oom"
+        id="tutorial-oom"
         content="Adjust the order of magnitude"
         position="right"
       >

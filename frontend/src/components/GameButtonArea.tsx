@@ -12,22 +12,20 @@ export default function GameButtonArea({
   hook,
   className = "",
 }: GameButtonAreaProps) {
-  const [isResultsDialogOpen, setIsResultsDialogOpen] = useState(false);
+  const [showResults, setShowResults] = useState(false);
 
   return (
-    <div className={className}>
-      <div className="flex gap-2 items-center justify-center">
-        <SubmitResetButtonGroup
-          hook={hook}
-          onSubmit={() => {
-            hook.actions.submitFactor();
-            setIsResultsDialogOpen(true);
-          }}
-        />
-      </div>
+    <div className={`flex flex-col gap-4 ${className}`}>
+      <SubmitResetButtonGroup
+        hook={hook}
+        onSubmit={() => {
+          hook.actions.submitFactor();
+          setShowResults(true);
+        }}
+      />
       <ResultsDialog
-        open={isResultsDialogOpen}
-        onOpenChange={setIsResultsDialogOpen}
+        open={showResults}
+        onOpenChange={setShowResults}
         hook={hook}
       />
     </div>

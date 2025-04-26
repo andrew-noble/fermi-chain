@@ -44,6 +44,7 @@ export default function FactorLayout({
         <InlineMantissa
           mantissa={data.numeratorValue.mantissa}
           onUpdateMantissa={updateNumeratorMantissa}
+          onUpdateOom={updateNumeratorOom} //needed if entered mantissa overflows
           className={textStyles}
         />
       </div>
@@ -66,6 +67,7 @@ export default function FactorLayout({
         <InlineMantissa
           mantissa={data.denominatorValue.mantissa}
           onUpdateMantissa={updateDenominatorMantissa}
+          onUpdateOom={updateDenominatorOom}
           className={textStyles}
         />
       </div>
@@ -94,7 +96,7 @@ export default function FactorLayout({
     </div>
   ) : (
     <div className="flex flex-col gap-2">
-      <div className="flex gap-1">
+      <div className="flex gap-2">
         <SciNotationDisplay
           value={data.numeratorValue}
           className={textStyles}
@@ -102,7 +104,7 @@ export default function FactorLayout({
         <InlineUnit unit={numerators} className={textStyles} />
       </div>
       <div className="col-span-3 border-t border-gray-200 dark:border-gray-800 my-1" />
-      <div className="flex gap-1">
+      <div className="flex gap-2">
         <SciNotationDisplay
           value={data.denominatorValue}
           className={textStyles}

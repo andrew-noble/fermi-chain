@@ -4,17 +4,21 @@ import { Button } from "@/components/ui/button";
 import { Telescope, Pencil } from "lucide-react";
 import MultiplicationSign from "@/components/MultiplicationSign";
 import { TutorialOverlay } from "../TutorialOverlay";
+import { createValueFromNum } from "@/helpers/valueManagement";
+import { Oom } from "@/types";
 
 interface InlineMantissaProps {
   mantissa: number;
   className?: string;
   onUpdateMantissa: (newMantissa: number) => void;
+  onUpdateOom?: (newOom: Oom) => void; // Optional callback for OOM updates
 }
 
 export default function InlineMantissa({
   mantissa,
   className,
   onUpdateMantissa,
+  onUpdateOom,
 }: InlineMantissaProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(mantissa.toString());
@@ -50,16 +54,26 @@ export default function InlineMantissa({
     if (e) {
       e.preventDefault();
     }
-    const newValue = parseFloat(inputValue);
 
-    // Validate the input is a number between 1 and 10
-    if (!isNaN(newValue) && newValue >= 1 && newValue < 10) {
-      onUpdateMantissa(newValue);
-      setIsEditing(false);
-    } else {
-      setInputValue(mantissa.toString());
-      setIsEditing(false);
-    }
+    // Add a small delay to ensure blur event is processed
+    setTimeout(() => {
+      const newValue = parseFloat(inputValue);
+
+      // Only validate that it's a valid number
+      if (!isNaN(newValue) && newValue !== 0) {
+        // Convert to scientific notation to get proper mantissa and OOM
+        const value = createValueFromNum(newValue);
+        onUpdateMantissa(value.mantissa);
+        // If we have an OOM callback, update that too
+        if (onUpdateOom) {
+          onUpdateOom(value.oom);
+        }
+        setIsEditing(false);
+      } else {
+        setInputValue(mantissa.toString());
+        setIsEditing(false);
+      }
+    }, 0);
   };
 
   const closed = mantissa === 1 && !isEditing;
@@ -67,7 +81,7 @@ export default function InlineMantissa({
   if (closed) {
     return (
       <TutorialOverlay
-        id="first-mantissa-tutorial"
+        id="tutorial-mantissa"
         content="Add a precision to the mantissa"
         position="bottom"
       >
