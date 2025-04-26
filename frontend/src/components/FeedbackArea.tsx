@@ -30,7 +30,7 @@ export default function FeedbackArea({ hook }: FeedbackAreaProps) {
 
       <div className={`flex gap-1 whitespace-nowrap font-bold ${unitStyle}`}>
         <InlineUnit unit={numerators} />
-        {denominators && (
+        {Object.keys(denominators).length > 0 && (
           <>
             <span className="text-gray-400">/</span>
             <InlineUnit unit={denominators} />
