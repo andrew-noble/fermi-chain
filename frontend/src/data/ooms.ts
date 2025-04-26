@@ -33,8 +33,8 @@ const namedEntries: Record<
 };
 
 // Generate the array programmatically
-export const ooms: Oom[] = Array.from({ length: 25 }, (_, i) => {
-  const power = i - 12; // From -12 to 12
+export const ooms: Oom[] = Array.from({ length: 37 }, (_, i) => {
+  const power = i - 12; // From -12 to 24
   const id = `1e${power}`;
   const value = Math.pow(10, power);
 

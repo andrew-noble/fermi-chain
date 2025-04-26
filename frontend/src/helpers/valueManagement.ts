@@ -6,7 +6,10 @@ export const getClosestOomId = (num: number): string => {
   return ooms.find((oom) => oom.exponent === exp)?.id || "1e0";
 };
 
-//this function is a little sus with its math, but its only called in here, watch out
+//this function encodes an important characteristic of the app
+//we allow mantissas between 1.001 and 999, but outside those,
+//we adjust the oom and mantissa before storing
+//this is a choice to make the values the most humane
 export const createValueFromNum = (rawValue: number): Value => {
   // Handle special cases
   if (!Number.isFinite(rawValue)) {
@@ -21,11 +24,28 @@ export const createValueFromNum = (rawValue: number): Value => {
     };
   }
 
-  // Convert to scientific notation string to avoid floating point issues
+  // we preserve mantissas between 1.001 and 9999
+  if (rawValue <= 9999 && rawValue >= 0.01) {
+    return {
+      mantissa: rawValue,
+      oomId: "1e0",
+      fullValue: rawValue,
+    };
+  }
+
+  //otherwise, overflow into OOM and adjust mantissa accordingly
   const scientificStr = rawValue.toExponential(3);
   const [mantissaStr, exponentStr] = scientificStr.split("e");
   const mantissa = parseFloat(mantissaStr);
   const exponent = parseInt(exponentStr);
+
+  //handle out of range
+  if (exponent < -12 || exponent > 24) {
+    // Return the closest valid OOM instead of throwing
+    const closestExponent = Math.max(-12, Math.min(24, exponent));
+    const oom = ooms.find((oom) => oom.exponent === closestExponent);
+    if (!oom) throw new Error("Invalid OOM range configuration");
+  }
 
   // Find the OOM directly using the exponent
   const oom = ooms.find((oom) => oom.exponent === exponent);

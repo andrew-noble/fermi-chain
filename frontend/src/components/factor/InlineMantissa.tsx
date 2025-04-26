@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Telescope, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
 import MultiplicationSign from "@/components/MultiplicationSign";
 import { TutorialOverlay } from "../TutorialOverlay";
 import { createValueFromNum } from "@/helpers/valueManagement";
@@ -75,47 +74,30 @@ export default function InlineMantissa({
     }, 0);
   };
 
-  const closed = mantissa === 1 && !isEditing;
-
-  if (closed) {
-    return (
-      <TutorialOverlay
-        id="tutorial-mantissa"
-        content="Add a precision to the mantissa"
-        position="bottom"
-      >
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-6 px-1 opacity-30 hover:opacity-100 transition-opacity"
-          onClick={() => {
-            setIsEditing(true);
-            setInputValue("1.0");
-          }}
-        >
-          <Telescope className="h-3 w-3" />
-        </Button>
-      </TutorialOverlay>
-    );
-  }
-
   return isEditing ? (
     <div className="flex items-center gap-1">
-      <Input
-        ref={formRef}
-        type="text"
-        inputMode="decimal"
-        value={inputValue}
-        onChange={handleInputChange}
-        onBlur={handleSubmit}
-        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-          if (e.key === "Enter") {
-            handleSubmit();
-          }
-        }}
-        className={`w-[5.5rem] text-center ${className}`}
-        autoFocus
-      />
+      <TutorialOverlay
+        id="tutorial-mantissa"
+        content="Add a precise mantissa"
+        position="bottom"
+      >
+        <Input
+          ref={formRef}
+          type="text"
+          inputMode="decimal"
+          value={inputValue}
+          onChange={handleInputChange}
+          onBlur={handleSubmit}
+          onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === "Enter") {
+              handleSubmit();
+            }
+          }}
+          className={`w-[5.5rem] text-center ${className}`}
+          autoFocus
+        />
+      </TutorialOverlay>
+
       <MultiplicationSign className={className} />
     </div>
   ) : (

@@ -40,7 +40,7 @@ export default function FactorLayout({
     data.denominatorValue.fullValue !== 1 ||
     data.numeratorValue.fullValue !== 1; //ensure user has entered something
 
-  const textStyles = isEditing ? "text-base" : "text-lg md:text-xl lg:text-2xl";
+  const textStyles = isEditing ? "text-lg md:text-xl lg:text-2xl" : "text-base";
 
   return isEditing ? (
     <div className="flex">
