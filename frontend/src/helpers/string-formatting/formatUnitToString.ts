@@ -26,7 +26,7 @@ export const getUnitStrings = (inv: UnitInventory): UnitStrings => {
     });
 
   const formatUnit = (unit: UnitString) => {
-    return `${unit.name}${superscriptMap[unit.exponent]}`;
+    return `${unit.name}${superscriptMap[Math.abs(unit.exponent)]}`;
   };
 
   const numerators = allUnits.filter((unit) => unit.exponent > 0);
