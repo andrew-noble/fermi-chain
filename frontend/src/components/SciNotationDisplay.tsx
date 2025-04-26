@@ -42,8 +42,8 @@ export default function SciNotationDisplay({
       {value.mantissa === 1 ? (
         // If mantissa is 1, we can simplify the display
         value.oom.exponent === 0 ? (
-          // If exponent is 0, just show 1
-          "1"
+          // If exponent is 0, don't show anything
+          ""
         ) : (
           // Otherwise show 10^n (but no exponent shown if it's 1)
           <span>

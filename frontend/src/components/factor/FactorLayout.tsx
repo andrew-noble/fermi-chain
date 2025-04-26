@@ -4,8 +4,8 @@ import { Factor } from "@/types";
 import InlineMantissa from "@/components/factor/InlineMantissa";
 import InlineOom from "@/components/factor/InlineOom";
 import InlineUnit from "@/components/factor/InlineUnit";
-import SciNotationDisplay from "@/components/SciNotationDisplay";
 import { splitUnitInventory } from "@/helpers/unitManagement";
+import FactorDisplay from "./FactorDisplay";
 
 interface FactorLayoutProps {
   data: Factor | EditorState;
@@ -96,21 +96,7 @@ export default function FactorLayout({
     </div>
   ) : (
     <div className="flex flex-col gap-2">
-      <div className="flex gap-2">
-        <SciNotationDisplay
-          value={data.numeratorValue}
-          className={textStyles}
-        />
-        <InlineUnit unit={numerators} className={textStyles} />
-      </div>
-      <div className="col-span-3 border-t border-gray-200 dark:border-gray-800 my-1" />
-      <div className="flex gap-2">
-        <SciNotationDisplay
-          value={data.denominatorValue}
-          className={textStyles}
-        />
-        <InlineUnit unit={denominators} className={textStyles} />
-      </div>
+      <FactorDisplay factor={data} textStyles={textStyles} />
       <FactorButtonGroup
         editing={isEditing}
         isValid={isValid}
