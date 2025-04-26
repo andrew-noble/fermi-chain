@@ -76,6 +76,7 @@ export default function InlineMantissa({
         value={inputValue}
         onChange={handleInputChange}
         onBlur={handleSubmit}
+        onFocus={(e) => e.target.select()}
         onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
           if (e.key === "Enter") {
             handleSubmit();
