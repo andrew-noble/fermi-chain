@@ -68,40 +68,40 @@ export default function InlineMantissa({
 
   return isEditing ? (
     <div className="flex items-center gap-1">
+      <Input
+        ref={formRef}
+        type="text"
+        inputMode="decimal"
+        maxLength={5} //max mantissa length, 4 numbers and a decimal
+        value={inputValue}
+        onChange={handleInputChange}
+        onBlur={handleSubmit}
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === "Enter") {
+            handleSubmit();
+          }
+        }}
+        className={`w-[5.5rem] text-center ${className}`}
+        autoFocus
+      />
+      <MultiplicationSign className={className} />
+    </div>
+  ) : (
+    <div className="flex items-center gap-1">
       <TutorialOverlay
         id="tutorial-mantissa"
         content="Add a precise mantissa"
         position="bottom"
       >
-        <Input
-          ref={formRef}
-          type="text"
-          inputMode="decimal"
-          maxLength={5} //max mantissa length, 4 numbers and a decimal
-          value={inputValue}
-          onChange={handleInputChange}
-          onBlur={handleSubmit}
-          onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-            if (e.key === "Enter") {
-              handleSubmit();
-            }
-          }}
-          className={`w-[5.5rem] text-center ${className}`}
-          autoFocus
-        />
+        <div
+          className={`inline-flex items-center justify-center gap-1 px-1 py-0.5 rounded border border-gray-800 hover:border-gray-600 transition-colors cursor-pointer ${className}`}
+          onClick={() => setIsEditing(true)}
+        >
+          <Pencil className="h-3 w-3 text-gray-400" />
+          <span>{mantissa.toString()}</span>
+        </div>
       </TutorialOverlay>
 
-      <MultiplicationSign className={className} />
-    </div>
-  ) : (
-    <div className="flex items-center gap-1">
-      <div
-        className={`inline-flex items-center justify-center gap-1 px-1 py-0.5 rounded border border-gray-800 hover:border-gray-600 transition-colors cursor-pointer ${className}`}
-        onClick={() => setIsEditing(true)}
-      >
-        <Pencil className="h-3 w-3 text-gray-400" />
-        <span>{mantissa.toString()}</span>
-      </div>
       <MultiplicationSign className={className} />
     </div>
   );
