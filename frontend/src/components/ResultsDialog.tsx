@@ -39,7 +39,8 @@ export default function ResultsDialog({
   const unitsFb = unitsFeedback(isSameUnits(liveUnits, targetUnit));
   const oomFb = oomFeedback(liveOomDelta);
 
-  const textStyles = "text-xl";
+  const playerTextStyles = "text-xl";
+  const targetTextStyles = "text-lg";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -50,22 +51,23 @@ export default function ResultsDialog({
 
         <div className="space-y-6">
           <div className="space-y-2 text-center">
-            <p className={`${textStyles} font-semibold ${oomFb.color}`}>
+            <p className={`${playerTextStyles} font-semibold ${oomFb.color}`}>
               {oomFb.text}
             </p>
-            <p className={`${textStyles} font-semibold ${unitsFb.color}`}>
+            <p className={`${playerTextStyles} font-semibold ${unitsFb.color}`}>
               {unitsFb.text}
             </p>
           </div>
 
+          {/* Player chain */}
           <div className="space-y-2">
             <h3 className="text-xl font-semibold">Your Fermi Chain:</h3>
             <div className="flex flex-wrap gap-2">
               {hook.state.factors.map((factor, index) => (
                 <div key={factor.id} className="flex items-center gap-2">
-                  <FactorDisplay factor={factor} className={textStyles} />
+                  <FactorDisplay factor={factor} className={playerTextStyles} />
                   {index !== hook.state.factors.length - 1 && (
-                    <MultiplicationSign className={textStyles} />
+                    <MultiplicationSign className={playerTextStyles} />
                   )}
                 </div>
               ))}
@@ -74,19 +76,39 @@ export default function ResultsDialog({
 
           <div className="space-y-2">
             <span>= </span>
-            <span className={`${textStyles} ${oomFb.color}`}>
+            <span className={`${playerTextStyles} ${oomFb.color}`}>
               {formatNumberWithCommas(liveValue.fullValue)}{" "}
             </span>
-            <span className={`${textStyles} ${unitsFb.color}`}>
+            <span className={`${playerTextStyles} ${unitsFb.color}`}>
               {getUnitStrings(liveUnits).inline}
             </span>
           </div>
 
+          <hr className="border-gray-200 dark:border-gray-700" />
+
+          {/* Target chain */}
           <div className="space-y-2">
             <h3 className="text-xl font-semibold">Our Fermi Chain:</h3>
-            <p className={textStyles}>
-              {formatNumberWithCommas(targetValue.fullValue)}
-            </p>
+            <div className="flex flex-wrap gap-2">
+              {hook.state.question.targetChain.map((factor, index) => (
+                <div key={factor.label} className="flex items-center gap-2">
+                  <FactorDisplay factor={factor} className={targetTextStyles} />
+                  {index !== hook.state.question.targetChain.length - 1 && (
+                    <MultiplicationSign className={targetTextStyles} />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <span>= </span>
+            <span className={`${targetTextStyles}`}>
+              {formatNumberWithCommas(targetValue.fullValue)}{" "}
+            </span>
+            <span className={`${targetTextStyles}`}>
+              {getUnitStrings(targetUnit).inline}
+            </span>
           </div>
 
           <Button
