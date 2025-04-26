@@ -15,7 +15,7 @@ export default function GameButtonArea({
   const [showResults, setShowResults] = useState(false);
 
   return (
-    <div className={`flex flex-col gap-4 ${className}`}>
+    <div className={`flex gap-4 ${className}`}>
       <SubmitResetButtonGroup
         hook={hook}
         onSubmit={() => {
