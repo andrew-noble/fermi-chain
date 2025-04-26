@@ -1,6 +1,14 @@
 import { useReducer } from "react";
 import question from "@/data/question.json";
-import { Factor, Value, UnitInventory, State, Action, Hook } from "@/types";
+import {
+  Factor,
+  Value,
+  UnitInventory,
+  State,
+  Action,
+  Hook,
+  EditorState,
+} from "@/types";
 import { resolveUnits } from "@/helpers/unitManagement";
 import {
   resolveValues,
@@ -11,6 +19,12 @@ import { updateUnitCount } from "@/helpers/unitManagement";
 import { v4 as uuidv4 } from "uuid";
 import { getOomById } from "@/data/ooms";
 
+const emptyEditorState: EditorState = {
+  unit: {} as UnitInventory,
+  numeratorValue: createValueFromMantissaAndOom(1, "1e0"),
+  denominatorValue: createValueFromMantissaAndOom(1, "1e0"),
+};
+
 // Initial state
 const initialState: State = {
   question,
@@ -18,11 +32,7 @@ const initialState: State = {
   mode: "INIT",
   editingFactor: null,
   editingFactorIndex: null,
-  editorState: {
-    unit: {} as UnitInventory,
-    numeratorValue: createValueFromMantissaAndOom(1, "1e0"),
-    denominatorValue: createValueFromMantissaAndOom(1, "1e0"),
-  },
+  editorState: emptyEditorState,
 };
 
 const isEditorActive = (mode: State["mode"]) =>
@@ -35,12 +45,18 @@ const fermiReducer = (state: State, action: Action): State => {
 
   switch (action.type) {
     case "CREATE_FACTOR": {
+      //don't bother adding an empty one
+      if (state.editorState === emptyEditorState) {
+        return state;
+      }
+
       const newFactor: Factor = {
         id: uuidv4(),
         unit: state.editorState.unit,
         numeratorValue: state.editorState.numeratorValue,
         denominatorValue: state.editorState.denominatorValue,
       };
+
       return {
         ...state,
         factors: [...state.factors, newFactor],
@@ -54,6 +70,10 @@ const fermiReducer = (state: State, action: Action): State => {
     case "UPDATE_FACTOR": {
       if (!state.editingFactor || state.editingFactorIndex === null)
         return state;
+
+      if (state.editorState === emptyEditorState) {
+        return state;
+      }
 
       const updatedFactor: Factor = {
         ...state.editingFactor,
