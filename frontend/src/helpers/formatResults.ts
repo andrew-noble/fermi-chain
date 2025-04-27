@@ -3,7 +3,8 @@ import {
   formatNumberWithCommas,
   getInlineUnitString,
 } from "@/helpers/string-formatting";
-import { isSameUnits } from "@/helpers/unitManagement";
+
+const SITE_URL = "https://fermi-chain.andrewnoble.me";
 
 export const oomFeedback = (oomDelta: number) => {
   if (oomDelta === 0) {
@@ -25,39 +26,31 @@ export const oomFeedback = (oomDelta: number) => {
 
 export const unitsFeedback = (unitsMatch: boolean) => {
   return unitsMatch
-    ? { text: "Correct Units ✅", color: "text-green-500" }
-    : { text: "Incorrect Units ❌", color: "text-red-500" };
-};
-
-export const getUserFermiChainString = (hook: Hook) => {
-  const string = hook.state.factors.map((factor) => {
-    const inline = getInlineUnitString(factor.unit);
-    const v = formatNumberWithCommas(factor.numeratorValue.fullValue);
-    return `(${v} ${inline})`;
-  });
-
-  return string.join("·");
+    ? { text: "Correct units ✅", color: "text-green-500" }
+    : { text: "Wrong units 🤔", color: "text-red-500" };
 };
 
 export const getSharableResultsString = (hook: Hook) => {
   const { targetValue, targetUnit, id: questionId } = hook.state.question;
   const { liveValue, liveUnits, liveOomDelta } = hook.derivedState;
 
-  const userChainString = getUserFermiChainString(hook);
+  const oomFeedbackText =
+    liveOomDelta === 0
+      ? "I got the correct order of magnitude! 🎯"
+      : `I was off by ${liveOomDelta} orders of magnitude! 🤔`;
 
   return `Fermi Chain #${questionId}
 
-  Your Fermi Chain: ${userChainString}
+  My Fermi Estimate: ${formatNumberWithCommas(
+    liveValue.fullValue
+  )} ${getInlineUnitString(liveUnits)}
 
-  Result: ${formatNumberWithCommas(liveValue.fullValue)} ${getInlineUnitString(
-    liveUnits
-  )}
-
-  Actual: ${formatNumberWithCommas(
+  Correct Answer (roughly): ${formatNumberWithCommas(
     targetValue.fullValue
   )} ${getInlineUnitString(targetUnit)}
 
-  ${oomFeedback(liveOomDelta).text}
-  ${unitsFeedback(isSameUnits(liveUnits, targetUnit)).text}
+  ${oomFeedbackText}
+
+  Try it yourself -> ${SITE_URL}
   `;
 };

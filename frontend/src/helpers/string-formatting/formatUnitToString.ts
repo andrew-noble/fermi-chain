@@ -14,7 +14,8 @@ export const getInlineUnitString = (inv: UnitInventory): string => {
       return unitId;
     }
     const name = unit.symbol ? unit.symbol : unit.displayNamePlural;
-    return `${name}${superscriptMap[Math.abs(power)]}`;
+    const superscript = power === 1 ? "" : superscriptMap[Math.abs(power)];
+    return `${name}${superscript}`;
   };
 
   //do for num.denom
