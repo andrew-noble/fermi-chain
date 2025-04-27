@@ -7,6 +7,7 @@ import InlineUnit from "@/components/factor/InlineUnit";
 import { splitUnitInventory } from "@/helpers/unitManagement";
 import FactorDisplay from "./FactorDisplay";
 import MultiplicationSign from "../MultiplicationSign";
+import { useState } from "react";
 
 interface FactorLayoutProps {
   data: Factor | EditorState;
@@ -36,16 +37,32 @@ export default function FactorLayout({
   onClear,
 }: FactorLayoutProps) {
   const [numerators, denominators] = splitUnitInventory(data.unit);
+  const [showInvalidFlash, setShowInvalidFlash] = useState(false);
   const isValid =
-    data.denominatorValue.fullValue !== 1 ||
-    data.numeratorValue.fullValue !== 1; //ensure user has entered something
+    (data.denominatorValue.fullValue !== 1 ||
+      data.numeratorValue.fullValue !== 1) &&
+    (Object.keys(numerators).length > 0 ||
+      Object.keys(denominators).length > 0); //ensure minimum one value and one unit
+
+  const handleSubmit = () => {
+    if (isValid) {
+      onSubmit?.();
+    } else {
+      setShowInvalidFlash(true);
+      setTimeout(() => setShowInvalidFlash(false), 500);
+    }
+  };
 
   const textStyles =
     "text-base sm:text-lg md:text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl";
 
   return isInput ? (
-    <div className="flex">
-      <div className="grid grid-cols-[minmax(2rem, auto)_minmax(2rem, auto)_minmax(2rem, auto)] ring-2 ring-primary/50 p-2 rounded-md">
+    <div
+      className={`flex transition-all duration-200 rounded-md ${
+        showInvalidFlash ? "shadow-[0_0_0_2px] shadow-primary" : ""
+      }`}
+    >
+      <div className="grid grid-cols-[minmax(2rem, auto)_minmax(2rem, auto)_minmax(2rem, auto)] ring-2 ring-primary/40 p-2 rounded-md">
         {/* Numerator Row */}
         <div className="col-start-1 flex items-center justify-center">
           <InlineMantissa
@@ -94,7 +111,7 @@ export default function FactorLayout({
             isValid={isValid}
             onStartEdit={onStartEdit}
             onRemove={onRemove}
-            onSubmit={onSubmit}
+            onSubmit={handleSubmit}
             onClear={onClear}
           />
         </div>
@@ -113,7 +130,7 @@ export default function FactorLayout({
         isValid={isValid}
         onStartEdit={onStartEdit}
         onRemove={onRemove}
-        onSubmit={onSubmit}
+        onSubmit={handleSubmit}
         onClear={onClear}
       />
     </div>

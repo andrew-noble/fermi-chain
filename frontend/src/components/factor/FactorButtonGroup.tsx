@@ -20,7 +20,14 @@ export default function FactorButtonGroup({
 }: FactorButtonGroupProps) {
   return isInput ? (
     <div className="flex flex-row gap-2 mt-6">
-      <Button variant="outline" disabled={!isValid} onClick={onSubmit}>
+      <Button
+        variant="outline"
+        className={`bg-green-200/50 hover:bg-green-300 dark:bg-green-700/10 dark:hover:bg-green-600/25 ${
+          isValid &&
+          "bg-green-200/90 hover:bg-green-300 dark:bg-green-700/30 dark:hover:bg-green-600/45"
+        }`}
+        onClick={onSubmit}
+      >
         Save
       </Button>
       <Button
