@@ -18,7 +18,7 @@ export default function FactorDisplay({
   const [numerators, denominators] = splitUnitInventory(factor.unit);
 
   return (
-    <div className="flex gap-2 items-center min-h-[80px]">
+    <div className="flex gap-2 items-center min-h-[5rem]">
       <div className={`flex flex-col ${className}`}>
         <div className="flex gap-2">
           <SciNotationDisplay
