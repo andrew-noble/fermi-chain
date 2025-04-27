@@ -1,16 +1,16 @@
-import UnitSelectionArea from "@/components/UnitSelectionArea";
-import FeedbackArea from "@/components/FeedbackArea";
-import FermiChainArea from "@/components/FermiChainArea";
+import UnitSelectionArea from "@/components/features/unit-selection/UnitSelectionArea";
+import FeedbackArea from "@/components/features/feedback/FeedbackArea";
+import FermiChainArea from "@/components/features/chain/FermiChainArea";
 
-import RootLayout from "./components/layouts/RootLayout";
-import ResponsiveGameLayout from "./components/layouts/ResponsiveGameLayout";
+import RootLayout from "@/components/layout/RootLayout";
+import ResponsiveGameLayout from "@/components/layout/ResponsiveGameLayout";
 
 import useTheme from "@/hooks/useTheme";
 
-import TopBar from "./components/topbar/TopBar";
-import useFermiReducer from "./hooks/useFermiReducer";
-import GameButtonArea from "./components/GameButtonArea";
-import PhantomFactorDisplay from "./components/factor/PhantomFactorDisplay";
+import TopBar from "@/components/misc/TopBar";
+import useFermiReducer from "@/hooks/useFermiReducer";
+import GameButtonArea from "@/components/features/results/GameButtonArea";
+import PhantomFactorDisplay from "@/components/display/PhantomFactorDisplay";
 
 function App() {
   const hook = useFermiReducer();

@@ -3,8 +3,8 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+} from "@/components/display/ui/dialog";
+import { Button } from "@/components/display/ui/button";
 import { Share } from "lucide-react";
 import { Hook } from "@/types";
 import { useState } from "react";
@@ -15,9 +15,9 @@ import {
 } from "@/helpers/formatResults";
 import { isSameUnits } from "@/helpers/unitManagement";
 import { formatNumberWithCommas } from "@/helpers/string-formatting";
-import MultiplicationSign from "./MultiplicationSign";
+import MultiplicationSign from "@/components/display/ui/MultiplicationSign";
 import { getUnitStrings } from "@/helpers/string-formatting";
-import FactorDisplay from "./factor/FactorDisplay";
+import FactorDisplay from "@/components/display/FactorDisplay";
 
 interface ResultsDialogProps {
   open: boolean;

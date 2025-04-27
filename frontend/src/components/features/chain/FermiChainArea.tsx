@@ -1,5 +1,5 @@
 import { EditorState, Factor, Hook } from "@/types";
-import FactorLayout from "@/components/factor/FactorLayout";
+import FactorLayout from "@/components/features/chain/FactorLayout";
 
 interface FermiChainAreaProps {
   hook: Hook;

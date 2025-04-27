@@ -1,6 +1,6 @@
 import { Hook } from "@/types";
-import SciNotationDisplay from "@/components/SciNotationDisplay";
-import InlineUnit from "@/components/factor/InlineUnit";
+import SciNotationDisplay from "@/components/display/SciNotationDisplay";
+import InlineUnit from "@/components/display/InlineUnit";
 
 import { isSameUnits, splitUnitInventory } from "@/helpers/unitManagement";
 import { formatNumberWithCommas } from "@/helpers/string-formatting";

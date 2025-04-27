@@ -3,8 +3,8 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+} from "@/components/display/ui/dialog";
+import { Button } from "@/components/display/ui/button";
 import {
   clearTutorialStorage,
   forceTutorialRerender,

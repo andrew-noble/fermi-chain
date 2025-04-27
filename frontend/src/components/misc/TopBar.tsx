@@ -1,7 +1,7 @@
 // import ThemeToggle from "@/components/topbar/ThemeToggle";
-import AboutDialog from "@/components/topbar/AboutDialog";
-import TutorialDialog from "@/components/topbar/TutorialDialog";
-import { Button } from "@/components/ui/button";
+import AboutDialog from "@/components/misc/AboutDialog";
+import TutorialDialog from "@/components/misc/TutorialDialog";
+import { Button } from "@/components/display/ui/button";
 import { useState } from "react";
 
 export default function TopBar() {

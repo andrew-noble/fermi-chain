@@ -1,4 +1,3 @@
-// components/layouts/MainLayout.tsx
 export default function MainLayout({
   topbar,
   hero,

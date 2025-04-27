@@ -1,6 +1,6 @@
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { TutorialOverlay } from "./TutorialOverlay";
+import { Card } from "@/components/display/ui/card";
+import { Button } from "@/components/display/ui/button";
+import { TutorialOverlay } from "@/components/misc/TutorialOverlay";
 import { UNITS } from "@/data/units";
 
 interface UnitSelectorProps {

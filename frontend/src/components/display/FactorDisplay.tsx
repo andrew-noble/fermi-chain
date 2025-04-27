@@ -1,8 +1,8 @@
 import { BaseFactor } from "@/types";
 import { splitUnitInventory } from "@/helpers/unitManagement";
-import SciNotationDisplay from "@/components/SciNotationDisplay";
-import InlineUnit from "@/components/factor/InlineUnit";
-import MultiplicationSign from "../MultiplicationSign";
+import SciNotationDisplay from "@/components/display/SciNotationDisplay";
+import InlineUnit from "@/components/display/InlineUnit";
+import MultiplicationSign from "@/components/display/ui/MultiplicationSign";
 
 interface FactorDisplayProps {
   factor: BaseFactor;

@@ -1,4 +1,4 @@
-import UnitSelector from "@/components/UnitSelector";
+import UnitSelector from "@/components/display/UnitSelector";
 
 interface UnitSelectionAreaProps {
   unitIds: string[];

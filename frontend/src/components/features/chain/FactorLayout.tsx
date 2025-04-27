@@ -1,12 +1,12 @@
-import FactorButtonGroup from "@/components/factor/FactorButtonGroup";
+import FactorButtonGroup from "@/components/display/FactorButtonGroup";
 import { EditorState } from "@/types";
 import { Factor } from "@/types";
-import InlineMantissa from "@/components/factor/InlineMantissa";
-import InlineOom from "@/components/factor/InlineOom";
-import InlineUnit from "@/components/factor/InlineUnit";
+import InlineMantissa from "@/components/display/InlineMantissa";
+import InlineOom from "@/components/display/InlineOom";
+import InlineUnit from "@/components/display/InlineUnit";
 import { splitUnitInventory } from "@/helpers/unitManagement";
-import FactorDisplay from "./FactorDisplay";
-import MultiplicationSign from "../MultiplicationSign";
+import FactorDisplay from "@/components/display/FactorDisplay";
+import MultiplicationSign from "@/components/display/ui/MultiplicationSign";
 import { useState } from "react";
 
 interface FactorLayoutProps {

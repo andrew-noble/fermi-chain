@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/display/ui/input";
 import { Pencil } from "lucide-react";
-import MultiplicationSign from "@/components/MultiplicationSign";
-import { TutorialOverlay } from "../TutorialOverlay";
+import MultiplicationSign from "@/components/display/ui/MultiplicationSign";
+import { TutorialOverlay } from "@/components/misc/TutorialOverlay";
 
 interface InlineMantissaProps {
   mantissa: number;

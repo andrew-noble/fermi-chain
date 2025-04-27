@@ -1,6 +1,6 @@
 import { ooms, getOomById } from "@/data/ooms";
-import { Button } from "@/components/ui/button";
-import { TutorialOverlay } from "../TutorialOverlay";
+import { Button } from "@/components/display/ui/button";
+import { TutorialOverlay } from "@/components/misc/TutorialOverlay";
 
 interface InlineOomProps {
   oomId: string;
