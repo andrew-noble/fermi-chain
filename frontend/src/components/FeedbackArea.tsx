@@ -16,6 +16,8 @@ export default function FeedbackArea({ hook }: FeedbackAreaProps) {
   const isCorrectUnits = isSameUnits(liveUnits, question.targetUnit);
   const unitStyle = isCorrectUnits ? "text-green-500" : "text-amber-500";
   const [numerators, denominators] = splitUnitInventory(liveUnits);
+  const textStyles =
+    "text-base sm:text-lg md:text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl";
 
   return (
     <>
@@ -23,17 +25,19 @@ export default function FeedbackArea({ hook }: FeedbackAreaProps) {
         <span className="text-primary font-semibold">
           {formatNumberWithCommas(liveValue.fullValue)}
         </span>
-        <span className="text-gray-500 text-sm">
+        <span className={`text-gray-500 ${textStyles}`}>
           <SciNotationDisplay value={liveValue} showParentheses />
         </span>
       </div>
 
-      <div className={`flex gap-1 whitespace-nowrap font-bold ${unitStyle}`}>
-        <InlineUnit unit={numerators} />
+      <div
+        className={`flex gap-1 whitespace-nowrap font-bold ${unitStyle} ${textStyles}`}
+      >
+        <InlineUnit unit={numerators} className={textStyles} />
         {Object.keys(denominators).length > 0 && (
           <>
             <span className="text-gray-400">/</span>
-            <InlineUnit unit={denominators} />
+            <InlineUnit unit={denominators} className={textStyles} />
           </>
         )}
       </div>

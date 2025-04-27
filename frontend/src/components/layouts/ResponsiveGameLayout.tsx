@@ -49,7 +49,7 @@ export default function ResponsiveGameLayout({
           {showFermiChain && (
             <div className="border-b border-gray-800 p-2">
               <h2 className="font-semibold mb-2">Fermi Chain</h2>
-              <div className="overflow-x-auto snap-x snap-mandatory flex gap-2 p-2">
+              <div className="overflow-x-auto snap-x snap-mandatory flex gap-4 p-2">
                 {fermiChain}
               </div>
             </div>
@@ -71,7 +71,7 @@ export default function ResponsiveGameLayout({
               <h2 className="text-base md:text-lg font-semibold mb-2">
                 Fermi Chain
               </h2>
-              <div className="flex flex-wrap gap-2">{fermiChain}</div>
+              <div className="flex flex-wrap gap-10">{fermiChain}</div>
             </div>
           )}
 

@@ -40,7 +40,8 @@ export default function FactorLayout({
     data.denominatorValue.fullValue !== 1 ||
     data.numeratorValue.fullValue !== 1; //ensure user has entered something
 
-  const textStyles = "text-lg md:text-xl lg:text-2xl";
+  const textStyles =
+    "text-base sm:text-lg md:text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl";
 
   return isInput ? (
     <div className="flex">

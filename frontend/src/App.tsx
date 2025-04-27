@@ -20,7 +20,7 @@ function App() {
     <RootLayout
       topbar={<TopBar />}
       hero={
-        <p className="text-2xl md:text-3xl lg:text-4xl text-primary font-bold">
+        <p className="text-xl sm:text-2xl lg:text-3xl text-primary font-bold">
           {hook.state.question.prompt}
         </p>
       }

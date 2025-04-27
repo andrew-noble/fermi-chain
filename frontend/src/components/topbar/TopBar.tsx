@@ -9,16 +9,28 @@ export default function TopBar() {
   const [tutorialDialogOpen, setTutorialDialogOpen] = useState(false);
   return (
     <div className="flex justify-between items-center max-w-6xl mx-auto p-1">
-      <div className="font-bold text-lg">Fermi Chain</div>
-      <div className="flex gap-4 items-center">
+      <div className="font-bold text-base sm:text-lg">Fermi Chain</div>
+      <div className="flex gap-2 sm:gap-4 items-center">
         {/* <ThemeToggle onToggleTheme={onToggleTheme} /> */}
         <AboutDialog open={aboutDialogOpen} onOpenChange={setAboutDialogOpen} />
-        <Button onClick={() => setAboutDialogOpen(true)}>About</Button>
+        <Button
+          size="sm"
+          className="text-xs sm:text-sm"
+          onClick={() => setAboutDialogOpen(true)}
+        >
+          About
+        </Button>
         <TutorialDialog
           open={tutorialDialogOpen}
           onOpenChange={setTutorialDialogOpen}
         />
-        <Button onClick={() => setTutorialDialogOpen(true)}>Tutorial</Button>
+        <Button
+          size="sm"
+          className="text-xs sm:text-sm"
+          onClick={() => setTutorialDialogOpen(true)}
+        >
+          Tutorial
+        </Button>
       </div>
     </div>
   );
