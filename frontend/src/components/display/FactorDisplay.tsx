@@ -1,7 +1,7 @@
 import { BaseFactor } from "@/types";
 import { splitUnitInventory } from "@/helpers/unitManagement";
 import SciNotationDisplay from "@/components/display/SciNotationDisplay";
-import InlineUnit from "@/components/display/InlineUnit";
+import SingleUnitDisplay from "@/components/display/SingleUnitDisplay";
 import MultiplicationSign from "@/components/display/ui/MultiplicationSign";
 
 interface FactorDisplayProps {
@@ -29,7 +29,7 @@ export default function FactorDisplay({
             value={factor.numeratorValue}
             className={className}
           />
-          <InlineUnit
+          <SingleUnitDisplay
             unit={numerators}
             className={className}
             isPlural={numIsPlural}
@@ -43,7 +43,7 @@ export default function FactorDisplay({
                 value={factor.denominatorValue}
                 className={className}
               />
-              <InlineUnit
+              <SingleUnitDisplay
                 unit={denominators}
                 className={className}
                 isPlural={denIsPlural}

@@ -1,9 +1,8 @@
 import { Hook } from "@/types";
 import SciNotationDisplay from "@/components/display/SciNotationDisplay";
-import InlineUnit from "@/components/display/InlineUnit";
-
-import { isSameUnits, splitUnitInventory } from "@/helpers/unitManagement";
+import { isSameUnits } from "@/helpers/unitManagement";
 import { formatNumberWithCommas } from "@/helpers/string-formatting";
+import FullUnitDisplay from "@/components/display/FullUnitDisplay";
 
 interface FeedbackAreaProps {
   hook: Hook;
@@ -15,12 +14,12 @@ export default function FeedbackArea({ hook }: FeedbackAreaProps) {
 
   const isCorrectUnits = isSameUnits(liveUnits, question.targetUnit);
   const unitStyle = isCorrectUnits ? "text-green-500" : "text-amber-500";
-  const [numerators, denominators] = splitUnitInventory(liveUnits);
   const textStyles =
     "text-base sm:text-lg md:text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl";
 
   const numIsPlural = liveValue.fullValue !== 1;
   const denIsPlural = liveValue.fullValue !== 1;
+
   return (
     <>
       <div className="flex items-center gap-2">
@@ -32,25 +31,12 @@ export default function FeedbackArea({ hook }: FeedbackAreaProps) {
         </span>
       </div>
 
-      <div
-        className={`flex gap-1 whitespace-nowrap font-bold ${unitStyle} ${textStyles}`}
-      >
-        <InlineUnit
-          unit={numerators}
-          className={textStyles}
-          isPlural={numIsPlural}
-        />
-        {Object.keys(denominators).length > 0 && (
-          <>
-            <span className="text-gray-400">/</span>
-            <InlineUnit
-              unit={denominators}
-              className={textStyles}
-              isPlural={denIsPlural}
-            />
-          </>
-        )}
-      </div>
+      <FullUnitDisplay
+        unit={liveUnits}
+        className={`${unitStyle} ${textStyles}`}
+        numIsPlural={numIsPlural}
+        denIsPlural={denIsPlural}
+      />
     </>
   );
 }

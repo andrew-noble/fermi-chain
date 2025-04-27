@@ -2,17 +2,13 @@ import { ooms, getOomById } from "@/data/ooms";
 import { Button } from "@/components/display/ui/button";
 import { TutorialOverlay } from "@/components/misc/TutorialOverlay";
 
-interface InlineOomProps {
+interface OomProps {
   oomId: string;
   className?: string;
   onUpdateOom: (oomId: string) => void;
 }
 
-export default function InlineOom({
-  oomId,
-  className,
-  onUpdateOom,
-}: InlineOomProps) {
+export default function Oom({ oomId, className, onUpdateOom }: OomProps) {
   const getDisplayVersion = (oomId: string) => {
     const oom = getOomById(oomId);
     if (oom.exponent === 0) {

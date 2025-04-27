@@ -1,47 +1,31 @@
 import { UnitInventory } from "@/types";
 import { superscriptMap } from "./superscript";
 import { UNITS } from "@/data/units";
+import { splitUnitInventory } from "@/helpers/unitManagement";
 
-export interface UnitString {
-  name: string;
-  exponent: number;
-}
+export const getInlineUnitString = (inv: UnitInventory): string => {
+  const [numerators, denominators] = splitUnitInventory(inv);
 
-export interface UnitStrings {
-  numerators: UnitString[];
-  denominators: UnitString[];
-  inline: string;
-}
-
-export const getUnitStrings = (inv: UnitInventory): UnitStrings => {
-  const allUnits = Object.entries(inv)
-    .filter(([_, unitData]) => unitData?.power !== 0)
-    .map(([unitId, unitData]) => {
-      const exponent = unitData?.power ?? 0;
-      // Don't show exponent 1 in display
-      const displayExponent = Math.abs(exponent) === 1 ? 0 : Math.abs(exponent);
-      return {
-        name: UNITS[unitId].displayName,
-        exponent: exponent > 0 ? displayExponent : -displayExponent,
-      };
-    });
-
-  const formatUnit = (unit: UnitString) => {
-    return `${unit.name}${superscriptMap[Math.abs(unit.exponent)]}`;
+  //gets unit data from lookup table, puts it into a string
+  const formatUnit = (unitId: string, power: number): string => {
+    const unit = UNITS[unitId];
+    if (!unit) {
+      console.error(`Unit not found for ID: ${unitId}`);
+      return unitId;
+    }
+    const name = unit.symbol ? unit.symbol : unit.displayNamePlural;
+    return `${name}${superscriptMap[Math.abs(power)]}`;
   };
 
-  const numerators = allUnits.filter((unit) => unit.exponent > 0);
-  const denominators = allUnits.filter((unit) => unit.exponent < 0);
-  const inline =
-    denominators.length > 0
-      ? `${numerators.map(formatUnit).join("·")}/${denominators
-          .map(formatUnit)
-          .join("·")}`
-      : numerators.map(formatUnit).join("·");
+  //do for num.denom
+  const numeratorStrings = Object.entries(numerators).map(([id, data]) =>
+    formatUnit(id, data?.power ?? 0)
+  );
+  const denominatorStrings = Object.entries(denominators).map(([id, data]) =>
+    formatUnit(id, data?.power ?? 0)
+  );
 
-  return {
-    numerators,
-    denominators,
-    inline,
-  };
+  return denominatorStrings.length > 0
+    ? `${numeratorStrings.join("·")}/${denominatorStrings.join("·")}`
+    : numeratorStrings.join("·");
 };

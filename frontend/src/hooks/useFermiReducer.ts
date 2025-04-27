@@ -53,8 +53,7 @@ const isEditorActive = (mode: State["mode"]) =>
 
 // Reducer function
 const fermiReducer = (state: State, action: Action): State => {
-  console.log("Fermi Action:", action.type, action);
-  console.log("Fermi State:", state);
+  // console.log("Fermi Action:", action.type, action);
 
   switch (action.type) {
     case "CREATE_FACTOR": {

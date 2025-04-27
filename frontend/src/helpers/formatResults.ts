@@ -1,7 +1,7 @@
 import { Hook } from "@/types";
 import {
   formatNumberWithCommas,
-  getUnitStrings,
+  getInlineUnitString,
 } from "@/helpers/string-formatting";
 import { isSameUnits } from "@/helpers/unitManagement";
 
@@ -31,7 +31,7 @@ export const unitsFeedback = (unitsMatch: boolean) => {
 
 export const getUserFermiChainString = (hook: Hook) => {
   const string = hook.state.factors.map((factor) => {
-    const { inline } = getUnitStrings(factor.unit);
+    const inline = getInlineUnitString(factor.unit);
     const v = formatNumberWithCommas(factor.numeratorValue.fullValue);
     return `(${v} ${inline})`;
   });
@@ -49,13 +49,13 @@ export const getSharableResultsString = (hook: Hook) => {
 
   Your Fermi Chain: ${userChainString}
 
-  Result: ${formatNumberWithCommas(liveValue.fullValue)} ${getUnitStrings(
+  Result: ${formatNumberWithCommas(liveValue.fullValue)} ${getInlineUnitString(
     liveUnits
   )}
 
-  Actual: ${formatNumberWithCommas(targetValue.fullValue)} ${getUnitStrings(
-    targetUnit
-  )}
+  Actual: ${formatNumberWithCommas(
+    targetValue.fullValue
+  )} ${getInlineUnitString(targetUnit)}
 
   ${oomFeedback(liveOomDelta).text}
   ${unitsFeedback(isSameUnits(liveUnits, targetUnit)).text}

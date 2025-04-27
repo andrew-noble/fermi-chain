@@ -1,9 +1,8 @@
 import FactorButtonGroup from "@/components/display/FactorButtonGroup";
-import { EditorState } from "@/types";
-import { Factor } from "@/types";
-import InlineMantissa from "@/components/display/InlineMantissa";
-import InlineOom from "@/components/display/InlineOom";
-import InlineUnit from "@/components/display/InlineUnit";
+import { EditorState, Factor } from "@/types";
+import Mantissa from "@/components/display/Mantissa";
+import Oom from "@/components/display/Oom";
+import SingleUnitDisplay from "@/components/display/SingleUnitDisplay";
 import { splitUnitInventory } from "@/helpers/unitManagement";
 import FactorDisplay from "@/components/display/FactorDisplay";
 import MultiplicationSign from "@/components/display/ui/MultiplicationSign";
@@ -68,21 +67,21 @@ export default function FactorLayout({
       <div className="grid grid-cols-[minmax(2rem, auto)_minmax(2rem, auto)_minmax(2rem, auto)] ring-2 ring-primary/40 p-2 rounded-md">
         {/* Numerator Row */}
         <div className="col-start-1 flex items-center justify-center">
-          <InlineMantissa
+          <Mantissa
             mantissa={data.numeratorValue.mantissa}
             onUpdateMantissa={updateNumeratorMantissa}
             className={textStyles}
           />
         </div>
         <div className="col-start-2 flex items-center justify-center">
-          <InlineOom
+          <Oom
             oomId={data.numeratorValue.oomId}
             onUpdateOom={updateNumeratorOom}
             className={textStyles}
           />
         </div>
         <div className="col-start-3 flex items-center justify-center">
-          <InlineUnit
+          <SingleUnitDisplay
             unit={numerators}
             className={textStyles}
             isPlural={numIsPlural}
@@ -94,21 +93,21 @@ export default function FactorLayout({
 
         {/* Denominator Row */}
         <div className="col-start-1 flex items-center justify-center">
-          <InlineMantissa
+          <Mantissa
             mantissa={data.denominatorValue.mantissa}
             onUpdateMantissa={updateDenominatorMantissa}
             className={textStyles}
           />
         </div>
         <div className="col-start-2 flex items-center justify-center">
-          <InlineOom
+          <Oom
             oomId={data.denominatorValue.oomId}
             onUpdateOom={updateDenominatorOom}
             className={textStyles}
           />
         </div>
         <div className="col-start-3 flex items-center justify-center">
-          <InlineUnit
+          <SingleUnitDisplay
             unit={denominators}
             className={textStyles}
             isPlural={denIsPlural}

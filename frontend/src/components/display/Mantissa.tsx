@@ -4,18 +4,18 @@ import { Pencil } from "lucide-react";
 import MultiplicationSign from "@/components/display/ui/MultiplicationSign";
 import { TutorialOverlay } from "@/components/misc/TutorialOverlay";
 
-interface InlineMantissaProps {
+interface MantissaProps {
   mantissa: number;
   className?: string;
   onUpdateMantissa: (newMantissa: number) => void;
   onUpdateOom?: (newOomId: string) => void; // Optional callback for OOM updates
 }
 
-export default function InlineMantissa({
+export default function Mantissa({
   mantissa,
   className,
   onUpdateMantissa,
-}: InlineMantissaProps) {
+}: MantissaProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(mantissa.toString());
   const formRef = useRef<HTMLInputElement>(null);

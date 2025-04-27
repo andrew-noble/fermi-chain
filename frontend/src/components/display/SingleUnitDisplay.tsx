@@ -1,18 +1,18 @@
 import { UnitInventory } from "@/types";
 import { UNITS } from "@/data/units";
 
-interface InlineUnitProps {
+interface SingleUnitDisplayProps {
   unit: UnitInventory;
   className?: string;
   isPlural: boolean;
 }
 
 //this component renders a single level of units (numerator or denominator), separated by dots
-export default function InlineUnit({
+export default function SingleUnitDisplay({
   unit,
   className,
   isPlural,
-}: InlineUnitProps) {
+}: SingleUnitDisplayProps) {
   const unitEntries = Object.entries(unit);
   if (unitEntries.length === 0) return null;
 

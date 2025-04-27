@@ -16,8 +16,8 @@ import {
 import { isSameUnits } from "@/helpers/unitManagement";
 import { formatNumberWithCommas } from "@/helpers/string-formatting";
 import MultiplicationSign from "@/components/display/ui/MultiplicationSign";
-import { getUnitStrings } from "@/helpers/string-formatting";
 import FactorDisplay from "@/components/display/FactorDisplay";
+import FullUnitDisplay from "@/components/display/FullUnitDisplay";
 
 interface ResultsDialogProps {
   open: boolean;
@@ -74,14 +74,15 @@ export default function ResultsDialog({
             </div>
           </div>
 
-          <div className="space-y-2">
-            <span>= </span>
-            <span className={`${playerTextStyles} ${oomFb.color}`}>
+          <div className="space-y-2 flex items-center justify-left gap-2">
+            <p className="mb-0">= </p>
+            <p className={`${playerTextStyles} ${oomFb.color} mb-0`}>
               {formatNumberWithCommas(liveValue.fullValue)}{" "}
-            </span>
-            <span className={`${playerTextStyles} ${unitsFb.color}`}>
-              {getUnitStrings(liveUnits).inline}
-            </span>
+            </p>
+            <FullUnitDisplay
+              unit={liveUnits}
+              className={`${playerTextStyles} ${unitsFb.color}`}
+            />
           </div>
 
           <hr className="border-gray-200 dark:border-gray-700" />
@@ -91,24 +92,33 @@ export default function ResultsDialog({
             <h3 className="text-xl font-semibold">Our Fermi Chain:</h3>
             <div className="flex flex-wrap gap-2">
               {hook.state.question.targetChain.map((factor, index) => (
-                <div key={factor.label} className="flex items-center gap-2">
-                  <FactorDisplay factor={factor} className={targetTextStyles} />
-                  {index !== hook.state.question.targetChain.length - 1 && (
-                    <MultiplicationSign className={targetTextStyles} />
-                  )}
+                <div
+                  key={factor.label}
+                  className="flex flex-col items-center gap-1 max-w-[180px]"
+                >
+                  <div className="flex items-center gap-2">
+                    <FactorDisplay
+                      factor={factor}
+                      className={targetTextStyles}
+                    />
+                    {index !== hook.state.question.targetChain.length - 1 && (
+                      <MultiplicationSign className={targetTextStyles} />
+                    )}
+                  </div>
+                  <p className="text-sm text-gray-500 text-center break-words whitespace-normal w-full">
+                    {factor.label}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="space-y-2">
-            <span>= </span>
-            <span className={`${targetTextStyles}`}>
+          <div className="space-y-2 flex items-center justify-left gap-2">
+            <p className="mb-0">= </p>
+            <p className={`${targetTextStyles} mb-0`}>
               {formatNumberWithCommas(targetValue.fullValue)}{" "}
-            </span>
-            <span className={`${targetTextStyles}`}>
-              {getUnitStrings(targetUnit).inline}
-            </span>
+            </p>
+            <FullUnitDisplay unit={targetUnit} className={targetTextStyles} />
           </div>
 
           <Button
