@@ -4,10 +4,15 @@ import { UNITS } from "@/data/units";
 interface InlineUnitProps {
   unit: UnitInventory;
   className?: string;
+  isPlural: boolean;
 }
 
 //this component renders a single level of units (numerator or denominator), separated by dots
-export default function InlineUnit({ unit, className }: InlineUnitProps) {
+export default function InlineUnit({
+  unit,
+  className,
+  isPlural,
+}: InlineUnitProps) {
   const unitEntries = Object.entries(unit);
   if (unitEntries.length === 0) return null;
 
@@ -15,6 +20,12 @@ export default function InlineUnit({ unit, className }: InlineUnitProps) {
     <>
       {unitEntries.map(([unitId, unitData], index) => {
         const unitInfo = UNITS[unitId];
+        //if we have symbol, use that, if not, adjust to plurality
+        const displayUnit = unitInfo.symbol
+          ? unitInfo.symbol
+          : isPlural
+          ? unitInfo.displayNamePlural
+          : unitInfo.displayName;
         if (!unitInfo) return null;
 
         return (
@@ -22,7 +33,7 @@ export default function InlineUnit({ unit, className }: InlineUnitProps) {
             <span
               className={`text-gray-400 dark:text-gray-500 text-sm italic font-normal ${className}`}
             >
-              {unitInfo.symbol || unitInfo.displayName}
+              {displayUnit}
               {unitData?.power && unitData.power > 1 && (
                 <sup className="ml-0.5">{unitData.power}</sup>
               )}

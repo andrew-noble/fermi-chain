@@ -8,12 +8,16 @@ interface FactorDisplayProps {
   factor: BaseFactor;
   className?: string;
   showMultiplicationSign?: boolean;
+  numIsPlural?: boolean;
+  denIsPlural?: boolean;
 }
 
 export default function FactorDisplay({
   factor,
   className = "text-xl",
   showMultiplicationSign = false,
+  numIsPlural = true,
+  denIsPlural = true,
 }: FactorDisplayProps) {
   const [numerators, denominators] = splitUnitInventory(factor.unit);
 
@@ -25,7 +29,11 @@ export default function FactorDisplay({
             value={factor.numeratorValue}
             className={className}
           />
-          <InlineUnit unit={numerators} className={className} />
+          <InlineUnit
+            unit={numerators}
+            className={className}
+            isPlural={numIsPlural}
+          />
         </div>
         {Object.keys(denominators).length > 0 && (
           <>
@@ -35,7 +43,11 @@ export default function FactorDisplay({
                 value={factor.denominatorValue}
                 className={className}
               />
-              <InlineUnit unit={denominators} className={className} />
+              <InlineUnit
+                unit={denominators}
+                className={className}
+                isPlural={denIsPlural}
+              />
             </div>
           </>
         )}

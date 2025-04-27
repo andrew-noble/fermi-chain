@@ -56,6 +56,9 @@ export default function FactorLayout({
   const textStyles =
     "text-base sm:text-lg md:text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl";
 
+  const denIsPlural = data.denominatorValue.fullValue !== 1;
+  const numIsPlural = data.numeratorValue.fullValue !== 1;
+
   return isInput ? (
     <div
       className={`flex transition-all duration-200 rounded-md ${
@@ -79,7 +82,11 @@ export default function FactorLayout({
           />
         </div>
         <div className="col-start-3 flex items-center justify-center">
-          <InlineUnit unit={numerators} className={textStyles} />
+          <InlineUnit
+            unit={numerators}
+            className={textStyles}
+            isPlural={numIsPlural}
+          />
         </div>
 
         {/* Divider Row */}
@@ -101,7 +108,11 @@ export default function FactorLayout({
           />
         </div>
         <div className="col-start-3 flex items-center justify-center">
-          <InlineUnit unit={denominators} className={textStyles} />
+          <InlineUnit
+            unit={denominators}
+            className={textStyles}
+            isPlural={denIsPlural}
+          />
         </div>
 
         {/* Button Row */}
@@ -124,6 +135,8 @@ export default function FactorLayout({
         factor={data}
         showMultiplicationSign
         className={textStyles}
+        numIsPlural={numIsPlural}
+        denIsPlural={denIsPlural}
       />
       <FactorButtonGroup
         isInput={isInput}

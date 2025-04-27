@@ -17,14 +17,12 @@ export const UNITS: Record<string, Unit> = {
   },
   "golf-ball": {
     id: "golf-ball",
-    symbol: "golf ball",
     displayName: "golf ball",
     displayNamePlural: "golf balls",
     dimension: "quantity",
   },
   "heart-beat": {
     id: "heart-beat",
-    symbol: "beat",
     displayName: "heart beat",
     displayNamePlural: "heart beats",
     dimension: "quantity",

@@ -19,6 +19,8 @@ export default function FeedbackArea({ hook }: FeedbackAreaProps) {
   const textStyles =
     "text-base sm:text-lg md:text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl";
 
+  const numIsPlural = liveValue.fullValue !== 1;
+  const denIsPlural = liveValue.fullValue !== 1;
   return (
     <>
       <div className="flex items-center gap-2">
@@ -33,11 +35,19 @@ export default function FeedbackArea({ hook }: FeedbackAreaProps) {
       <div
         className={`flex gap-1 whitespace-nowrap font-bold ${unitStyle} ${textStyles}`}
       >
-        <InlineUnit unit={numerators} className={textStyles} />
+        <InlineUnit
+          unit={numerators}
+          className={textStyles}
+          isPlural={numIsPlural}
+        />
         {Object.keys(denominators).length > 0 && (
           <>
             <span className="text-gray-400">/</span>
-            <InlineUnit unit={denominators} className={textStyles} />
+            <InlineUnit
+              unit={denominators}
+              className={textStyles}
+              isPlural={denIsPlural}
+            />
           </>
         )}
       </div>

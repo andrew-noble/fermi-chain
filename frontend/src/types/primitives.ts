@@ -5,8 +5,8 @@
 
 export interface Unit {
   id: string; // non-display string "liter"
-  symbol: string; // display string "L"
-  displayName: string; //often same as id "liter" or "golf ball"
+  symbol?: string; // this is the preffered display in-chain. "km", "kWh". Weird stuff like heart beats won't have it
+  displayName: string; //often same as id "liter" or "golf ball". If no symbol, we do a plurality check and display this or the below one
   displayNamePlural: string;
   dimension: string;
 }
