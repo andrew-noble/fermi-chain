@@ -11,11 +11,13 @@ interface FullUnitDisplayProps {
 
 export default function FullUnitDisplay({
   unit,
-  className = "text-xl",
+  className = "",
   numIsPlural = true,
   denIsPlural = true,
 }: FullUnitDisplayProps) {
   const [numerators, denominators] = splitUnitInventory(unit);
+
+  const BASE_UNIT_STYLES = "text-sm italic font-normal text-gray-500";
 
   return (
     <div className={`flex gap-1 whitespace-nowrap font-bold ${className}`}>
@@ -26,7 +28,7 @@ export default function FullUnitDisplay({
       />
       {Object.keys(denominators).length > 0 && (
         <>
-          <span className="text-gray-400">/</span>
+          <span className={`${BASE_UNIT_STYLES} ${className}`}>/</span>
           <SingleUnitDisplay
             unit={denominators}
             className={className}

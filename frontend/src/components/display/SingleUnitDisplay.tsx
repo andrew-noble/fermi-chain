@@ -16,6 +16,8 @@ export default function SingleUnitDisplay({
   const unitEntries = Object.entries(unit);
   if (unitEntries.length === 0) return null;
 
+  const BASE_UNIT_STYLES = "text-sm italic font-normal text-gray-500";
+
   return (
     <>
       {unitEntries.map(([unitId, unitData], index) => {
@@ -30,9 +32,7 @@ export default function SingleUnitDisplay({
 
         return (
           <span key={unitId}>
-            <span
-              className={`text-gray-400 dark:text-gray-500 text-sm italic font-normal ${className}`}
-            >
+            <span className={`${className} ${BASE_UNIT_STYLES}`}>
               {displayUnit}
               {unitData?.power && unitData.power > 1 && (
                 <sup className="ml-0.5">{unitData.power}</sup>
