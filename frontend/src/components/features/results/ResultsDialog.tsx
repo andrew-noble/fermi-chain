@@ -39,8 +39,7 @@ export default function ResultsDialog({
   const unitsFb = unitsFeedback(isSameUnits(liveUnits, targetUnit));
   const oomFb = oomFeedback(liveOomDelta);
 
-  const playerTextStyles = "text-xl";
-  const targetTextStyles = "text-lg";
+  const textStyles = "text-xl";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -49,60 +48,57 @@ export default function ResultsDialog({
           <DialogTitle>Results</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6">
+        <div className="space-y-4">
           <div className="space-y-2 text-center">
-            <p className={`${playerTextStyles} font-semibold ${oomFb.color}`}>
+            <p className={`${textStyles} font-semibold ${oomFb.color}`}>
               {oomFb.text}
             </p>
-            <p className={`${playerTextStyles} font-semibold ${unitsFb.color}`}>
+            <p className={`${textStyles} font-semibold ${unitsFb.color}`}>
               {unitsFb.text}
             </p>
           </div>
 
           {/* Player chain */}
-          <div className="space-y-2">
+          <div className="space-y-1">
             <h3 className="text-xl font-semibold">Your Fermi Chain:</h3>
             <div className="flex flex-wrap gap-2">
               {hook.state.factors.map((factor, index) => (
                 <div key={factor.id} className="flex items-center gap-2">
-                  <FactorDisplay factor={factor} className={playerTextStyles} />
+                  <FactorDisplay factor={factor} className={textStyles} />
                   {index !== hook.state.factors.length - 1 && (
-                    <MultiplicationSign className={playerTextStyles} />
+                    <MultiplicationSign className={textStyles} />
                   )}
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="space-y-2 flex items-center justify-left gap-2">
+          <div className="space-y-1 flex items-center justify-left gap-2">
             <p className="mb-0">= </p>
-            <p className={`${playerTextStyles} ${oomFb.color} mb-0`}>
+            <p className={`${textStyles} ${oomFb.color} mb-0`}>
               {formatNumberWithCommas(liveValue.fullValue)}{" "}
             </p>
             <FullUnitDisplay
               unit={liveUnits}
-              className={`${playerTextStyles} ${unitsFb.color}`}
+              className={`${textStyles} ${unitsFb.color}`}
             />
           </div>
 
           <hr className="border-gray-200 dark:border-gray-700" />
 
           {/* Target chain */}
-          <div className="space-y-2">
+          <div className="space-y-1">
             <h3 className="text-xl font-semibold">Our Fermi Chain:</h3>
             <div className="flex flex-wrap gap-2">
               {hook.state.question.targetChain.map((factor, index) => (
                 <div
                   key={factor.label}
-                  className="flex flex-col items-center gap-1 max-w-[180px]"
+                  className="flex flex-col items-center gap-1 max-w-[200px]"
                 >
                   <div className="flex items-center gap-2">
-                    <FactorDisplay
-                      factor={factor}
-                      className={targetTextStyles}
-                    />
+                    <FactorDisplay factor={factor} className={textStyles} />
                     {index !== hook.state.question.targetChain.length - 1 && (
-                      <MultiplicationSign className={targetTextStyles} />
+                      <MultiplicationSign className={textStyles} />
                     )}
                   </div>
                   <p className="text-sm text-gray-500 text-center break-words whitespace-normal w-full">
@@ -113,12 +109,12 @@ export default function ResultsDialog({
             </div>
           </div>
 
-          <div className="space-y-2 flex items-center justify-left gap-2">
+          <div className="space-y-1 flex items-center justify-left gap-2">
             <p className="mb-0">= </p>
-            <p className={`${targetTextStyles} mb-0`}>
+            <p className={`${textStyles} mb-0`}>
               {formatNumberWithCommas(targetValue.fullValue)}{" "}
             </p>
-            <FullUnitDisplay unit={targetUnit} className={targetTextStyles} />
+            <FullUnitDisplay unit={targetUnit} className={textStyles} />
           </div>
 
           <Button

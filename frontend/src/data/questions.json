@@ -1,6 +1,143 @@
 [
   {
     "id": "0",
+    "prompt": "How much air does humanity inhale each day?",
+    "targetValue": {
+      "mantissa": 8.64,
+      "oomId": "1e13",
+      "fullValue": 8.64e13
+    },
+    "targetUnit": { "liter": { "power": 1 }, "day": { "power": -1 } },
+    "targetChain": [
+      {
+        "label": "Average tidal volume",
+        "unit": { "liter": { "power": 1 }, "breath": { "power": -1 } },
+        "numeratorValue": { "mantissa": 0.5, "oomId": "1e0", "fullValue": 0.5 },
+        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
+      },
+      {
+        "label": "Breaths per minute",
+        "unit": { "breath": { "power": 1 }, "minute": { "power": -1 } },
+        "numeratorValue": { "mantissa": 15, "oomId": "1e0", "fullValue": 15 },
+        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
+      },
+      {
+        "label": "conversion from minutes to hours",
+        "unit": { "minute": { "power": 1 }, "hour": { "power": -1 } },
+        "numeratorValue": { "mantissa": 60, "oomId": "1e0", "fullValue": 60 },
+        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
+      },
+      {
+        "label": "conversion from hours to days",
+        "unit": { "hour": { "power": 1 }, "day": { "power": -1 } },
+        "numeratorValue": { "mantissa": 24, "oomId": "1e0", "fullValue": 24 },
+        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
+      },
+      {
+        "label": "World population",
+        "unit": { "person": { "power": 1 } },
+        "numeratorValue": { "mantissa": 8, "oomId": "1e9", "fullValue": 8e9 },
+        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
+      }
+    ],
+    "UnitList": ["liter", "breath", "minute", "day", "person", "hour"]
+  },
+  {
+    "id": "1",
+    "prompt": "How many kilograms of skin does a human shed in their lifetime?",
+    "targetValue": {
+      "mantissa": 4.4,
+      "oomId": "1e1",
+      "fullValue": 44
+    },
+    "targetUnit": { "kilogram": { "power": 1 } },
+    "targetChain": [
+      {
+        "label": "Skin cells shed per day",
+        "unit": { "skin-cell": { "power": 1 }, "day": { "power": -1 } },
+        "numeratorValue": { "mantissa": 5, "oomId": "1e8", "fullValue": 5e8 },
+        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
+      },
+      {
+        "label": "Mass of one skin cell",
+        "unit": { "gram": { "power": 1 }, "skin-cell": { "power": -1 } },
+        "numeratorValue": { "mantissa": 3, "oomId": "1e-6", "fullValue": 3e-6 },
+        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
+      },
+      {
+        "label": "conversion from minutes to hours",
+        "unit": { "minute": { "power": 1 }, "hour": { "power": -1 } },
+        "numeratorValue": { "mantissa": 60, "oomId": "1e0", "fullValue": 60 },
+        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
+      },
+      {
+        "label": "conversion from hours to days",
+        "unit": { "hour": { "power": 1 }, "day": { "power": -1 } },
+        "numeratorValue": { "mantissa": 24, "oomId": "1e0", "fullValue": 24 },
+        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
+      },
+      {
+        "label": "Years in a lifetime",
+        "unit": { "year": { "power": 1 } },
+        "numeratorValue": { "mantissa": 80, "oomId": "1e0", "fullValue": 80 },
+        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
+      },
+      {
+        "label": "Grams to kilograms conversion",
+        "unit": { "kilogram": { "power": 1 }, "gram": { "power": -1 } },
+        "numeratorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 },
+        "denominatorValue": {
+          "mantissa": 1,
+          "oomId": "1e3",
+          "fullValue": 1000
+        }
+      }
+    ],
+    "UnitList": ["skin-cell", "gram", "kilogram", "day", "year"]
+  },
+  {
+    "id": "2",
+    "prompt": "How many people are flying in airplanes at this very moment?",
+    "targetValue": {
+      "mantissa": 8,
+      "oomId": "1e5",
+      "fullValue": 833333
+    },
+    "targetUnit": { "person": { "power": 1 } },
+    "targetChain": [
+      {
+        "label": "Flights per day",
+        "unit": { "flight": { "power": 1 }, "day": { "power": -1 } },
+        "numeratorValue": {
+          "mantissa": 1,
+          "oomId": "1e5",
+          "fullValue": 100000
+        },
+        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
+      },
+      {
+        "label": "Average passengers per flight",
+        "unit": { "person": { "power": 1 }, "flight": { "power": -1 } },
+        "numeratorValue": { "mantissa": 100, "oomId": "1e0", "fullValue": 100 },
+        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
+      },
+      {
+        "label": "day to hour conversion",
+        "unit": { "day": { "power": 1 }, "hour": { "power": -1 } },
+        "numeratorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 24 },
+        "denominatorValue": { "mantissa": 24, "oomId": "1e0", "fullValue": 1 }
+      },
+      {
+        "label": "Average flight duration (hours)",
+        "unit": { "hour": { "power": 1 } },
+        "numeratorValue": { "mantissa": 2, "oomId": "1e0", "fullValue": 2 },
+        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
+      }
+    ],
+    "UnitList": ["person", "flight", "day", "hour"]
+  },
+  {
+    "id": "3",
     "prompt": "How many times does a heart beat in a lifetime?",
     "targetValue": {
       "mantissa": 3.364,
@@ -47,132 +184,55 @@
     "UnitList": ["heart-beat", "minute", "hour", "day", "year"]
   },
   {
-    "id": "1",
-    "prompt": "How much air does humanity inhale each day?",
+    "id": "4",
+    "prompt": "How many hairs are cut by barbers in the US each year?",
     "targetValue": {
-      "mantissa": 8.64,
+      "mantissa": 5.44,
       "oomId": "1e13",
-      "fullValue": 8.64e13
+      "fullValue": 5.44e13
     },
-    "targetUnit": { "liter": { "power": 1 } },
+    "targetUnit": {
+      "hair": {
+        "power": 1
+      },
+      "year": {
+        "power": -1
+      }
+    },
     "targetChain": [
       {
-        "label": "Average tidal volume",
-        "unit": { "liter": { "power": 1 }, "breath": { "power": -1 } },
-        "numeratorValue": { "mantissa": 0.5, "oomId": "1e0", "fullValue": 0.5 },
-        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
-      },
-      {
-        "label": "Breaths per minute",
-        "unit": { "breath": { "power": 1 }, "minute": { "power": -1 } },
-        "numeratorValue": { "mantissa": 15, "oomId": "1e1", "fullValue": 15 },
-        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
-      },
-      {
-        "label": "Minutes per day",
-        "unit": { "minute": { "power": 1 }, "day": { "power": -1 } },
-        "numeratorValue": {
-          "mantissa": 1440,
-          "oomId": "1e3",
-          "fullValue": 1440
+        "label": "haircuts per year per person",
+        "unit": {
+          "haircut": { "power": 1 },
+          "person": { "power": -1 },
+          "year": { "power": -1 }
         },
+        "numeratorValue": { "mantissa": 8, "oomId": "1e0", "fullValue": 8 },
         "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
       },
       {
-        "label": "World population",
+        "label": "area cut per haircut (scalp area)",
+        "unit": { "centimeter": { "power": 2 }, "haircut": { "power": -1 } },
+        "numeratorValue": { "mantissa": 200, "oomId": "1e0", "fullValue": 200 },
+        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
+      },
+      {
+        "label": "hair density",
+        "unit": { "hair": { "power": 1 }, "centimeter": { "power": -2 } },
+        "numeratorValue": { "mantissa": 100, "oomId": "1e0", "fullValue": 100 },
+        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
+      },
+      {
+        "label": "U.S. population",
         "unit": { "person": { "power": 1 } },
-        "numeratorValue": { "mantissa": 8, "oomId": "1e9", "fullValue": 8e9 },
-        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
-      }
-    ],
-    "UnitList": ["liter", "breath", "minute", "day", "person"]
-  },
-  {
-    "id": "2",
-    "prompt": "How many kilograms of skin does a human shed in their lifetime?",
-    "targetValue": {
-      "mantissa": 4.4,
-      "oomId": "1e1",
-      "fullValue": 44
-    },
-    "targetUnit": { "kilogram": { "power": 1 } },
-    "targetChain": [
-      {
-        "label": "Skin cells shed per day",
-        "unit": { "skin-cell": { "power": 1 }, "day": { "power": -1 } },
-        "numeratorValue": { "mantissa": 5, "oomId": "1e8", "fullValue": 5e8 },
-        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
-      },
-      {
-        "label": "Mass of one skin cell",
-        "unit": { "gram": { "power": 1 }, "skin-cell": { "power": -1 } },
-        "numeratorValue": { "mantissa": 3, "oomId": "1e-6", "fullValue": 3e-6 },
-        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
-      },
-      {
-        "label": "Days per year",
-        "unit": { "day": { "power": 1 }, "year": { "power": -1 } },
-        "numeratorValue": { "mantissa": 365, "oomId": "1e2", "fullValue": 365 },
-        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
-      },
-      {
-        "label": "Years in a lifetime",
-        "unit": { "year": { "power": 1 } },
-        "numeratorValue": { "mantissa": 80, "oomId": "1e1", "fullValue": 80 },
-        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
-      },
-      {
-        "label": "Grams to kilograms conversion",
-        "unit": { "kilogram": { "power": 1 }, "gram": { "power": -1 } },
-        "numeratorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 },
-        "denominatorValue": {
-          "mantissa": 1000,
-          "oomId": "1e3",
-          "fullValue": 1000
-        }
-      }
-    ],
-    "UnitList": ["skin-cell", "gram", "kilogram", "day", "year"]
-  },
-  {
-    "id": "3",
-    "prompt": "How many people are flying in airplanes at this very moment?",
-    "targetValue": {
-      "mantissa": 8,
-      "oomId": "1e5",
-      "fullValue": 800000
-    },
-    "targetUnit": { "person": { "power": 1 } },
-    "targetChain": [
-      {
-        "label": "Flights per day",
-        "unit": { "flight": { "power": 1 }, "day": { "power": -1 } },
         "numeratorValue": {
-          "mantissa": 100000,
-          "oomId": "1e5",
-          "fullValue": 100000
+          "mantissa": 340,
+          "oomId": "1e8",
+          "fullValue": 340e8
         },
         "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
-      },
-      {
-        "label": "Average flight duration (hours)",
-        "unit": { "hour": { "power": 1 }, "flight": { "power": -1 } },
-        "numeratorValue": { "mantissa": 2, "oomId": "1e0", "fullValue": 2 },
-        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
-      },
-      {
-        "label": "Hours per day",
-        "unit": { "hour": { "power": 1 }, "day": { "power": -1 } },
-        "numeratorValue": { "mantissa": 24, "oomId": "1e1", "fullValue": 24 },
-        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
-      },
-      {
-        "label": "Average passengers per flight",
-        "unit": { "person": { "power": 1 }, "flight": { "power": -1 } },
-        "numeratorValue": { "mantissa": 100, "oomId": "1e2", "fullValue": 100 },
-        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
       }
     ],
-    "UnitList": ["person", "flight", "day", "hour"]
+    "UnitList": ["haircut", "person", "year", "centimeter", "hair"]
   }
 ]

@@ -22,7 +22,7 @@ import { getOomById } from "@/data/ooms";
 
 const questions = questionsData as unknown as Question[];
 
-const LAUNCH_DATE = new Date("2025-04-29");
+const LAUNCH_DATE = new Date("2025-04-25");
 const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
 
 const getQuestionIndex = () => {

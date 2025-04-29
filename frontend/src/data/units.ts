@@ -99,4 +99,23 @@ export const UNITS: Record<string, Unit> = {
     displayNamePlural: "flights",
     dimension: "quantity",
   },
+  hair: {
+    id: "hair",
+    displayName: "hair",
+    displayNamePlural: "hairs",
+    dimension: "quantity",
+  },
+  haircut: {
+    id: "haircut",
+    displayName: "haircut",
+    displayNamePlural: "haircuts",
+    dimension: "quantity",
+  },
+  centimeter: {
+    id: "centimeter",
+    symbol: "cm",
+    displayName: "centimeter",
+    displayNamePlural: "centimeters",
+    dimension: "length",
+  },
 };
