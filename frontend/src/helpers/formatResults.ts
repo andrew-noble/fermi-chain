@@ -39,7 +39,7 @@ export const getSharableResultsString = (hook: Hook) => {
       ? "I got the correct order of magnitude! 🎯"
       : `I was off by ${liveOomDelta} orders of magnitude! 🤔`;
 
-  return `Fermi Chain #${questionId}
+  return `Fermi Chain #${questionId}: ${hook.state.question.prompt}
 
   My Fermi Estimate: ${formatNumberWithCommas(
     liveValue.fullValue
