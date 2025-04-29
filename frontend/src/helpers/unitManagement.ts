@@ -47,7 +47,10 @@ export const isSameUnits = (
   inv1: UnitInventory,
   inv2: UnitInventory
 ): boolean => {
-  return JSON.stringify(inv1) === JSON.stringify(inv2);
+  //sorted in case I enter them in the wrong order or something
+  const sortKeys = (obj: Record<string, any>) =>
+    Object.fromEntries(Object.entries(obj).sort());
+  return JSON.stringify(sortKeys(inv1)) === JSON.stringify(sortKeys(inv2));
 };
 
 export const splitUnitInventory = (
