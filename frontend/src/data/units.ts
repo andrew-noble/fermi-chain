@@ -43,7 +43,6 @@ export const UNITS: Record<string, Unit> = {
   },
   day: {
     id: "day",
-    symbol: "day",
     displayName: "day",
     displayNamePlural: "days",
     dimension: "time",
@@ -64,21 +63,18 @@ export const UNITS: Record<string, Unit> = {
   },
   breath: {
     id: "breath",
-    symbol: "breath",
     displayName: "breath",
     displayNamePlural: "breaths",
     dimension: "quantity",
   },
   person: {
     id: "person",
-    symbol: "person",
     displayName: "person",
     displayNamePlural: "people",
     dimension: "quantity",
   },
   "skin-cell": {
     id: "skin-cell",
-    symbol: "cell",
     displayName: "skin cell",
     displayNamePlural: "skin cells",
     dimension: "quantity",
@@ -99,7 +95,6 @@ export const UNITS: Record<string, Unit> = {
   },
   flight: {
     id: "flight",
-    symbol: "flight",
     displayName: "flight",
     displayNamePlural: "flights",
     dimension: "quantity",
