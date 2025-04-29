@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import question from "@/data/question.json";
+import questionsData from "@/data/questions.json";
 import {
   Factor,
   Value,
@@ -8,6 +8,7 @@ import {
   Action,
   Hook,
   EditorState,
+  Question,
 } from "@/types";
 import { resolveUnits } from "@/helpers/unitManagement";
 import {
@@ -19,6 +20,18 @@ import { updateUnitCount } from "@/helpers/unitManagement";
 import { v4 as uuidv4 } from "uuid";
 import { getOomById } from "@/data/ooms";
 
+const questions = questionsData as unknown as Question[];
+
+const LAUNCH_DATE = new Date("2025-04-29");
+const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
+
+const getQuestionIndex = () => {
+  const today = new Date();
+  const diffTime = Math.abs(today.getTime() - LAUNCH_DATE.getTime());
+  const diffDays = Math.floor(diffTime / MILLISECONDS_PER_DAY);
+  return diffDays % questions.length;
+};
+
 const emptyEditorState: EditorState = {
   unit: {} as UnitInventory,
   numeratorValue: createValueFromMantissaAndOom(1, "1e0"),
@@ -27,7 +40,7 @@ const emptyEditorState: EditorState = {
 
 // Initial state
 const initialState: State = {
-  question,
+  question: questions[getQuestionIndex()],
   factors: [],
   mode: "INIT",
   editingFactor: null,
