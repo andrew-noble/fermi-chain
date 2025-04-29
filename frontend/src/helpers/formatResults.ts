@@ -7,11 +7,11 @@ import {
 const SITE_URL = "https://fermi-chain.andrewnoble.me";
 
 export const oomFeedback = (oomDelta: number) => {
-  if (oomDelta === 0) {
+  if (Math.abs(oomDelta) === 0) {
     return { text: "Correct order of magnitude! 🎯", color: "text-green-500" };
-  } else if (oomDelta === 1) {
+  } else if (Math.abs(oomDelta) === 1) {
     return { text: "One order of magnitude off! 🔥", color: "text-yellow-500" };
-  } else if (oomDelta === 2) {
+  } else if (Math.abs(oomDelta) === 2) {
     return {
       text: "Not quite (2 orders of magnitude off)! 🤔",
       color: "text-yellow-500",
