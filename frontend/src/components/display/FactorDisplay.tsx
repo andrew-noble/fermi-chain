@@ -17,7 +17,7 @@ export default function FactorDisplay({
   className = "text-xl",
   showMultiplicationSign = false,
   numIsPlural = true,
-  denIsPlural = true,
+  denIsPlural = false,
 }: FactorDisplayProps) {
   const [numerators, denominators] = splitUnitInventory(factor.unit);
 

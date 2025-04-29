@@ -13,7 +13,7 @@ export default function FullUnitDisplay({
   unit,
   className = "",
   numIsPlural = true,
-  denIsPlural = true,
+  denIsPlural = false,
 }: FullUnitDisplayProps) {
   const [numerators, denominators] = splitUnitInventory(unit);
 
