@@ -31,7 +31,7 @@ export const unitsFeedback = (unitsMatch: boolean) => {
 };
 
 export const getSharableResultsString = (hook: Hook) => {
-  const { targetValue, targetUnit, id: questionId } = hook.state.question;
+  const { id: questionId } = hook.state.question;
   const { liveValue, liveUnits, liveOomDelta } = hook.derivedState;
 
   const oomFeedbackText =
@@ -44,11 +44,6 @@ export const getSharableResultsString = (hook: Hook) => {
   My Fermi Estimate: ${formatNumberWithCommas(
     liveValue.fullValue
   )} ${getInlineUnitString(liveUnits)}
-
-  Correct Answer (roughly): ${formatNumberWithCommas(
-    targetValue.fullValue
-  )} ${getInlineUnitString(targetUnit)}
-
   ${oomFeedbackText}
 
   Try it yourself -> ${SITE_URL}
