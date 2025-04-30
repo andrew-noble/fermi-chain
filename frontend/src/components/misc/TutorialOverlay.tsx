@@ -47,11 +47,11 @@ export function TutorialOverlay({
 
   //innermost div is triangle pointer
   return (
-    <div className="relative inline-block">
+    <div className="relative inline-block overflow-visible">
       <div onClick={() => setShow(false)}>{children}</div>
       {show && (
         <div
-          className={`absolute ${positionClasses[position]} z-50`}
+          className={`fixed sm:absolute ${positionClasses[position]} z-50`}
           onClick={() => setShow(false)}
         >
           <div className="bg-primary text-primary-foreground px-3 py-2 rounded-lg text-sm max-w-xs shadow-lg">
