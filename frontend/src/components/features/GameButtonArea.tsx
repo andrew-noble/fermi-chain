@@ -1,7 +1,7 @@
 import { Hook } from "@/types";
 import { useState } from "react";
 import { Button } from "@/components/display/ui/button";
-import ResultsDialog from "@/components/features/results/ResultsDialog";
+import ResultsDialog from "@/components/features/ResultsDialog";
 
 interface GameButtonAreaProps {
   hook: Hook;
