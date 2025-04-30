@@ -4,7 +4,7 @@ import {
   getInlineUnitString,
 } from "@/helpers/string-formatting";
 
-const SITE_URL = "https://fermi-chain.andrewnoble.me";
+const SITE_URL = "https://fermichain.com";
 
 export const oomFeedback = (oomDelta: number) => {
   if (Math.abs(oomDelta) === 0) {
