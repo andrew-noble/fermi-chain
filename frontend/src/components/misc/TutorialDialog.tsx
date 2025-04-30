@@ -31,35 +31,34 @@ export default function TutorialDialog({
         <DialogHeader>
           <DialogTitle>Tutorial</DialogTitle>
         </DialogHeader>
-        <div className="space-y-6">
+        <div className="space-y-6 mt-4">
           <section>
-            <h3 className="text-lg font-semibold mb-2">Units Selection</h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              Add units to the numerator (×) or denominator (÷) from the unit
-              selection area. This helps you build your Fermi estimation by
-              selecting the appropriate units for your calculation.
+            <h3 className="text-base font-semibold mb-2">Units Selection</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300">
+              Add units to each factor's numerator (×) or denominator (÷) from
+              the unit selection area.
             </p>
           </section>
 
           <section>
-            <h3 className="text-lg font-semibold mb-2">Fermi Chain</h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              Tune your orders-of-magnitude here. Adjust the exponents to refine
-              your estimation and build a reasoning chain.
+            <h3 className="text-base font-semibold mb-2">Fermi Chain</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300">
+              Pick orders-of-magnitude here. Adjust the exponents to refine your
+              estimation and build a reasoning chain.
             </p>
           </section>
 
           <section>
-            <h3 className="text-lg font-semibold mb-2">Your Answer</h3>
-            <p className="text-gray-600 dark:text-gray-300">
+            <h3 className="text-base font-semibold mb-2">Your Answer</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300">
               See your current answer displayed here. The units will be
               highlighted in green if they match the target units.
             </p>
           </section>
 
           <section>
-            <h3 className="text-lg font-semibold mb-2">Tips</h3>
-            <p className="text-gray-600 dark:text-gray-300">
+            <h3 className="text-base font-semibold mb-2">Tips</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300">
               Fermi estimation is not about getting an exact number, it's about
               very rough ballparking to quickly rule out wild guesses and to
               build intuition about scale.

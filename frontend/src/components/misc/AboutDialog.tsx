@@ -18,7 +18,7 @@ export default function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
         <DialogHeader>
           <DialogTitle>About Fermi Chain</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4">
+        <div className="space-y-4 mt-4">
           <p>
             Fermi Chain is a brain teaser that challenges you ability to
             estimate in orders of magnitude.
