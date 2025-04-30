@@ -48,7 +48,7 @@ export default function ResultsDialog({
           <DialogTitle>Results</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4">
+        <div className="space-y-4 mt-4">
           <div className="space-y-2 text-center">
             <p className={`${textStyles} font-semibold ${oomFb.color}`}>
               {oomFb.text}
@@ -60,7 +60,7 @@ export default function ResultsDialog({
 
           {/* Player chain */}
           <div className="space-y-1">
-            <h3 className="text-xl font-semibold">Your Fermi Chain:</h3>
+            <h3 className="text-lg font-semibold">Your Fermi Chain:</h3>
             <div className="flex flex-wrap gap-2">
               {hook.state.factors.map((factor, index) => (
                 <div key={factor.id} className="flex items-center gap-2">
@@ -88,7 +88,7 @@ export default function ResultsDialog({
 
           {/* Target chain */}
           <div className="space-y-1">
-            <h3 className="text-xl font-semibold">Our Fermi Chain:</h3>
+            <h3 className="text-lg font-semibold">Our Fermi Chain:</h3>
             <div className="flex flex-wrap gap-2">
               {hook.state.question.targetChain.map((factor, index) => (
                 <div
@@ -101,7 +101,7 @@ export default function ResultsDialog({
                       <MultiplicationSign className={textStyles} />
                     )}
                   </div>
-                  <p className="text-sm text-gray-500 text-center break-words whitespace-normal w-full">
+                  <p className="text-xs text-gray-500 text-center break-words whitespace-normal w-full">
                     {factor.label}
                   </p>
                 </div>

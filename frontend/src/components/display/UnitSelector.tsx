@@ -21,7 +21,7 @@ export default function UnitSelector({
     <Card className="p-1.5">
       <div className="flex items-center justify-between min-w-0">
         <p className="text-sm font-medium pr-2">{unit.displayName}</p>
-        <div className="flex gap-0.5 shrink-0">
+        <div className="flex gap-0.5 shrink-0 relative overflow-visible">
           <TutorialOverlay
             id="tutorial-unit-selection"
             content="Add units to numerator (×) or denominator (÷)"
