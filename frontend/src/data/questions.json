@@ -1,6 +1,59 @@
 [
   {
     "id": "0",
+    "prompt": "How much blood do mosquitoes extract from humanity each day?",
+    "targetValue": {
+      "mantissa": 5.44,
+      "oomId": "1e13",
+      "fullValue": 5.44e13
+    },
+    "targetUnit": {
+      "liter": {
+        "power": 1
+      }
+    },
+    "targetChain": [
+      {
+        "label": "bites per day per person",
+        "unit": {
+          "bite": { "power": 1 },
+          "person": { "power": -1 },
+          "day": { "power": -1 }
+        },
+        "numeratorValue": { "mantissa": 0.5, "oomId": "1e0", "fullValue": 0.5 },
+        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
+      },
+      {
+        "label": "blood volume per bite",
+        "unit": { "centimeter": { "power": 3 }, "bite": { "power": -1 } },
+        "numeratorValue": { "mantissa": 0.1, "oomId": "1e0", "fullValue": 0.1 },
+        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
+      },
+      {
+        "label": "conversion from cubic centimeters to liters",
+        "unit": { "liter": { "power": 1 }, "centimeter": { "power": -3 } },
+        "numeratorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 },
+        "denominatorValue": {
+          "mantissa": 1000,
+          "oomId": "1e0",
+          "fullValue": 1000
+        }
+      },
+      {
+        "label": "World population",
+        "unit": { "person": { "power": 1 } },
+        "numeratorValue": {
+          "mantissa": 8,
+          "oomId": "1e9",
+          "fullValue": 8e9
+        },
+        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
+      }
+    ],
+    "UnitList": ["bite", "person", "day", "centimeter", "liter"]
+  },
+  {
+    "id": "1",
     "prompt": "How much air does humanity inhale each day?",
     "targetValue": {
       "mantissa": 8.64,
@@ -43,7 +96,7 @@
     "UnitList": ["liter", "breath", "minute", "day", "person", "hour"]
   },
   {
-    "id": "1",
+    "id": "2",
     "prompt": "How many kilograms of skin does a human shed in their lifetime?",
     "targetValue": {
       "mantissa": 4.4,
@@ -96,7 +149,7 @@
     "UnitList": ["skin-cell", "gram", "kilogram", "day", "year"]
   },
   {
-    "id": "2",
+    "id": "3",
     "prompt": "How many people are flying in airplanes at this very moment?",
     "targetValue": {
       "mantissa": 8,
@@ -137,7 +190,7 @@
     "UnitList": ["person", "flight", "day", "hour"]
   },
   {
-    "id": "3",
+    "id": "4",
     "prompt": "How many times does a heart beat in a lifetime?",
     "targetValue": {
       "mantissa": 3.364,
@@ -184,7 +237,7 @@
     "UnitList": ["heart-beat", "minute", "hour", "day", "year"]
   },
   {
-    "id": "4",
+    "id": "5",
     "prompt": "How many hairs are cut by barbers in the US each year?",
     "targetValue": {
       "mantissa": 5.44,

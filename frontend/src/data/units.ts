@@ -118,4 +118,10 @@ export const UNITS: Record<string, Unit> = {
     displayNamePlural: "centimeters",
     dimension: "length",
   },
+  bite: {
+    id: "bite",
+    displayName: "bite",
+    displayNamePlural: "bites",
+    dimension: "quantity",
+  },
 };
