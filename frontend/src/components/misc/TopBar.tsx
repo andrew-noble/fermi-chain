@@ -11,6 +11,12 @@ export default function TopBar() {
     <div className="flex justify-between items-center max-w-6xl mx-auto p-1">
       <div className="font-bold text-base sm:text-lg">Fermi Chain</div>
       <div className="flex gap-2 sm:gap-4 items-center">
+        <span className="text-xs text-gray-400 font-normal hidden sm:inline">
+          New question every day!
+        </span>
+        <span className="text-xs text-gray-400 font-normal sm:hidden">
+          Daily Q!
+        </span>
         {/* <ThemeToggle onToggleTheme={onToggleTheme} /> */}
         <AboutDialog open={aboutDialogOpen} onOpenChange={setAboutDialogOpen} />
         <Button
