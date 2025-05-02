@@ -50,7 +50,28 @@ export const createValueFromNum = (rawValue: number): Value => {
   // Find the OOM directly using the exponent
   const oom = ooms.find((oom) => oom.exponent === exponent);
   if (!oom) {
-    throw new Error("Cannot find OOM for exponent: " + exponent);
+    console.warn(
+      "Cannot find OOM for exponent: " + exponent + "saturating at min/max"
+    );
+    if (exponent < -12) {
+      return {
+        mantissa: 1,
+        oomId: "1e-12",
+        fullValue: 1e-12,
+      };
+    } else if (exponent > 24) {
+      return {
+        mantissa: 1,
+        oomId: "1e24",
+        fullValue: 1e24,
+      };
+    } else {
+      return {
+        mantissa: 1,
+        oomId: "1e0",
+        fullValue: 1,
+      };
+    }
   }
 
   return {
