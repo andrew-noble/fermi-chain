@@ -25,6 +25,7 @@ const questions = questionsData as unknown as Question[];
 const LAUNCH_DATE = new Date("2025-04-30");
 const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
 
+//cycles through our few questions, at the moment
 const getQuestionIndex = () => {
   const today = new Date();
   const diffTime = Math.abs(today.getTime() - LAUNCH_DATE.getTime());
