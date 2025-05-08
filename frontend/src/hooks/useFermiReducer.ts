@@ -266,8 +266,17 @@ export default function useFermiReducer(): Hook {
       createFactor: () => dispatch({ type: "CREATE_FACTOR" }),
       updateFactor: () => dispatch({ type: "UPDATE_FACTOR" }),
       deleteFactor: (id: string) => dispatch({ type: "DELETE_FACTOR", id }),
-      setEditMode: (factor: Factor) =>
-        dispatch({ type: "SET_EDIT_MODE", factor }),
+      setEditMode: (factor: Factor) => {
+        if (state.mode === "EDITING") {
+          dispatch({ type: "UPDATE_FACTOR" });
+        } else if (
+          state.mode === "CREATING" &&
+          state.editorState !== emptyEditorState
+        ) {
+          dispatch({ type: "CREATE_FACTOR" });
+        }
+        dispatch({ type: "SET_EDIT_MODE", factor });
+      },
       setCreateMode: () => dispatch({ type: "SET_CREATE_MODE" }),
       clearEditor: () => dispatch({ type: "CLEAR_EDITOR" }),
       reset: () => dispatch({ type: "RESET" }),
