@@ -47,6 +47,17 @@ export default function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
           </p>
           <hr className="border-gray-200 dark:border-gray-700" />
           <p>
+            <a
+              href="https://forms.gle/8UN3gpwPg21XhdZf8"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:text-primary/80 hover:underline font-medium"
+            >
+              Feedback?
+            </a>
+          </p>{" "}
+          <hr className="border-gray-200 dark:border-gray-700" />
+          <p>
             Built by{" "}
             <a
               href="https://www.andrewnoble.me"
