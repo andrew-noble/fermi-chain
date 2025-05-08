@@ -52,6 +52,14 @@ const initialState: State = {
 const isEditorActive = (mode: State["mode"]) =>
   mode === "CREATING" || mode === "EDITING";
 
+const isValid = (factor: Factor | EditorState) => {
+  return (
+    (factor.denominatorValue.fullValue !== 1 ||
+      factor.numeratorValue.fullValue !== 1) &&
+    (Object.keys(factor.unit).length > 0 || Object.keys(factor.unit).length > 0)
+  ); //ensure minimum one value and one unit
+};
+
 // Reducer function
 const fermiReducer = (state: State, action: Action): State => {
   // console.log("Fermi Action:", action.type, action);
@@ -59,7 +67,10 @@ const fermiReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "CREATE_FACTOR": {
       //don't bother adding an empty one
-      if (state.editorState === emptyEditorState) {
+      if (
+        state.editorState === emptyEditorState ||
+        !isValid(state.editorState)
+      ) {
         return state;
       }
 
@@ -84,7 +95,10 @@ const fermiReducer = (state: State, action: Action): State => {
       if (!state.editingFactor || state.editingFactorIndex === null)
         return state;
 
-      if (state.editorState === emptyEditorState) {
+      if (
+        state.editorState === emptyEditorState ||
+        !isValid(state.editingFactor)
+      ) {
         return state;
       }
 
