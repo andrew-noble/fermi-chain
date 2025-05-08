@@ -118,18 +118,6 @@
         "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
       },
       {
-        "label": "conversion from minutes to hours",
-        "unit": { "minute": { "power": 1 }, "hour": { "power": -1 } },
-        "numeratorValue": { "mantissa": 60, "oomId": "1e0", "fullValue": 60 },
-        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
-      },
-      {
-        "label": "conversion from hours to days",
-        "unit": { "hour": { "power": 1 }, "day": { "power": -1 } },
-        "numeratorValue": { "mantissa": 24, "oomId": "1e0", "fullValue": 24 },
-        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
-      },
-      {
         "label": "Years in a lifetime",
         "unit": { "year": { "power": 1 } },
         "numeratorValue": { "mantissa": 80, "oomId": "1e0", "fullValue": 80 },
