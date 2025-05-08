@@ -3,9 +3,9 @@
     "id": "0",
     "prompt": "How much blood do mosquitoes extract from humanity each day?",
     "targetValue": {
-      "mantissa": 5.44,
-      "oomId": "1e13",
-      "fullValue": 5.44e13
+      "mantissa": 12,
+      "oomId": "1e3",
+      "fullValue": 12e3
     },
     "targetUnit": {
       "liter": {
@@ -25,19 +25,13 @@
       },
       {
         "label": "blood volume per bite",
-        "unit": { "centimeter": { "power": 3 }, "bite": { "power": -1 } },
-        "numeratorValue": { "mantissa": 0.1, "oomId": "1e0", "fullValue": 0.1 },
+        "unit": { "liter": { "power": 1 }, "bite": { "power": -1 } },
+        "numeratorValue": {
+          "mantissa": 3,
+          "oomId": "1e-6",
+          "fullValue": 3e-6
+        },
         "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
-      },
-      {
-        "label": "conversion from cubic centimeters to liters",
-        "unit": { "liter": { "power": 1 }, "centimeter": { "power": -3 } },
-        "numeratorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 },
-        "denominatorValue": {
-          "mantissa": 1000,
-          "oomId": "1e0",
-          "fullValue": 1000
-        }
       },
       {
         "label": "World population",
@@ -50,7 +44,7 @@
         "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
       }
     ],
-    "UnitList": ["bite", "person", "day", "centimeter", "liter"]
+    "UnitList": ["bite", "person", "day", "liter"]
   },
   {
     "id": "1",
