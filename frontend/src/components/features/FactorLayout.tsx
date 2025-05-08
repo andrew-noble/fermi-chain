@@ -38,10 +38,7 @@ export default function FactorLayout({
   const [numerators, denominators] = splitUnitInventory(data.unit);
   const [showInvalidFlash, setShowInvalidFlash] = useState(false);
   const isValid =
-    (data.denominatorValue.fullValue !== 1 ||
-      data.numeratorValue.fullValue !== 1) &&
-    (Object.keys(numerators).length > 0 ||
-      Object.keys(denominators).length > 0); //ensure minimum one value and one unit
+    Object.keys(numerators).length > 0 || Object.keys(denominators).length > 0; // ensure at least one unit added
 
   const handleSubmit = () => {
     if (isValid) {

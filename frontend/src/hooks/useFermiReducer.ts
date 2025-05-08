@@ -54,10 +54,8 @@ const isEditorActive = (mode: State["mode"]) =>
 
 const isValid = (factor: Factor | EditorState) => {
   return (
-    (factor.denominatorValue.fullValue !== 1 ||
-      factor.numeratorValue.fullValue !== 1) &&
-    (Object.keys(factor.unit).length > 0 || Object.keys(factor.unit).length > 0)
-  ); //ensure minimum one value and one unit
+    Object.keys(factor.unit).length > 0 || Object.keys(factor.unit).length > 0
+  ); //ensure at least one unit added
 };
 
 // Reducer function
