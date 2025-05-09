@@ -24,7 +24,7 @@ export default function TopBar() {
           className="text-xs sm:text-sm"
           onClick={() => setEmailDialogOpen(true)}
         >
-          Updates
+          Get Updates
         </Button>
         <AboutDialog open={aboutDialogOpen} onOpenChange={setAboutDialogOpen} />
         <Button
