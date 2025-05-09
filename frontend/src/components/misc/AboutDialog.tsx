@@ -5,6 +5,8 @@ import {
   DialogTitle,
 } from "@/components/display/ui/dialog";
 import { Button } from "@/components/display/ui/button";
+import TutorialDialog from "@/components/misc/TutorialDialog";
+import { useState } from "react";
 
 interface AboutDialogProps {
   open: boolean;
@@ -12,6 +14,8 @@ interface AboutDialogProps {
 }
 
 export default function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
+  const [tutorialDialogOpen, setTutorialDialogOpen] = useState(false);
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
@@ -68,9 +72,18 @@ export default function AboutDialog({ open, onOpenChange }: AboutDialogProps) {
               Andrew Noble
             </a>
           </p>
-          <Button onClick={() => onOpenChange(false)}>Close</Button>
+          <div className="flex gap-2">
+            <Button onClick={() => setTutorialDialogOpen(true)}>
+              View Tutorial
+            </Button>
+            <Button onClick={() => onOpenChange(false)}>Close</Button>
+          </div>
         </div>
       </DialogContent>
+      <TutorialDialog
+        open={tutorialDialogOpen}
+        onOpenChange={setTutorialDialogOpen}
+      />
     </Dialog>
   );
 }

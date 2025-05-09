@@ -1,12 +1,12 @@
 // import ThemeToggle from "@/components/topbar/ThemeToggle";
 import AboutDialog from "@/components/misc/AboutDialog";
-import TutorialDialog from "@/components/misc/TutorialDialog";
+import EmailDialog from "@/components/misc/EmailDialog";
 import { Button } from "@/components/display/ui/button";
 import { useState } from "react";
 
 export default function TopBar() {
   const [aboutDialogOpen, setAboutDialogOpen] = useState(false);
-  const [tutorialDialogOpen, setTutorialDialogOpen] = useState(false);
+  const [emailDialogOpen, setEmailDialogOpen] = useState(false);
   return (
     <div className="flex justify-between items-center max-w-6xl mx-auto p-1">
       <div className="font-bold text-base sm:text-lg">Fermi Chain</div>
@@ -18,6 +18,14 @@ export default function TopBar() {
           Daily Q!
         </span>
         {/* <ThemeToggle onToggleTheme={onToggleTheme} /> */}
+        <EmailDialog open={emailDialogOpen} onOpenChange={setEmailDialogOpen} />
+        <Button
+          size="sm"
+          className="text-xs sm:text-sm"
+          onClick={() => setEmailDialogOpen(true)}
+        >
+          Updates
+        </Button>
         <AboutDialog open={aboutDialogOpen} onOpenChange={setAboutDialogOpen} />
         <Button
           size="sm"
@@ -25,17 +33,6 @@ export default function TopBar() {
           onClick={() => setAboutDialogOpen(true)}
         >
           About
-        </Button>
-        <TutorialDialog
-          open={tutorialDialogOpen}
-          onOpenChange={setTutorialDialogOpen}
-        />
-        <Button
-          size="sm"
-          className="text-xs sm:text-sm"
-          onClick={() => setTutorialDialogOpen(true)}
-        >
-          Tutorial
         </Button>
       </div>
     </div>
