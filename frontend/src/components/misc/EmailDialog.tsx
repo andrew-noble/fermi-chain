@@ -23,7 +23,7 @@ export default function EmailDialog({ open, onOpenChange }: EmailDialogProps) {
             Get notified when we add new features or daily questions.
           </p>
           <form
-            action="https://formsubmit.co/aknoble.andrew@gmail.com"
+            action="https://formsubmit.co/a414ff318e530d2fd6566095b8fec383"
             method="POST"
             className="flex gap-2"
           >
