@@ -22,7 +22,7 @@ import { getOomById } from "@/data/ooms";
 
 const questions = questionsData as unknown as Question[];
 
-const LAUNCH_DATE = new Date("2025-04-30");
+const LAUNCH_DATE = new Date("2025-05-03");
 const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
 
 //cycles through our few questions, at the moment
@@ -271,6 +271,9 @@ export default function useFermiReducer(): Hook {
   const liveOomDelta: number =
     getOomById(liveValue.oomId).exponent -
     getOomById(state.question.targetValue.oomId).exponent;
+
+  console.log("liveValue", liveValue);
+  console.log("state.question.targetValue", state.question.targetValue);
 
   return {
     state,

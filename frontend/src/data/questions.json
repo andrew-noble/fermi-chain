@@ -4,7 +4,7 @@
     "prompt": "How much blood do mosquitoes extract from humanity each day?",
     "targetValue": {
       "mantissa": 12,
-      "oomId": "1e3",
+      "oomId": "1e4",
       "fullValue": 12e3
     },
     "targetUnit": {
