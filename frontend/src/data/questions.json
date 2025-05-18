@@ -17,8 +17,7 @@
         "label": "bites per day per person",
         "unit": {
           "bite": { "power": 1 },
-          "person": { "power": -1 },
-          "day": { "power": -1 }
+          "person": { "power": -1 }
         },
         "numeratorValue": { "mantissa": 0.5, "oomId": "1e0", "fullValue": 0.5 },
         "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
@@ -44,7 +43,7 @@
         "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
       }
     ],
-    "UnitList": ["bite", "person", "day", "liter"]
+    "UnitList": ["bite", "person", "liter"]
   },
   {
     "id": "1",
