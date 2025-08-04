@@ -91,11 +91,7 @@
   {
     "id": "2",
     "prompt": "How many kilograms of skin does a human shed in their lifetime?",
-    "targetValue": {
-      "mantissa": 4.4,
-      "oomId": "1e1",
-      "fullValue": 44
-    },
+    "targetValue": { "mantissa": 1.46, "oomId": "1e1", "fullValue": 14.6 },
     "targetUnit": { "kilogram": { "power": 1 } },
     "targetChain": [
       {
@@ -107,7 +103,13 @@
       {
         "label": "Mass of one skin cell",
         "unit": { "gram": { "power": 1 }, "skin-cell": { "power": -1 } },
-        "numeratorValue": { "mantissa": 3, "oomId": "1e-6", "fullValue": 3e-6 },
+        "numeratorValue": { "mantissa": 1, "oomId": "1e-9", "fullValue": 1e-9 },
+        "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
+      },
+      {
+        "label": "Days per year",
+        "unit": { "day": { "power": 1 }, "year": { "power": -1 } },
+        "numeratorValue": { "mantissa": 365, "oomId": "1e0", "fullValue": 365 },
         "denominatorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 }
       },
       {
@@ -120,11 +122,7 @@
         "label": "Grams to kilograms conversion",
         "unit": { "kilogram": { "power": 1 }, "gram": { "power": -1 } },
         "numeratorValue": { "mantissa": 1, "oomId": "1e0", "fullValue": 1 },
-        "denominatorValue": {
-          "mantissa": 1,
-          "oomId": "1e3",
-          "fullValue": 1000
-        }
+        "denominatorValue": { "mantissa": 1, "oomId": "1e3", "fullValue": 1000 }
       }
     ],
     "UnitList": ["skin-cell", "gram", "kilogram", "day", "year"]
